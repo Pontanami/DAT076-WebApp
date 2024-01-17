@@ -18,8 +18,34 @@ div {
     animation-iteration-count: infinite; 
   } 
   
-  @keyframes cycle {
+  /*@keyframes cycle {
     from {background-color: #d00;}
     50% {background-color: #7f7;}
     to {background-color: #d00;} 
+  }*/
+
+  .start_buttons {
+    display: flex;
+    justify-content: center;
+    margin: 50px;
+    margin-top: 100px;
+  }
+
+  .start_buttons button {
+    margin:auto;
+    background-color: #308b9c;
+    color: white;
+    font-size: x-large;
+    font-weight: bold;
+    padding: 1rem;
+    border-radius: 15px;
+  }
+
+  .start_buttons button:hover {
+    background-color: #1b545e;
+  }
+
+  .start_buttons a {
+    text-decoration: none;
+    color: white;
   }
