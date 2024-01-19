@@ -1,0 +1,42 @@
+.noPadding{
+    padding: 0 !important;
+}
+
+.noMargin{
+    margin: 0 !important;
+}
+
+button{
+    background-color: yellow;
+    border: none;
+}
+
+.fitContent{
+ height: 100vh;
+}
+
+.align-vertical{
+    height: 100%;
+}
+
+.align-center {
+    position: absolute;
+    width: 9vw;
+    height: 9vw;
+    left: 50%;
+    top: 50%;
+    border-radius: 5vw;
+    transform: translate(-50%,-50%);
+    background-color: orange;
+    text-align: center; 
+    z-index: 1;
+}
+
+.align-center > *{
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    font-size: 4vw;
+    color: blueviolet;
+}
