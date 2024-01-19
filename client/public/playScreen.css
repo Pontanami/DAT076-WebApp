@@ -21,11 +21,11 @@ button{
 
 .align-center {
     position: absolute;
-    width: 9vw;
-    height: 9vw;
+    width: 15vmin;
+    height: 15vmin;
     left: 50%;
     top: 50%;
-    border-radius: 5vw;
+    border-radius: 8vmin;
     transform: translate(-50%,-50%);
     background-color: orange;
     text-align: center; 
@@ -37,6 +37,6 @@ button{
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
-    font-size: 4vw;
-    color: blueviolet;
+    font-size: 4vmin;
+    color: black;
 }
