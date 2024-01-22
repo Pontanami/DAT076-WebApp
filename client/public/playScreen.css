@@ -42,7 +42,7 @@ button{
 }
 
 /* Mega bra //Pontus */	
-@media (max-width: 768px) {
+@media (max-width: 767px) {
    .noPadding{
     padding: 0 !important;
     height: 50%;
@@ -53,6 +53,11 @@ button:hover{
     font-size: large;
 }
 
-h2{
-    font-size: 5vh;
+p{
+    font-size: 2vh;
+    margin-bottom: 2vh !important;
+}
+
+.course-code{
+    font-size: 6vh !important;
 }
