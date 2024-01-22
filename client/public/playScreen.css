@@ -48,3 +48,11 @@ button{
     height: 50%;
    }
 }
+button:hover{
+    text-decoration: underline;
+    font-size: large;
+}
+
+h2{
+    font-size: 5vh;
+}
