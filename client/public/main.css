@@ -3,8 +3,9 @@
 }
 
 body {
-  background-color: var(--bg-color);
-  color: white;
+  background: url("Image/Main_bg.jpg") center center fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .row {
@@ -70,4 +71,19 @@ div {
     border-style: solid;
     background: linear-gradient(to bottom, #888888, #000000);
     
+}
+
+button{
+  float: right;
+  margin-top: 2%;
+  margin-right: 2%;
+}
+
+a{
+  text-decoration: none;
+  color: #000000;
+}
+
+a:hover{
+  color: white;
 }

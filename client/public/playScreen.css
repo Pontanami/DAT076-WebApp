@@ -51,7 +51,13 @@ button{
 button:hover{
     text-decoration: underline;
     font-size: large;
+    color: brown;
 }
+
+button:active{
+    color: green;
+}
+
 
 p{
     font-size: 2vh;
