@@ -8,6 +8,12 @@ body {
   background-repeat: no-repeat;
 }
 
+body .container{
+  animation: fade-in;
+  animation-duration: 1.5s;
+  animation-timing-function:ease-out;
+  animation-iteration-count: 1;
+}
 
 .col {
     border: 2px solid;
@@ -146,5 +152,21 @@ h1{
   82.5%  {transform: rotate(45deg);}
   85%  {transform: rotate(40deg);}
   100% {transform: rotate(0deg);}
+}
+
+@keyframes fade-in{
+  0%{
+    top: 90%;
+    left: 50%;
+    opacity: 0;
+  }
+  50%{
+    opacity: 0.3;
+  }
+  100%{
+    top: 85%;
+    left: 50%;
+    opacity: 1;
+  }
 }
 
