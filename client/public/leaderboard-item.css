@@ -1,0 +1,29 @@
+.leaderboard-item {
+    position: relative;
+	display: block;
+	width: 100%;
+	height: 40px;
+	border-bottom: 1px solid #AFAFAF;
+}
+
+.leaderboard-item-left {
+	position: relative;
+	display: inline-block;
+	width: 75%;
+	line-height: 45px;
+}
+
+.leaderboard-item-right{
+	position: relative;
+	display: inline-block;
+	width: 25%;
+}
+.leaderboard-icon {
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
