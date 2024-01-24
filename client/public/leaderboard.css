@@ -1,6 +1,10 @@
 :root {
   --bg-color: #1a1a21;
 }
+.row{
+  display: flex;
+  align-items: center;
+}
 body {
     background: url("Image/leaderboard.jpg") center center fixed;
     background-size: cover;
@@ -10,7 +14,8 @@ body {
   
   .colTitle {
     font-size: 18pt;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    vertical-align: middle;
   }
   
   .nav-item :hover{
@@ -28,3 +33,8 @@ body {
     border-style: solid;
     background: linear-gradient(to bottom, white, #1a1a21);
 }
+
+.hr-thick{
+  border: 5px solid goldenrod;
+}
+
