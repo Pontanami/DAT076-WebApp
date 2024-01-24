@@ -24,19 +24,6 @@ body .container{
     text-decoration: underline;
 }
 
-#leaderboard{
-    width: 50vw;
-    height: 80vh; 
-    margin-left: 25%;
-    padding: 1%;
-    border-radius: 25px;
-    border-color: black;
-    border-width: 2px;
-    border-style: solid;
-    background: linear-gradient(to bottom, #888888, #000000);
-    
-}
-
 .container > a{
   padding: 10px;
   background-color: transparent;
