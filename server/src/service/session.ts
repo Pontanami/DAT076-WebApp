@@ -1,6 +1,6 @@
 import {Session} from "../model/session";
 
-export class PlayerService{
+export class SessionService{
     //private currentPlayer : Player;
 
     async createSession(): Promise<Session>{
