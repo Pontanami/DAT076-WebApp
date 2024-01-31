@@ -15,6 +15,7 @@ leaderboardRouter.get("/", async (
         const leaderboard = await leaderboardService.getLeaderboard();
         res.status(200).send(leaderboard);
     } catch (e: any) {
+        //console.log("Det är knas")
         res.status(500).send(e.message);
     }
 });
