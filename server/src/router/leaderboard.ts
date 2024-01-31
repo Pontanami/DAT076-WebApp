@@ -26,7 +26,7 @@ leaderboardRouter.post("/", async (
 ) => {
     try {
         const player = req.body.player;
-        if(JSON.stringify(typeof(player)) !== "Player"){
+        if(player instanceof Player){
             res.status(400).send(`Bad POST call to ${req.originalUrl} --- Player type doesn't match, Player has type ${typeof(player)}`);
             return;
         }
