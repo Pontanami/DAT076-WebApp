@@ -30,11 +30,11 @@ playerRouter.get("/:id", async (
 
 playerRouter.post("/", async (
     req: Request<{}, {}, {name : string}>,
-    res: Response<Player | string>
+    res: Response<Player | string>
 ) => {
     try {
         const name = req.body.name;
-        if(JSON.stringify(typeof(name)) !== "string"){
+        if(typeof(name) !== "string"){
             res.status(400).send(`Bad POST call to ${req.originalUrl} --- Name type doesn't match, Name has type ${typeof(name)}`);
             return;
         }
