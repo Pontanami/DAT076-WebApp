@@ -39,7 +39,7 @@ playerRouter.post("/", async (
             return;
         }
         const player = await playerService.createPlayer(name);
-        res.status(200).send(player);
+        res.status(201).send(player);
     } catch (e: any) {
         res.status(500).send(e.message);
     }

@@ -22,7 +22,7 @@ leaderboardRouter.get("/", async (
 
 leaderboardRouter.post("/", async (
     req: Request<{}, {}, {player : Player}>,
-    res: Response<Leaderboard | string>
+    res: Response<Leaderboard | string>
 ) => {
     try {
         const player = req.body.player;
@@ -31,7 +31,7 @@ leaderboardRouter.post("/", async (
             return;
         }
         const addLeaderboardEntry = await leaderboardService.addLeaderboardEntry(player);
-        res.status(200).send(addLeaderboardEntry);
+        res.status(201).send(addLeaderboardEntry);
     } catch (e: any) {
         res.status(500).send(e.message);
     }
