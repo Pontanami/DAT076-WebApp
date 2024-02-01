@@ -4,15 +4,26 @@ import { Player } from "../src/model/player";
 const request = SuperTest.default(app);
 
 test("End-to-end test", async () => {
-    let newPlayer = {
-        name: "test",
-        id: Date.now(),
-        score: 0   
-    }
-    const response1 = await request.post("/leaderboard").send(newPlayer);
+    let player = new Player("test");
+    /*
+    console.log(`Test: ${typeof (player)}`);
+    console.log(`Stringify: ${typeof()}`)
+    */
+    const response1 = await request.post("/leaderboard").send({
+        id: player.id,
+        name: player.name,
+        score: player.score
+    });
     expect(response1.status).toBe(201);
-    expect(response1.body.name).toBe(newPlayer.name);
-    const response2 = await request.get("/leaderboard");
+
+
+
+    console.log(response1.body);
+    expect(response1.body.player_entries[0].name).toBe (player.name);
+    //const players = await request.get("/leaderboard/players")
+    const response2 = await request.get("/leaderboard/players");
+    console.log(response2.body);
+    console.log(typeof(response2.body));
     expect(response2.status).toBe(200);
-    expect(response2.body.map((player: Player) => player.id)).toContain(newPlayer.id);
+    expect(response2.body.map((player: Player) => player.id)).toContain (player.id);
 });

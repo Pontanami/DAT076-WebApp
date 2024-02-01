@@ -13,10 +13,28 @@ export class LeaderboardService{
         }
         return {...leaderboard}
     }
-
+    /*
     async addLeaderboardEntry(player: Player) : Promise<Leaderboard>{
         this.nr_entries += 1;
-        this.player_entries.push({...player})
+        let addplayer : Player = player;
+        //Denna pushar undefined, player finns inte?
+        this.player_entries.push(addplayer);
+        console.log(this.player_entries);
+        console.log("Player pushed");
+        return this.getLeaderboard();
+    }*/
+
+    async addLeaderboardEntry(id: number, name: string, score: number) : Promise<Leaderboard>{
+        this.nr_entries += 1;
+        let addplayer = {
+            id : id,
+            name : name,
+            score: score
+        };
+        //Denna pushar undefined, player finns inte?
+        this.player_entries.push(addplayer);
+        console.log(this.player_entries);
+        console.log("Player pushed");
         return this.getLeaderboard();
     }
 
@@ -30,4 +48,7 @@ export class LeaderboardService{
         return this.getLeaderboard();
     }
 
+    async getPlayerEntries() : Promise<Player[]>{
+        return JSON.parse(JSON.stringify(this.player_entries))
+    }
 }
