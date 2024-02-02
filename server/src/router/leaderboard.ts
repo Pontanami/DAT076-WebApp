@@ -98,7 +98,7 @@ leaderboardRouter.put("/:playerid", async (
             res.status(400).send(`Bad PUT call to ${req.originalUrl} --- field 'score' has type ${typeof(req.body.score)}`);
             return;
         }
-        if (req.body.score >= 0) {
+        if (req.body.score <= 0) {
             res.status(405).send(`Bad PUT call to ${req.originalUrl} --- Score can't be negative`);
             return;
         }
@@ -114,7 +114,7 @@ leaderboardRouter.put("/:playerid", async (
             res.status(404).send(`No leaderboard entry with index ${index}`)
             return;
         }
-        res.status(201).send("Leaderboard updated");
+        res.status(200).send("Leaderboard updated");
     } catch (e: any) {
         res.status(500).send(e.message);
     }

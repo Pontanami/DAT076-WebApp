@@ -5,25 +5,30 @@ const request = SuperTest.default(app);
 
 test("End-to-end test", async () => {
     let player = new Player("test");
-    /*
-    console.log(`Test: ${typeof (player)}`);
-    console.log(`Stringify: ${typeof()}`)
-    */
     const response1 = await request.post("/leaderboard").send({
         id: player.id,
         name: player.name,
         score: player.score
     });
     expect(response1.status).toBe(201);
-
-
-
-    console.log(response1.body);
     expect(response1.body.player_entries[0].name).toBe (player.name);
-    //const players = await request.get("/leaderboard/players")
-    const response2 = await request.get("/leaderboard/players");
+    const response2 = await request.put(`/leaderboard/${player.id}`).send({
+        score: 11
+    });
     console.log(response2.body);
-    console.log(typeof(response2.body));
+    expect(response2.status).toBe(200);
+    const response3 = await request.get("/leaderboard/players");
+    expect(response3.status).toBe(200);
+    expect(response3.body.map((player: Player) => player.id)).toContain (player.id)
+    console.log(response3.body);
+    expect(response3.status).toBe(200);
+    expect(response3.body.map((player: Player) => player.score)).toContain(11)
+    //should have updated score
+
+
+    /*
+    const response2 = await request.get("/leaderboard/players");
     expect(response2.status).toBe(200);
     expect(response2.body.map((player: Player) => player.id)).toContain (player.id);
+    */
 });
