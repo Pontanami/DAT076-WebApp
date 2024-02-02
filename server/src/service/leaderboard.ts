@@ -31,10 +31,7 @@ export class LeaderboardService{
             name : name,
             score: score
         };
-        //Denna pushar undefined, player finns inte?
         this.player_entries.push(addplayer);
-        console.log(this.player_entries);
-        console.log("Player pushed");
         return this.getLeaderboard();
     }
 
@@ -43,8 +40,10 @@ export class LeaderboardService{
 
         if(!player)
             return undefined;
+        
+        else if (score > player.score)
+            player.score = score;
 
-        player.score = score;
         return this.getLeaderboard();
     }
 

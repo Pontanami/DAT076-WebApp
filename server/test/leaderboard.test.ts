@@ -8,6 +8,6 @@ test("If a playeris added to the leaderboard they should be on the leadeboard", 
         score: 0   
     }
     leaderboardService.addLeaderboardEntry(newPlayer.id, newPlayer.name, newPlayer.score);
-    const player_list = (await leaderboardService.getLeaderboard()).player_entries;
+    const player_list = await leaderboardService.getPlayerEntries();
     expect(player_list).toContainEqual(newPlayer);
 });

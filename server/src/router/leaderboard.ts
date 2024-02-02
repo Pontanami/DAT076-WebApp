@@ -15,7 +15,7 @@ export const leaderboardRouter = express.Router();
 
 leaderboardRouter.get("/", async (
     req: Request<{}, {}, {}>,
-    res: Response<Leaderboard>
+    res: Response<Leaderboard | String>
 ) => {
     try {
         const leaderboard = await leaderboardService.getLeaderboard();
@@ -35,7 +35,6 @@ leaderboardRouter.get("/players", async (
         const players = await leaderboardService.getPlayerEntries();
         res.status(200).send(players);
     } catch (e: any) {
-        //console.log("Det är knas")
         res.status(500).send(e.message);
     }
 });
