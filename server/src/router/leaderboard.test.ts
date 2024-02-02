@@ -1,6 +1,8 @@
 import * as SuperTest from "supertest";
-import { app } from "../src/start";
-import { Player } from "../src/model/player";
+import { Player } from "../model/player";
+import { app } from "../start";
+
+
 const request = SuperTest.default(app);
 
 test("End-to-end test", async () => {
@@ -15,12 +17,11 @@ test("End-to-end test", async () => {
     const response2 = await request.put(`/leaderboard/${player.id}`).send({
         score: 11
     });
-    console.log(response2.body);
+
     expect(response2.status).toBe(200);
     const response3 = await request.get("/leaderboard/players");
     expect(response3.status).toBe(200);
     expect(response3.body.map((player: Player) => player.id)).toContain (player.id)
-    console.log(response3.body);
     expect(response3.status).toBe(200);
     expect(response3.body.map((player: Player) => player.score)).toContain(11)
     //should have updated score

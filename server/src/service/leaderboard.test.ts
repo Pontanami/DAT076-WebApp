@@ -1,4 +1,4 @@
-import { LeaderboardService } from "../src/service/leaderboard";
+import { LeaderboardService } from "../service/leaderboard";
 
 test("If a playeris added to the leaderboard they should be on the leadeboard", async () => {
     const leaderboardService = new LeaderboardService();
