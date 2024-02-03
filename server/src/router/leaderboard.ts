@@ -17,7 +17,7 @@ leaderboardRouter.get("/", async (
     req: Request<{}, {}, {}>,
     res: Response<Leaderboard | String>
 ) => {
-    try {
+    try { 
         const leaderboard = await leaderboardService.getLeaderboard();
         res.status(200).send(leaderboard);
     } catch (e: any) {

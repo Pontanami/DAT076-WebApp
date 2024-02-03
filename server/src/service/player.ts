@@ -1,31 +1,44 @@
 import {Player} from "../model/player";
 
 export class PlayerService{
-    private players : Player[] = [];
+    players : Player[] = [];
+    playerId = 1;
+
+    private static instance : PlayerService;
+
+    //Om vi ska ha en playerService som tar hand om alla players måste vi väl mer eller mindre ha en singleton?
+    //Annars riskerar vi att skapa nya instanser där vissa spelare inte finns med
+    public static getInstance() : PlayerService{
+        if (!PlayerService.instance) {
+            PlayerService.instance = new PlayerService();
+        }
+        return PlayerService.instance;
+    }
 
     async createPlayer(name: string): Promise<Player>{
         let newPlayer : Player = {
             name: name,
-            id : Date.now(),
+            id :this.playerId,
             score : 0
         }
+        this.playerId += 1;
         this.players.push(newPlayer)
-        return { ... newPlayer};
+        return newPlayer;
     }
 
     async updatePlayerScore(id: number, score : number) : Promise<Player | undefined>{
-        let player = await this.getPlayer(id)
+        let player = await this.getPlayer(id);
         if(!player)
             return;
-        player.score = score
+        player.score = score;
         return player;
     }
 
     async getPlayer(id: number) : Promise<Player | undefined>{
-        console.log(`id of searched player ${id}`)
-        console.log(`All players ${this.players}`)
-        let player = this.players.find(players => players.id = id);
-       
+        console.log(`Searching for ${id}`)
+        console.log(`All players ${JSON.stringify(this.players)}`)
+        let player = this.players.find(player => player.id === id);
+        console.log(`Found player ${JSON.stringify(player)}`)
         if(!player)
             return;
         return {...player}

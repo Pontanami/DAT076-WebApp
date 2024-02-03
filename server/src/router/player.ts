@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { Player } from "../model/player";
 import { PlayerService } from "../service/player";
 
-const playerService = new PlayerService();
+const playerService = PlayerService.getInstance();
 export const playerRouter = express.Router();
 
 playerRouter.get("/:id", async (
@@ -22,6 +22,7 @@ playerRouter.get("/:id", async (
 
         const player = await playerService.createPlayer(req.params.id);
         res.status(200).send(player);
+    
     } catch (e: any) {
         //console.log("Det är knas")
         res.status(500).send(e.message);

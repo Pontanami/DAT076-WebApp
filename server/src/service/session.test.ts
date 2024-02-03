@@ -16,15 +16,13 @@ test("If a session is created it should be in the list of sessions", async () =>
     let recivedSession = await sessionService.getSession(createdSession.id);
     expect(recivedSession).toEqual(createdSession);
 });
-/*
+
 test("If a player is added to the session it should be in the list of players for that session", async () =>{
+    const playerService = PlayerService.getInstance();
     const sessionService = new SessionService();
-    const playerService = new PlayerService();
-    let createdPlayer = await playerService.createPlayer("test3");
+    let createdPlayer = await playerService.createPlayer("test4");
     let createdSession = await sessionService.createSession();
-    sessionService.addPlayerToSession(createdSession.id, createdPlayer.id);
+    await sessionService.addPlayerToSession(createdSession.id, createdPlayer.id);
     let recivedSession = await sessionService.getSession(createdSession.id);
-    console.log(recivedSession)
-    expect(recivedSession?.players.map((player : Player) => createdPlayer)).toContain(createdPlayer)
+    expect(recivedSession?.players.map(() => createdPlayer)).toContain(createdPlayer)
 })
-*/
