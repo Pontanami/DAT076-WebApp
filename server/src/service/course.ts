@@ -3,6 +3,15 @@ import {Course} from "../model/course";
 export class CourseService{
     courses: Course[] = [];
 
+    private static instance : CourseService;
+
+    public static getInstance() : CourseService{
+        if (!CourseService.instance) {
+            CourseService.instance = new CourseService();
+        }
+        return CourseService.instance;
+    }
+
     async createCourse(name: string, code: string, passrate: number): Promise<Course>{
         const newCourse : Course = {
             code: code, 
@@ -15,10 +24,10 @@ export class CourseService{
 
     async getCourse(code: string): Promise<Course|undefined>{
         const course = this.courses.find(course => course.code === code);
-        if(course){
-            return { ... course};
+        if(!course){
+            return undefined;
         }
-        return undefined;
+        return course;
         
     }
 

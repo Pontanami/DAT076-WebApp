@@ -1,10 +1,12 @@
 import { Leaderboard } from "../model/leaderboard";
 import { Player } from "../model/player";
+import { PlayerService } from "./player";
 
 export class LeaderboardService{
 
     nr_entries : number = 0;
     player_entries : Player[] = [];
+    playerService = PlayerService.getInstance();
 
     async getLeaderboard() : Promise<Leaderboard>{
         let leaderboard : Leaderboard = {
@@ -24,15 +26,29 @@ export class LeaderboardService{
         return this.getLeaderboard();
     }*/
 
-    async addLeaderboardEntry(id: number, name: string, score: number) : Promise<Leaderboard>{
+    //Är det här korrekt för att hämta spelarna utan att påverka resterande del av programmet?
+    async addLeaderboardEntry(id: number) : Promise<Leaderboard | undefined>{
+        let player = await this.playerService.getPlayer(id);
+
+        if(!player)
+            return undefined;
+
         this.nr_entries += 1;
-        let addplayer = {
-            id : id,
-            name : name,
-            score: score
-        };
-        this.player_entries.push(addplayer);
+        this.player_entries.push(player);
+        
         return this.getLeaderboard();
+
+        /*this.playerService.getPlayer(id).then((player) => {
+
+        if(!player)
+            return undefined;
+
+        this.nr_entries += 1;
+        this.player_entries.push(player);
+        return this.getLeaderboard();
+
+        });
+        return this.getLeaderboard();*/
     }
 
     async updatePlayerInLeaderboard(id : number, score: number) : Promise<Leaderboard | undefined>{

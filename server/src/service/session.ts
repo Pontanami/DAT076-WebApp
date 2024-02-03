@@ -1,16 +1,20 @@
+import { Course } from "../model/course";
 import { Player } from "../model/player";
 import {Session} from "../model/session";
+import { CourseService } from "./course";
 import { PlayerService } from "./player";
 
 export class SessionService{
     sessions : Session[] = [];
 
     playerService = PlayerService.getInstance();
+    courseService = CourseService.getInstance();
 
     async createSession(): Promise<Session>{
         let newSession : Session = {
             id : Date.now(),
-            players : []
+            players : [],
+            questions : []
         }
         this.sessions.push(newSession);
         return JSON.parse(JSON.stringify(newSession));
@@ -46,5 +50,28 @@ export class SessionService{
 
     async getAllSessions(): Promise<Session[]> {
         return JSON.parse(JSON.stringify(this.sessions));
+    }
+
+    async addQuestion(sessionId: number, code: string) : Promise<Session | undefined>{
+        let session = await this.getSession(sessionId)
+        let course = await this.courseService.getCourse(code)
+        console.log(JSON.stringify(session))
+        console.log(JSON.stringify(course))
+        if(!session || !course)
+            return undefined;
+        
+        session.questions.push(course);
+        console.log(` Session Questions: ${JSON.stringify(session.questions)}`);
+        
+        return session;
+    }
+
+    async getSessionQuestions(sessionId : number) : Promise<Course[] | undefined>{
+        let session = await this.getSession(sessionId)
+        if(!session)
+            return undefined;
+
+        return JSON.parse(JSON.stringify(session.questions))
+
     }
 }

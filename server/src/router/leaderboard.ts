@@ -61,18 +61,16 @@ leaderboardRouter.post("/", async (
 */
 
 leaderboardRouter.post("/", async (
-    req: Request<{}, {}, {id: number, name: string, score: number }>,
+    req: Request<{}, {}, {id: number}>,
     res: Response<Leaderboard | string>
 ) => {
     try {
         const id = req.body.id;
-        const name = req.body.name;
-        const score = req.body.score;
-        if(typeof(id) !== "number"  && typeof(name) !== "string" && typeof(score) !== "number"){
-            res.status(400).send(`Bad POST call to ${req.originalUrl} --- One of body is of wrong type`);
+        if(typeof(id) !== "number"){
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- Id is of wrong type, it has type ${typeof(id)}`);
             return;
         }
-        const addLeaderboardEntry = await leaderboardService.addLeaderboardEntry(id, name, score);
+        const addLeaderboardEntry = await leaderboardService.addLeaderboardEntry(id);
         res.status(201).send(addLeaderboardEntry);
     } catch (e: any) {
         console.log(e.message);

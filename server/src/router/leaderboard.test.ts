@@ -1,19 +1,19 @@
 import * as SuperTest from "supertest";
 import { Player } from "../model/player";
+import { PlayerService } from "../service/player";
 import { app } from "../start";
 
 
 const request = SuperTest.default(app);
 
 test("End-to-end test", async () => {
-    let player = new Player("test");
+    let playerService = PlayerService.getInstance();
+    let player = await playerService.createPlayer("test6")
     const response1 = await request.post("/leaderboard").send({
         id: player.id,
-        name: player.name,
-        score: player.score
     });
     expect(response1.status).toBe(201);
-    expect(response1.body.player_entries[0].name).toBe (player.name);
+    expect(response1.body.player_entries.map((player : Player) => player.name)).toContain(player.name);
     const response2 = await request.put(`/leaderboard/${player.id}`).send({
         score: 11
     });

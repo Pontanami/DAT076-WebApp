@@ -1,13 +1,12 @@
+import { Player } from "../model/player";
 import { LeaderboardService } from "../service/leaderboard";
+import { PlayerService } from "./player";
 
-test("If a playeris added to the leaderboard they should be on the leadeboard", async () => {
+test("If a player is added to the leaderboard they should be on the leadeboard", async () => {
     const leaderboardService = new LeaderboardService();
-    let newPlayer = {
-        name: "test",
-        id: Date.now(),
-        score: 0   
-    }
-    leaderboardService.addLeaderboardEntry(newPlayer.id, newPlayer.name, newPlayer.score);
+    let playerService = PlayerService.getInstance();
+    let player =  await playerService.createPlayer("test5")
+    await leaderboardService.addLeaderboardEntry(player.id);
     const player_list = await leaderboardService.getPlayerEntries();
-    expect(player_list).toContainEqual(newPlayer);
+    expect(player_list.map((ply: Player) => ply.id)).toContain(player.id);
 });

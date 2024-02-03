@@ -35,10 +35,10 @@ export class PlayerService{
     }
 
     async getPlayer(id: number) : Promise<Player | undefined>{
-        console.log(`Searching for ${id}`)
-        console.log(`All players ${JSON.stringify(this.players)}`)
+        //console.log(`Searching for ${id}`)
+        //console.log(`All players ${JSON.stringify(this.players)}`)
         let player = this.players.find(player => player.id === id);
-        console.log(`Found player ${JSON.stringify(player)}`)
+        //console.log(`Found player ${JSON.stringify(player)}`)
         if(!player)
             return;
         return {...player}
