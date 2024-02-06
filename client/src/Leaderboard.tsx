@@ -1,9 +1,11 @@
 import React from 'react';
 import './leaderboard.css';
+import { Link } from 'react-router-dom';
 
 function Leaderboard() {
   return (
     <div className="Leaderboard">
+        <p><Link to={"/"}>Home</Link></p>
         <section className="text-center">
             <h1 style={{color: "whitesmoke"}}>Leaderboard</h1>
             <div className="container text-center" id="leaderboard">
