@@ -1,24 +1,20 @@
 import React from 'react';
-import logo from './logo.png';
+import logo from './Image/logo.png';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Chalmers Higher Lower
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Higher or Lower</h1>
+      <img className="logo" src={logo}/>
+      <button className="question"></button>
+      <a href="leaderboard.html"><i className="bi bi-trophy">
+        </i></a>
+      <div className="container">
+        <a href="host.html" type="button">Host game</a>
+        <a href="playScreen.html" type="button">Single player</a>
+        <a href="join.html" type="button">Join game</a>
+      </div>
     </div>
   );
 }

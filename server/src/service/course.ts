@@ -12,7 +12,7 @@ export class CourseService{
         return CourseService.instance;
     }
 
-    async createCourse(name: string, code: string, passrate: number): Promise<Course>{
+    async createCourse(code: string, name: string, passrate: number): Promise<Course>{
         const newCourse : Course = {
             code: code, 
             name: name,
@@ -27,18 +27,7 @@ export class CourseService{
         if(!course){
             return undefined;
         }
-        return course;
-        
-    }
-
-    async updateCourse(code: string, name: string, passrate: number): Promise<Course|undefined>{
-        const course = this.courses.find(course => course.code === code);
-        if(course){
-            course.name = name;
-            course.failrate = 100 - passrate;
-            return { ... course};
-        }
-        return undefined;
+        return { ... course};
     }
 
     async getListOfCourses(): Promise<Course[]> {
