@@ -1,0 +1,21 @@
+body {
+    background: url("Image/Main_bg.jpg") center center fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+.joinCenter{
+    background-color: rgba(0,0,0,0.4);
+    border: solid;
+    border-radius: 20px;
+    display: inline-block;
+    border-width: 1.5px;
+    padding: 5%;
+    margin-top: 20px !important;
+}
+
+button{
+    background-color:white;
+    border: none;
+    
+}
