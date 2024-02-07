@@ -33,5 +33,12 @@ export class CourseService{
     async getListOfCourses(): Promise<Course[]> {
         return JSON.parse(JSON.stringify(this.courses));
     }
-
+    async checkAnswer(courseClicked: Course, course2: Course): Promise<boolean>{
+        if(courseClicked.failrate >= course2.failrate){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
