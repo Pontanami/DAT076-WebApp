@@ -1,11 +1,12 @@
 import React from 'react';
 import './leaderboard.css';
 import { Link } from 'react-router-dom';
+import back from './Image/back.svg';
 
 function Leaderboard() {
   return (
     <div className="Leaderboard">
-        <p><Link to={"/"}>Home</Link></p>
+        <Link to="/"><img src={back} style={{width: "3rem"}}/></Link>
         <section className="text-center">
             <h1 style={{color: "whitesmoke"}}>Leaderboard</h1>
             <div className="container text-center" id="leaderboard">
