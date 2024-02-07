@@ -5,4 +5,5 @@ export interface Session {
     id: number;
     players: Player[];
     questions: Course[];
+    qIndex : number;
 }

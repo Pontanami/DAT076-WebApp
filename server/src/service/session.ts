@@ -14,7 +14,8 @@ export class SessionService{
         let newSession : Session = {
             id : Date.now(),
             players : [],
-            questions : []
+            questions : [],
+            qIndex : 0
         }
         this.sessions.push(newSession);
         return JSON.parse(JSON.stringify(newSession));
@@ -72,6 +73,14 @@ export class SessionService{
             return undefined;
 
         return JSON.parse(JSON.stringify(session.questions))
+    }
 
+    async hello(sessionId: number) : Promise<number | undefined>{
+        let session = await this.getSession(sessionId)
+        if(!session)
+            return undefined;
+        let qIndex = session.qIndex;
+        let course1 = session.questions[qIndex]
+        let course2 = session.questions[qIndex]
     }
 }
