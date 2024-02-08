@@ -11,17 +11,17 @@ function Home() {
       <nav>
         <div className="title">
           <h1>Higher or Lower</h1>
-          <img className="logo" src={logo}/>
+          <img className="logo" alt='' src={logo}/>
         </div>
         <div className="nav-links">
-          <Link to="/Leaderboard"><img src={trophy} style={{width: "3rem"}}/></Link>
+          <Link to="/Leaderboard"><img src={trophy} alt='' style={{width: "3rem"}}/></Link>
           <button className="question"></button>
         </div>
       </nav>
       <div className="container">
-        <a href="host.html" type="button">Host game</a>
-        <a href="playScreen.html" type="button">Single player</a>
-        <a href="join.html" type="button">Join game</a>
+        <Link to="/Host"><button type="button">Host game</button></Link>
+        <Link to="/Join"><button type="button">Join game</button></Link>
+        <Link to="/Singleplayer"><button type="button">Single player</button></Link>
       </div>
     </div>
   );

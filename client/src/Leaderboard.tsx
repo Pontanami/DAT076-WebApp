@@ -6,7 +6,7 @@ import back from './Image/back.svg';
 function Leaderboard() {
   return (
     <div className="Leaderboard">
-        <Link to="/"><img src={back} style={{width: "3rem"}}/></Link>
+        <Link to="/"><img alt=''src={back} style={{width: "3rem"}}/></Link>
         <section className="text-center">
             <h1 style={{color: "whitesmoke"}}>Leaderboard</h1>
             <div className="container text-center" id="leaderboard">

@@ -43,8 +43,9 @@ nav {
     text-decoration: underline;
 }
 
-.container > a{
+button{
   padding: 10px;
+  font-weight: bold;
   background-color: transparent;
   border: #000000;
   border-radius: 15px;
@@ -56,19 +57,20 @@ nav {
   display: block;
 }
 
-.container > a:hover{
+button:hover{
   color: white;
   background-color: #000000;
   transition: 0.2s ease-in;
   transform: scale3d(1.3, 1.3, 1.3);
+  cursor: pointer;
 }
 
-.container > a::after{
+button::after{
   background-color: white;
   color: #000000;
 }
 
-button:hover > a{
+button:hover{
   color: white;
 }
 .container {
