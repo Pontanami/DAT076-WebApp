@@ -27,10 +27,11 @@ export class PlayerService{
     }
 
     async updatePlayerScore(id: number) : Promise<Player | undefined>{
-        let player = await this.getPlayer(id);
+        let player = await this.getPlayer(id);    
         if(!player)
             return;
-        player.score++;
+
+        player.score+=1;
         return player;
     }
 
@@ -41,7 +42,7 @@ export class PlayerService{
         //console.log(`Found player ${JSON.stringify(player)}`)
         if(!player)
             return;
-        return {...player}
+        return player
     }
 
     async getPlayers() : Promise<Player[]>{

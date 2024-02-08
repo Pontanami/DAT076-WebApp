@@ -3,4 +3,5 @@ import { Session } from "./session";
 
 export interface singlePlayer{
     player : Player
+    session : Session
 }
