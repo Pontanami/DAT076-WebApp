@@ -1,0 +1,16 @@
+.Join {
+    padding: 3rem;
+}
+
+.contents {
+    padding-top: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contents > input {
+    height: 2rem;
+    width: 15%;
+    margin-left: 1rem;
+}

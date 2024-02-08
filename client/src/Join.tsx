@@ -22,13 +22,12 @@ function Join() {
       <Link to="/"><img alt=''src={back} style={{width: "3rem"}}/></Link>
       <section className='contents'>
         <h2>Enter game PIN:</h2>
-        {/* Input field for entering the PIN */}
         <input
           type="text"
           value={pin}
           onChange={(e) => setPin(e.target.value)}
+          style={{ fontSize: '20px'}}
         />
-        {/* Submit button */}
         <button onClick={handleSubmit}>Submit</button>
       </section>
     </div>
