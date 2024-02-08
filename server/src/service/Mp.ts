@@ -1,7 +1,5 @@
 import { Mp } from "../model/Mp"
 import { Player } from "../model/player";
-import {Session} from "../model/session";
-import { CourseService } from "./course";
 import { PlayerService } from "./player";
 import { SessionService } from "./session";
 import { SService } from "./S"
@@ -22,29 +20,28 @@ export class MpService extends SService{
                 players : []
             }
             this.mpSession = newMultiSession
+            await super.createSession()
             return JSON.parse(JSON.stringify(newMultiSession))
+            
         }
         return undefined;
     }
 
-    async addPlayerToSession(sessionId: number, playerId: number): Promise<Session | undefined>{
-        let session = await this.sessionService.getSession(sessionId);
+    async addPlayerToSession(playerId: number): Promise<Mp | undefined>{
         let player = await this.playerService.getPlayer(playerId)
-        if (!session || !player)
+        if (!this.mpSession || !player)
             return undefined;
         
         this.mpSession.players.push(player);
 
-        return session;
+        return this.mpSession;
     }
 
-    async getSessionPlayers(sessionId: number): Promise<Player[] | undefined> {
-        this.mpSession.players
-
-        if(!session)
+    async getSessionPlayers(): Promise<Player[] | undefined> {
+        if(!this.mpSession)
             return undefined;
 
-        return JSON.parse(JSON.stringify(this.players));
+        return JSON.parse(JSON.stringify(this.mpSession.players));
     }
 
     wrongAnswer(): Promise<void> {
