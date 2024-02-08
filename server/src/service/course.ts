@@ -33,12 +33,18 @@ export class CourseService{
     async getListOfCourses(): Promise<Course[]> {
         return JSON.parse(JSON.stringify(this.courses));
     }
-    async checkAnswer(courseClicked: Course, course2: Course): Promise<boolean>{
-        if(courseClicked.failrate >= course2.failrate){
+
+    async checkAnswer(courseClickedId: string, course2Id: string): Promise<boolean | undefined>{
+
+        let courseClicked = await this.getCourse(courseClickedId);
+        let course2 = await this.getCourse(course2Id);
+
+        if(!courseClicked || !course2)
+            return undefined
+
+        else if(courseClicked.failrate >= course2.failrate){
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 }

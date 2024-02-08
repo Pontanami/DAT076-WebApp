@@ -9,37 +9,20 @@ export class SessionService{
 
     playerService = PlayerService.getInstance();
     courseService = CourseService.getInstance();
-
+    //vara kvar
     async createSession(): Promise<Session>{
         let newSession : Session = {
             id : Date.now(),
-            players : [],
-            questions : []
+            questions : [],
         }
         this.sessions.push(newSession);
         return JSON.parse(JSON.stringify(newSession));
     }
-
-    async addPlayerToSession(sessionId: number, playerId: number): Promise<Session | undefined>{
-        let session = await this.getSession(sessionId);
-        let player = await this.playerService.getPlayer(playerId)
-        if (!session || !player)
-            return undefined;
-        
-        session.players.push(player);
-
-        return session;
-    }
-
-    async getSessionPlayers(sessionId: number): Promise<Player[] | undefined> {
-        let session = this.sessions.find(session => session.id === sessionId);
-
-        if(!session)
-            return undefined;
-
-        return JSON.parse(JSON.stringify(session.players));
-    }
-
+    //Multi
+    
+    //Multi
+    
+    //vara kvar/ta bort
     async getSession(sessionId: number): Promise<Session | undefined> {
         let session = this.sessions.find(session => session.id === sessionId);
         if(!session)
@@ -47,11 +30,11 @@ export class SessionService{
 
         return session;
     }
-
+    //vara kvar/bort
     async getAllSessions(): Promise<Session[]> {
         return JSON.parse(JSON.stringify(this.sessions));
     }
-
+    //vara kvar
     async addQuestion(sessionId: number, code: string) : Promise<Session | undefined>{
         let session = await this.getSession(sessionId)
         let course = await this.courseService.getCourse(code)
@@ -65,13 +48,29 @@ export class SessionService{
         
         return session;
     }
-
+    //vara kvar
     async getSessionQuestions(sessionId : number) : Promise<Course[] | undefined>{
         let session = await this.getSession(sessionId)
         if(!session)
             return undefined;
 
         return JSON.parse(JSON.stringify(session.questions))
-
     }
+
+    async checkAnswer(courseClickedId: string, course2Id: string, playerId : number){
+        let courseService = CourseService.getInstance();
+        let isCorrect = await courseService.checkAnswer(courseClickedId, course2Id)
+
+        if(isCorrect){
+            //Ska metoden ens ta in en score? Det blir lite sus
+            let player =  await this.playerService.getPlayer(playerId)
+
+            if(player)
+                this.playerService.updatePlayerScore(player.id, player.score)
+        }
+        else
+            console.log("Game over")
+            //Quit game
+    }
+
 }
