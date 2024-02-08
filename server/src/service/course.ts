@@ -34,4 +34,17 @@ export class CourseService{
         return JSON.parse(JSON.stringify(this.courses));
     }
 
+    async checkAnswer(courseClickedId: string, course2Id: string): Promise<boolean | undefined>{
+
+        let courseClicked = await this.getCourse(courseClickedId);
+        let course2 = await this.getCourse(courseClickedId);
+
+        if(!courseClicked || !course2)
+            return undefined
+
+        else if(courseClicked.failrate >= course2.failrate){
+            return true;
+        }
+        return false;
+    }
 }
