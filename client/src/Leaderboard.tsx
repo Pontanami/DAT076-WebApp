@@ -1,6 +1,7 @@
 import './leaderboard.css';
 import React, { useEffect, useState } from 'react';
 import BackButton from './backbutton';
+import axios from 'axios';
 
 interface Player{
     id : number,
