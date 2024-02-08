@@ -1,20 +1,42 @@
 import { PlayerService } from "./player";
 import { singePlayer } from "../model/singlePlayer";
+import { SessionService } from "./session";
+import { CourseService } from "./course";
 
 export class singePlayerService{
 
-    async createSinglePlayerGame(playerId : number) : Promise<SinglePlayer | undefined>{
+    sessionService = new SessionService();
+    playerService = PlayerService.getInstance();
 
-        let playerService = PlayerService.getInstance();
-        let player = playerService.getPlayer(playerId) 
+    async createSinglePlayerGame(playerId : number) : Promise<singePlayer | undefined>{
 
-        if(!playerId)
+        let player = await this.playerService.getPlayer(playerId);
+        let session = await this.sessionService.createSession()
+
+        if(!playerId || !session)
             return undefined;
 
         let newSingleSession = {
-            player : player
+            player : player,
+            session : session
         }
-
         return JSON.parse(JSON.stringify(newSingleSession))
     }
+
+    async checkAnswer(courseClickedId: string, course2Id: string, playerId : number){
+        let courseService = CourseService.getInstance();
+        let isCorrect = await courseService.checkAnswer(courseClickedId, course2Id)
+
+        if(isCorrect){
+            //Ska metoden ens ta in en score? Det blir lite sus
+            let player =  await this.playerService.getPlayer(playerId)
+
+            if(player)
+                this.playerService.updatePlayerScore(player.id, player.score)
+        }
+        else
+            console.log("Game over")
+            //Quit game
+    }
+
 }

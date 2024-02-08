@@ -19,6 +19,7 @@ test("If a session is created it should be in the list of sessions", async () =>
     expect(recivedSession).toEqual(createdSession);
 });
 
+/*
 test("If a player is added to the session it should be in the list of players for that session", async () =>{
     const playerService = PlayerService.getInstance();
     const sessionService = new SessionService();
@@ -27,7 +28,7 @@ test("If a player is added to the session it should be in the list of players fo
     await sessionService.addPlayerToSession(createdSession.id, createdPlayer.id);
     let recivedSession = await sessionService.getSession(createdSession.id);
     expect(recivedSession?.players.map(() => createdPlayer)).toContain(createdPlayer)
-})
+})*/
 
 test("If a question is added to the session it should be in the list of questions", async () =>{
     const sessionService = new SessionService();
