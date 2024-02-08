@@ -1,5 +1,5 @@
 import { PlayerService } from "./player";
-import { singePlayer } from "../model/singlePlayer";
+import { singlePlayer } from "../model/singlePlayer";
 import { SessionService } from "./session";
 import { CourseService } from "./course";
 
@@ -8,7 +8,7 @@ export class singePlayerService{
     sessionService = new SessionService();
     playerService = PlayerService.getInstance();
 
-    async createSinglePlayerGame(playerId : number) : Promise<singePlayer | undefined>{
+    async createSinglePlayerGame(playerId : number) : Promise<singlePlayer | undefined>{
 
         let player = await this.playerService.getPlayer(playerId);
         let session = await this.sessionService.createSession()
@@ -32,7 +32,7 @@ export class singePlayerService{
             let player =  await this.playerService.getPlayer(playerId)
 
             if(player)
-                this.playerService.updatePlayerScore(player.id, player.score)
+                this.playerService.updatePlayerScore(player.id)
         }
         else
             console.log("Game over")

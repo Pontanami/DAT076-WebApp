@@ -26,11 +26,11 @@ export class PlayerService{
         return newPlayer;
     }
 
-    async updatePlayerScore(id: number, score : number) : Promise<Player | undefined>{
+    async updatePlayerScore(id: number) : Promise<Player | undefined>{
         let player = await this.getPlayer(id);
         if(!player)
             return;
-        player.score = score;
+        player.score++;
         return player;
     }
 
