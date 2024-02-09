@@ -98,17 +98,17 @@ function LeaderboardPlayer({ players } : {players : Player[]}){
         <section className="row">
             {
                 players.map((player : Player) =>
-                    <>
-                    <strong className="col-1 colTitle">1:</strong>
-                    <i className=" col-1 bi bi-person-fill icon"></i>
-                    <div className="col-5 colTitle">
-                        <strong>{player.name}</strong>
+                    <div>
+                        <strong className="col-1 colTitle">1:</strong>
+                        <i className=" col-1 bi bi-person-fill icon"></i>
+                        <div className="col-5 colTitle">
+                            <strong>{player.name}</strong>
+                        </div>
+                        <div className="col-5 colTitle">
+                                <strong>{player.score}</strong>
+                        </div>
+                        <hr></hr>
                     </div>
-                    <div className="col-5 colTitle">
-                            <strong>{player.score}</strong>
-                    </div>
-                    <hr></hr>
-                    </>
                 )
             }
         </section>    
