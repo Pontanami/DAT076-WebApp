@@ -2,6 +2,7 @@ import { PlayerService } from "./player";
 import { singlePlayer } from "../model/singlePlayer";
 import { SessionService } from "./session";
 import { CourseService } from "./course";
+import { Player } from "../model/player";
 
 export class singlePlayerService{
 
@@ -13,13 +14,13 @@ export class singlePlayerService{
         let player = await this.playerService.getPlayer(playerId);
         let session = await this.sessionService.createSession()
 
-        if(!playerId || !session)
+        if(!player||!session)
             return undefined;
 
         let newSingleSession = {
             player : player,
             session : session
         }
-        return JSON.parse(JSON.stringify(newSingleSession))
+        return {...newSingleSession}
     }
 }
