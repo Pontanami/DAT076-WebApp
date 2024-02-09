@@ -9,9 +9,22 @@ interface Player{
     score : number
 }
 
+function handleError(error : any, displayErrorMessage : (errorMessage:string) => void ){
+    if(error.response){
+        displayErrorMessage(error.response.status)
+    }
+    else if(error.request){
+        displayErrorMessage("No response provided from the server")
+    }
+    else{
+        displayErrorMessage("Error occured while processing request")
+    }
+}
+
 function Leaderboard() {
 
     const [playerList, setPlayerList] = useState<Player[]>([]);
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     async function updatePlayers() {
             try {
@@ -25,8 +38,12 @@ function Leaderboard() {
               // TODO Check that tasks is a list of Tasks
               setPlayerList(newPlayer);
             } catch (error : any) {
-              console.log(error)
+                handleError(error, displayErrorMessage) ;
             };
+    }
+
+    function displayErrorMessage(errorMessage: string){
+        setErrorMessage(errorMessage)
     }
     
     useEffect(() => {
