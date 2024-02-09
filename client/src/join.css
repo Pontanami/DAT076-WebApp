@@ -9,8 +9,12 @@
     align-items: center;
 }
 
-.contents > input {
-    height: 2rem;
-    width: 15%;
-    margin-left: 1rem;
+form {
+    display: flex;
+    margin: 1rem;
+}
+
+form button {
+    margin-left: 0.75rem;
+    font-size: medium;
 }
