@@ -1,60 +1,63 @@
 import { Course } from "../model/course";
 import { Player } from "../model/player";
-import {Session} from "../model/game";
+import { Game } from "../model/game"
 import { CourseService } from "./course";
 import { PlayerService } from "./player";
 
-export class SessionService{
-    sessions : Session[] = [];
+export class GameService{
+    games : Game[] = [];
 
     playerService = PlayerService.getInstance();
     courseService = CourseService.getInstance();
     //vara kvar
-    async createSession(): Promise<Session>{
-        let newSession : Session = {
+    async createGame(): Promise<Game>{
+
+        let questions = await this.courseService.getListOfCourses()
+
+        let newGame : Game = {
             id : Date.now(),
-            questions : [],
+            questions : questions,
         }
-        this.sessions.push(newSession);
-        return JSON.parse(JSON.stringify(newSession));
+        this.games.push(newGame);
+        return JSON.parse(JSON.stringify(newGame));
     }
     //Multi
     
     //Multi
     
     //vara kvar/ta bort
-    async getSession(sessionId: number): Promise<Session | undefined> {
-        let session = this.sessions.find(session => session.id === sessionId);
-        if(!session)
+    async getGame(gameId: number): Promise<Game | undefined> {
+        let game = this.games.find(game => game.id === gameId);
+        if(!game)
             return undefined;
 
-        return session;
+        return game;
     }
     //vara kvar/bort
-    async getAllSessions(): Promise<Session[]> {
-        return JSON.parse(JSON.stringify(this.sessions));
+    async getAllGames(): Promise<Game[]> {
+        return JSON.parse(JSON.stringify(this.games));
     }
     //vara kvar
-    async addQuestion(sessionId: number, code: string) : Promise<Session | undefined>{
-        let session = await this.getSession(sessionId)
+    async addQuestion(gameId: number, code: string) : Promise<Game | undefined>{
+        let game = await this.getGame(gameId)
         let course = await this.courseService.getCourse(code)
-        console.log(JSON.stringify(session))
+        console.log(JSON.stringify(game))
         console.log(JSON.stringify(course))
-        if(!session || !course)
+        if(!game || !course)
             return undefined;
         
-        session.questions.push(course);
-        console.log(` Session Questions: ${JSON.stringify(session.questions)}`);
+        game.questions.push(course);
+        console.log(` Game Questions: ${JSON.stringify(game.questions)}`);
         
-        return session;
+        return game;
     }
     //vara kvar
-    async getSessionQuestions(sessionId : number) : Promise<Course[] | undefined>{
-        let session = await this.getSession(sessionId)
-        if(!session)
+    async getGameQuestions(gameId : number) : Promise<Course[] | undefined>{
+        let game = await this.getGame(gameId)
+        if(!game)
             return undefined;
 
-        return JSON.parse(JSON.stringify(session.questions))
+        return JSON.parse(JSON.stringify(game.questions))
     }
 
     async checkAnswer(courseClickedId: string, course2Id: string, playerId : number){
@@ -69,6 +72,14 @@ export class SessionService{
         else
             console.log("Game over")
             //Quit game
+    }
+
+    async getCurrentQuestions(gameId : number) : Promise<[Course, Course]>{
+        let game = await this.getGameQuestions(gameId)
+        if(!game)
+            throw new Error("Game does not exist!");
+
+        return [game[0], game[1]]            
     }
 
 }

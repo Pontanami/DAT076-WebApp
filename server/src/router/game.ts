@@ -1,18 +1,18 @@
 import express, { Request, Response } from "express";
 import { Player } from "../model/player";
-import { Session } from "../model/game";
-import { SessionService } from "../service/game";
+import { Game } from "../model/game";
+import { GameService } from "../service/game";
 
-const sessionService = new SessionService();
+const sessionService = new GameService();
 export const sessionRouter = express.Router();
 
 
 sessionRouter.post("/", async (
     req: Request<{}, {}, {}>,
-    res: Response<Session | string>
+    res: Response<Game | string>
 ) => {
     try {
-        const session = await sessionService.createSession();
+        const session = await sessionService.createGame();
         res.status(201).send(session);
     } catch (e: any) {
         console.log(e.message);

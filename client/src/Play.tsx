@@ -14,7 +14,6 @@ function Play() {
     const [courseList, setCourseList] = useState<Course[]>([]);
 
     async function updateCourses() {
-        setTimeout(async () => {
             try {
                 const response = await axios.get<Course[]>("http://localhost:8080/session/getquestion");
                 const newCourse: Course[] = response.data;
@@ -23,7 +22,6 @@ function Play() {
             } catch (error: any) {
                 console.log(error)
             }
-        }, 1000);
     }
 
     useEffect(() => {
@@ -34,26 +32,6 @@ function Play() {
         <div>
             <div className="container-fluid h-100">
                 <div className="row justify-content-center fitContent">
-                    {/*
-                <button className="col-md-6 noPadding" style="background-color: aqua;">
-                    <div className="col-8 mx-auto">
-                        <p className="course-code">
-                        <strong>MVE655</strong> 
-                        </p> 
-                        <p>Mathematical modelling and problem solvingkekjfekjhjkehkfhkehfkjhekfhk kjhejkhfjkehfjk </p>
-                        <p>7000 U</p>
-                    </div>
-                </button>
-                
-                <button className="col-md-6 noPadding" style="background-color: rebeccapurple;">
-                    <div className="col-8 mx-auto">
-                        <p className="course-code">
-                        <strong>MVE655</strong> 
-                        </p> 
-                        <p>Mathematical modelling and problem solving</p>
-                        <p>Hidden U</p>
-                    </div>
-                 </button>*/}
                     <DisplayCourses courses={courseList} newCourse={async() => await updateCourses()} />
                 </div>
             </div>
@@ -69,30 +47,36 @@ function DisplayCourses({ courses, newCourse }: { courses: Course[], newCourse: 
         <div>
             {
                 courses.map((course: Course) =>
-                    <button className="col-md-6 noPadding" style={{ backgroundColor: "aqua" }} onSubmit={
-                        async e => {
-                            e.preventDefault()
-                            //Fix post
-                            axios.post('http://localhost:8080/course:jfj', {
-                                courseCode: course.code
-                            }) //TODO: Handle error
-                            newCourse();
-                        }
-
-                    }>
-                        <div className="col-8 mx-auto">
-                            <p className="course-code">
-                                <strong>{course.code}</strong>
-                            </p>
-                            <p>{course.name}</p>
-                            <p>{course.failrate}</p>
-                        </div>
-                    </button>
+                    createButton(course)
                 )
             }
         </div>
 
     )
+
+    function createButton(course: Course) {
+        return <button className="col-md-6 noPadding" style={{ backgroundColor: "aqua" }} onSubmit={
+            async (e) => {
+                postAnswer(e);
+            } }>
+            <div className="col-8 mx-auto">
+                <p className="course-code">
+                    <strong>{course.code}</strong>
+                </p>
+                <p>{course.name}</p>
+                <p>{course.failrate}</p>
+            </div>
+        </button>;
+
+        function postAnswer(e: React.FormEvent<HTMLButtonElement>) {
+            e.preventDefault();
+            //Fix post
+            axios.post('http://localhost:8080/course:jfj', {
+                courseCode: course.code
+            }); //TODO: Handle error
+            newCourse();
+        }
+    }
 }
 
 

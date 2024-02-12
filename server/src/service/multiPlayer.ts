@@ -1,30 +1,30 @@
 import { multiPlayer } from "../model/multiPlayer"
 import { Player } from "../model/player";
 import { PlayerService } from "./player";
-import { SessionService } from "./game";
+import { GameService } from "./game";
 
 export class multiPlayerService{
 
-    sessionService = new SessionService();
+    sessionService = new GameService();
     playerService = PlayerService.getInstance();
     mpSession ?: multiPlayer 
     
-    async createMultiPlayerGame(hostId: number) : Promise<multiPlayer | undefined>{
+    async createMultiPlayerGame(hostId: number) : Promise<multiPlayer>{
        
         let host = await this.playerService.getPlayer(hostId);
-        let session = await this.sessionService.createSession()
-        if(host && session){
+        let game = await this.sessionService.createGame()
+        if(host && game){
             let newMultiSession = {
                 host : host, 
                 players : [],
-                session : session
+                game : game
             }
 
             this.mpSession = newMultiSession;
         
             return JSON.parse(JSON.stringify(this.mpSession))
         }
-        return undefined;
+        throw new Error("Somehting went wrong when creating the session");
     }
 
     async addPlayerToSession(playerId: number): Promise<multiPlayer | undefined>{

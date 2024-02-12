@@ -1,26 +1,39 @@
 import { PlayerService } from "./player";
 import { singlePlayer } from "../model/singlePlayer";
-import { SessionService } from "./game";
+import { GameService } from "./game";
 import { CourseService } from "./course";
 import { Player } from "../model/player";
+import { Course } from "../model/course";
+import { throws } from "assert";
 
 export class singlePlayerService{
 
-    sessionService = new SessionService();
+    singlePlayerGames : singlePlayer[] = [] 
+
+    gameService = new GameService();
     playerService = PlayerService.getInstance();
 
-    async createSinglePlayerGame(playerId : number) : Promise<singlePlayer | undefined>{
+    async createSinglePlayerGame(playerId : number) : Promise<[Course, Course]>{
 
         let player = await this.playerService.getPlayer(playerId);
-        let session = await this.sessionService.createSession()
+        let game = await this.gameService.createGame()
 
-        if(!player||!session)
-            return undefined;
+        if(!player||!game)
+            throw new Error("Player or Session could not be created");
 
-        let newSingleSession = {
+        let newSingleGame = {
             player : player,
-            session : session
+            game : game
         }
-        return {...newSingleSession}
+
+        this.singlePlayerGames.push(newSingleGame)
+
+        let currentQuestions = await this.gameService.getCurrentQuestions(game.id);
+
+        return currentQuestions
+    }
+
+    async getCurrentQuestions(sessionID : number) : Promise<[Course, Course]>{
+        return this.gameService.getCurrentQuestions(sessionID)
     }
 }

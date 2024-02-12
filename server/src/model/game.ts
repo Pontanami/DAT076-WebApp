@@ -1,6 +1,6 @@
 import { Course } from "./course";
 
-export interface Session {
+export interface Game {
     id: number;
     questions: Course[];
 }
