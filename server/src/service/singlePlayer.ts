@@ -32,8 +32,4 @@ export class singlePlayerService{
 
         return currentQuestions
     }
-
-    async getCurrentQuestions(sessionID : number) : Promise<[Course, Course]>{
-        return this.gameService.getCurrentQuestions(sessionID)
-    }
 }
