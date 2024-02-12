@@ -54,10 +54,9 @@ function Leaderboard() {
     <div className="Leaderboard">
         <BackButton/>
         <section className="text-center">
-            <h1 style={{color: "whitesmoke"}}>Leaderboard</h1>
-            <div className="container text-center" id="leaderboard">
-            {/*<LeaderboardPlayer players = {playerList}/> denna ger infinite loop*/}
-            <LeaderboardPlayer players = {playerList}/>
+            <h2>Leaderboard</h2>
+            <div id="leaderboard">
+                <LeaderboardPlayer players = {playerList}/>
             </div>
         </section>
     </div>

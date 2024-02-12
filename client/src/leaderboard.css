@@ -22,19 +22,27 @@ body {
       text-decoration: underline;
   }
   
+  .Leaderboard {
+    padding: 3rem;
+  }
+
   #leaderboard{
     width: 50vw;
-    height: 80vh; 
-    margin-left: 25%;
-    padding: 1%;
+    height: 70vh; 
     border-radius: 25px;
     border-color: black;
     border-width: 3px;
     border-style: solid;
     background: linear-gradient(to bottom, white, #1a1a21);
+    overflow-y: auto;
+}
+
+.text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hr-thick{
   border: 5px solid goldenrod;
 }
-
