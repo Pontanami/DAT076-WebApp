@@ -21,7 +21,7 @@ test("If a player score is updated the score should be updated when you get the 
     const playerService = PlayerService.getInstance();
     let createdPlayer = await playerService.createPlayer("test3");
 
-    await playerService.updatePlayerScore(createdPlayer.id, 2);
+    await playerService.updatePlayerScore(createdPlayer.id);
 
     let recievedPlayer = await playerService.getPlayer(createdPlayer.id);
     expect(recievedPlayer).toEqual(createdPlayer);

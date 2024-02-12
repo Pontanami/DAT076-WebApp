@@ -62,11 +62,9 @@ export class SessionService{
         let isCorrect = await courseService.checkAnswer(courseClickedId, course2Id)
 
         if(isCorrect){
-            //Ska metoden ens ta in en score? Det blir lite sus
             let player =  await this.playerService.getPlayer(playerId)
-
             if(player)
-                this.playerService.updatePlayerScore(player.id, player.score)
+                await this.playerService.updatePlayerScore(player.id)
         }
         else
             console.log("Game over")
