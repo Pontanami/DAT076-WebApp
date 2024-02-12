@@ -4,7 +4,6 @@ import { Routes, Route } from 'react-router-dom';
 import Leaderboard from "./Leaderboard";
 import Host from "./Host";
 import Join from "./Join";
-import Singleplayer from "./Singleplayer";
 
 
 function App() {
@@ -15,7 +14,6 @@ function App() {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/host" element={<Host />} />
             <Route path="/join" element={<Join />} />
-            <Route path="/singleplayer" element={<Singleplayer />} />
         </Routes>
     </div>
   );
