@@ -9,7 +9,7 @@ interface Course {
 
 
 
-function Play() {
+function Singleplayer() {
 
     const [courseList, setCourseList] = useState<Course[]>([]);
 
@@ -81,4 +81,4 @@ function DisplayCourses({ courses, newCourse }: { courses: Course[], newCourse: 
 
 
 
-export default Play
+export default Singleplayer

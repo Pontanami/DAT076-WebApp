@@ -19,9 +19,9 @@ function Home() {
         </div>
       </nav>
       <div className="container">
-        <Link to="/Host"><button type="button">Host game</button></Link>
-        <Link to="/Join"><button type="button">Join game</button></Link>
-        <Link to="/Singleplayer"><button type="button">Single player</button></Link>
+        <Link to="/host"><button type="button">Host game</button></Link>
+        <Link to="/join"><button type="button">Join game</button></Link>
+        <Link to="/singleplayer"><button type="button">Single player</button></Link>
       </div>
     </div>
   );
