@@ -38,7 +38,8 @@ singlePlayerRouter.get("/:id", async (
             res.status(400).send(`Bad PUT call to ${req.originalUrl} --- id must be a non-negative integer`);
             return;
         }
-        let questions = await SinglePlayerService.gameService.getCurrentQuestions(gameId)
+        let gameService = await SinglePlayerService.getGameService()
+        let questions = await gameService.getCurrentQuestions(gameId)
         res.status(200).send(questions);
     
     } catch (e: any) {

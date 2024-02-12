@@ -8,10 +8,10 @@ import { throws } from "assert";
 
 export class singlePlayerService{
 
-    singlePlayerGames : singlePlayer[] = [] 
+    private singlePlayerGames : singlePlayer[] = [] 
 
-    gameService = new GameService();
-    playerService = PlayerService.getInstance();
+    private gameService = new GameService();
+    private playerService = PlayerService.getInstance();
 
     async createSinglePlayerGame(playerId : number) : Promise<[Course, Course]>{
 
@@ -31,5 +31,9 @@ export class singlePlayerService{
         let currentQuestions = await this.gameService.getCurrentQuestions(game.id);
 
         return currentQuestions
+    }
+
+    async getGameService() : Promise<GameService>{
+        return this.gameService
     }
 }
