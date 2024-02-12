@@ -59,11 +59,7 @@ test("Game Test", async () =>{
     await sPService.sessionService.addQuestion(game.session.id, course3.code);
 
     let players = await playerService.getPlayers();
-    console.log("Players: " + JSON.stringify(players));
-    console.log("Player in game: " + JSON.stringify(game.player));
     await sPService.sessionService.checkAnswer(course1.code, course2.code, game.player.id);
-    console.log(player.score)
-    console.log("Sp player ref"+ JSON.stringify(game.player));
     let playertest = await playerService.getPlayer(game.player.id);
     console.log("Player after (game)" + JSON.stringify(playertest));
     */

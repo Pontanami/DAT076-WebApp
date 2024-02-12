@@ -17,19 +17,19 @@ courseRouter.get("/", async (
     }
 });
 
-courseRouter.post("/course", async (
+courseRouter.post("/", async (
     req: Request<{}, {}, { code: string, name: string, passrate: number}>,
     res: Response<Course|string>
 ) => {
     try {
     const cs = CourseService.getInstance();
     const request = req.body;
-    const newCourse = await cs.createCourse(request.name, request.code, request.passrate);
     
         if (!request.code || !request.name || !request.passrate) {
             res.status(400).send(`Bad POST call to ${req.originalUrl} --- missing code, name, or passrate. name: ${request.name}, code: ${request.code}, passrate: ${request.passrate}`);
             return;
         }
+        const newCourse = await cs.createCourse(request.code, request.name, request.passrate);
       
         res.status(201).send(newCourse);
 }catch (e: any) {
@@ -44,13 +44,12 @@ courseRouter.post("/answer", async (
     try {
     const cs = CourseService.getInstance();
     const request = req.body;
-    const answer = await cs.checkAnswer(request.codeClicked, request.otherCode);
         if (!request.codeClicked || !request.otherCode) {
             res.status(400).send(`Bad POST call to ${req.originalUrl} --- missing codeClicked or otherCode. codeClicked: ${request.codeClicked}, otherCode: ${request.otherCode}`);
             return;
         }
-      
-        res.status(201).send(answer);
+        const answer = await cs.checkAnswer(request.codeClicked, request.otherCode);
+        res.status(200).send(answer);
 }catch (e: any) {
     res.status(500).send(e.message);
 }

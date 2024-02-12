@@ -41,13 +41,10 @@ export class GameService{
     async addQuestion(gameId: number, code: string) : Promise<Game | undefined>{
         let game = await this.getGame(gameId)
         let course = await this.courseService.getCourse(code)
-        console.log(JSON.stringify(game))
-        console.log(JSON.stringify(course))
         if(!game || !course)
             return undefined;
         
         game.questions.push(course);
-        console.log(` Game Questions: ${JSON.stringify(game.questions)}`);
         
         return game;
     }
