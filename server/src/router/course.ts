@@ -17,7 +17,7 @@ courseRouter.get("/", async (
     }
 });
 
-courseRouter.post("/", async (
+courseRouter.post("/course", async (
     req: Request<{}, {}, { code: string, name: string, passrate: number}>,
     res: Response<Course|string>
 ) => {
@@ -32,6 +32,25 @@ courseRouter.post("/", async (
         }
       
         res.status(201).send(newCourse);
+}catch (e: any) {
+    res.status(500).send(e.message);
+}
+});
+
+courseRouter.post("/answer", async (
+    req: Request<{}, {}, { codeClicked: string, otherCode: string}>,
+    res: Response<boolean|string>
+) => {
+    try {
+    const cs = CourseService.getInstance();
+    const request = req.body;
+    const answer = await cs.checkAnswer(request.codeClicked, request.otherCode);
+        if (!request.codeClicked || !request.otherCode) {
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- missing codeClicked or otherCode. codeClicked: ${request.codeClicked}, otherCode: ${request.otherCode}`);
+            return;
+        }
+      
+        res.status(201).send(answer);
 }catch (e: any) {
     res.status(500).send(e.message);
 }
