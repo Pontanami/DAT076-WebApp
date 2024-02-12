@@ -1,5 +1,5 @@
 import { Player } from "./player";
-import { Session } from "./session";
+import { Session } from "./game";
 
 export interface singlePlayer{
     player : Player

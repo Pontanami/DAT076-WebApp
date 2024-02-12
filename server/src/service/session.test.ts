@@ -1,9 +1,9 @@
 import { Course } from "../model/course";
 import { Player } from "../model/player";
-import { Session } from "../model/session";
+import { Session } from "../model/game";
 import { CourseService } from "./course";
 import { PlayerService } from "./player";
-import { SessionService } from "./session";
+import { SessionService } from "./game";
 import { singlePlayerService} from "./singlePlayer";
 
 test("If a session is created it should be in the list of sessions", async () => {

@@ -1,6 +1,6 @@
 import { PlayerService } from "./player";
 import { singlePlayer } from "../model/singlePlayer";
-import { SessionService } from "./session";
+import { SessionService } from "./game";
 import { CourseService } from "./course";
 import { Player } from "../model/player";
 

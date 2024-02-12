@@ -1,7 +1,7 @@
 import { multiPlayer } from "../model/multiPlayer"
 import { Player } from "../model/player";
 import { PlayerService } from "./player";
-import { SessionService } from "./session";
+import { SessionService } from "./game";
 
 export class multiPlayerService{
 

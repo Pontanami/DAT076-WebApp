@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { Player } from "../model/player";
-import { Session } from "../model/session";
-import { SessionService } from "../service/session";
+import { Session } from "../model/game";
+import { SessionService } from "../service/game";
 
 const sessionService = new SessionService();
 export const sessionRouter = express.Router();
