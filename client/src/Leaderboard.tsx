@@ -56,6 +56,9 @@ function Leaderboard() {
         <section className="text-center">
             <h2>Leaderboard</h2>
             <div id="leaderboard">
+            <div className="playerEntry">
+                <strong className="">Place Name Score</strong>
+            </div>
                 <LeaderboardPlayer players = {playerList}/>
             </div>
         </section>
@@ -69,8 +72,8 @@ function LeaderboardPlayer({ players } : {players : Player[]}){
 
     function createPlayerEntry(player: Player, index: number) {
         return (
-            <div key={player.id}>
-                <strong className="col-1 colTitle">{index}</strong>
+            <div className="playerEntry" key={player.id}>
+                <strong className="">{index} {player.name} {player.score}</strong>
             </div>
         );
     }
