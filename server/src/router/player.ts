@@ -5,6 +5,19 @@ import { PlayerService } from "../service/player";
 const playerService = PlayerService.getInstance();
 export const playerRouter = express.Router();
 
+playerRouter.get("/", async (
+    req: Request<{}, {}, {}>,
+    res: Response<Array<Player> | string>
+) => {
+    try {
+        const players = await playerService.getPlayers();
+        res.status(200).send(players);
+    } catch (e: any) {
+        res.status(500).send(e.message);
+    }
+}
+)
+
 playerRouter.get("/:id", async (
     req: Request<{id : string}, {}, {}>,
     res: Response<Player | string>
