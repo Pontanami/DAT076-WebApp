@@ -22,6 +22,12 @@ let playerId = 1;
 function Singleplayer() {
 
     const [courseList, setCourseList] = useState<[Course, Course]>([{code : "Abc", name: "placeholder", failrate : 1 },{code : "Abc", name: "placeholder", failrate : 2 }]);
+    const [score, setScore] = useState<number>(0);
+
+    const incrementScore = () => {
+        console.log("Incrementing score")
+        setScore(score + 1);
+    }
 
     async function newRound() {
         try{
@@ -33,11 +39,15 @@ function Singleplayer() {
             console.log(error)
         }
     }
+
+    async function updateScore() {
+        incrementScore();
+    }
     
     
     async function initGame() {
             try {
-                
+                console.log("Getting game")
                 const response1 = await axios.post<number>('http://localhost:8080/singleplayer', {
                     playerId : playerId
                 }); 
@@ -60,16 +70,21 @@ function Singleplayer() {
     return (
         <div>
             <div className="container-fluid h-100">
-                    <DisplayCourses courses={courseList} nextRound={async() => await newRound()} />
+                    <DisplayCourses courses={courseList} nextRound={async() => await newRound()} updateScore={async() => await updateScore()}/>
             </div>
             <div className="align-center">
                 <h2>10s</h2>
+            </div>
+            <div> 
+                <h2 className='score-counter'>
+                    Score: {score}
+                </h2>
             </div>
         </div>
     )
 }
 
-function DisplayCourses({ courses, nextRound }: { courses: [Course, Course], nextRound: () => void }) {
+function DisplayCourses({ courses, nextRound, updateScore}: { courses: [Course, Course], nextRound: () => void, updateScore: () => void}) {
     return (
         <div className="row justify-content-center fitContent">
             {
@@ -111,7 +126,9 @@ function DisplayCourses({ courses, nextRound }: { courses: [Course, Course], nex
                     playerId: playerId,
                     gameId: gameId,
                 });
+                updateScore();
                 nextRound();
+                
             }
             else{
                 console.log("Wrong answer")

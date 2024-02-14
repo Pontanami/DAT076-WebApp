@@ -67,3 +67,11 @@ button:active{
 .course-code{
     font-size: 6vh !important;
 }
+
+.score-counter{
+    font-size: 6vh !important;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
