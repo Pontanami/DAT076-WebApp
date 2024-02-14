@@ -12,11 +12,11 @@ export class CourseService{
         return CourseService.instance;
     }
 
-    async createCourse(code: string, name: string, passrate: number): Promise<Course>{
+    async createCourse(code: string, name: string, failrate: number): Promise<Course>{
         const newCourse : Course = {
             code: code, 
             name: name,
-            failrate : 100 - passrate
+            failrate : failrate
         }
         this.courses.push(newCourse)
         return { ... newCourse};

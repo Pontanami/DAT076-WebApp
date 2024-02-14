@@ -39,15 +39,13 @@ const url = "https://stats.ftek.se/courses?items=100"
                     
                     let code = course.courseCode
                     let name = course.courseName
-                    let prate = course.passRate 
-                    let string = prate.toString()
-                    let slice = string.slice(0, 4)
-                    let y: number = +slice;
-                    y = (y * 10000)/100
-                    console.log(y)
+                    let prate : number = course.passRate * 100;
+                    let failrate : number = 100 - prate;
+                    let decimalPlaces = 2
+                    let failrateRounded = Number(Math.round(parseFloat(failrate + 'e' + decimalPlaces)) + 'e-' + decimalPlaces)
                     let people = course.total
-                    let prateRounded = parseFloat(prate.toFixed(2));
-
+                    
+                    console.log(failrateRounded)
 
                     /*
                     console.log("Code for course: " + code + "\n");
@@ -61,7 +59,7 @@ const url = "https://stats.ftek.se/courses?items=100"
                     i += 1
                     */
                     if(people >= 100){
-                        await courseService.createCourse(code, name, y)
+                        await courseService.createCourse(code, name, failrateRounded)
                     }
                 });
                 //console.log("Finished with adding tasks")
