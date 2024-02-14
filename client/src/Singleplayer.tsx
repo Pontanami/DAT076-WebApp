@@ -8,6 +8,13 @@ interface Course {
     name: string;
     failrate: number;
 }
+
+interface Player{
+    id: number;
+    name: string;
+    score: number;
+}
+
 //Ta bort sen
 let gameId = 0;
 
@@ -17,9 +24,12 @@ function Singleplayer() {
 
     async function initGame() {
             try {
-                console.log("hej")
+                const response2 = await axios.post<Player>('http://localhost:8080/player', {
+                    name : "test"
+                });
+                
                 const response1 = await axios.post<number>('http://localhost:8080/singleplayer', {
-                    playerId : 1
+                    playerId : response2.data.id
                 }); 
 
                 gameId = response1.data
