@@ -18,7 +18,7 @@ test("Check post session test", async () => {
     const response1 = await request.post("/singlePlayer").send({
         playerId : player.id
     });
-    expect(response1.status).toBe(200);
+    expect(response1.status).toBe(201);
     console.log(response1.body)
     const response2 = await request.get("/singlePlayer/"+response1.body)
     expect(response2.status).toBe(200)

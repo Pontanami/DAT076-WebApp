@@ -40,10 +40,10 @@ singlePlayerRouter.post("/", async (
             return;
         }
         console.log("Bapp")
-        const newGameID = await SinglePlayerService.createSinglePlayerGame(playerId);
+        const newGameID : number = await SinglePlayerService.createSinglePlayerGame(playerId);
         console.log(typeof(newGameID))
         console.log("Napp")
-        res.status(201).send(newGameID);
+        res.status(201).json(newGameID)
         console.log("Japp")
     } catch (e: any) {
         console.log(e)
@@ -52,15 +52,15 @@ singlePlayerRouter.post("/", async (
 })
 
 singlePlayerRouter.get("/:id", async (
-    req: Request<{gameId : string}, {}, {}>,
+    req: Request<{id : string}, {}, {}>,
     res: Response<[Course, Course] | string>
 ) => {
     try {
-        if (req.params.gameId == null) {
-            res.status(400).send(`Bad PUT call to ${req.originalUrl} --- missing id param`);
+        if (req.params.id == null) {
+            res.status(402).send(`Bad PUT call to ${req.originalUrl} --- missing id param`);
             return;
         }
-        const gameId = parseInt(req.params.gameId, 10);
+        const gameId = parseInt(req.params.id, 10);
         if (gameId < 0) {
             res.status(400).send(`Bad PUT call to ${req.originalUrl} --- id must be a non-negative integer`);
             return;
