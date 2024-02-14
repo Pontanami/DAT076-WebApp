@@ -3,7 +3,7 @@
 }
 .row{
   display: flex;
-  align-items: center;
+  flex-direction: column;
 }
 body {
     background: url("Image/Main_bg.jpg") center center fixed;
@@ -45,4 +45,9 @@ body {
 
 .hr-thick{
   border: 5px solid goldenrod;
+}
+
+.playerEntry {
+  padding: 1rem;
+  border: 1px solid black;
 }
