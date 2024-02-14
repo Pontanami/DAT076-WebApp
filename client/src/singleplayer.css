@@ -6,7 +6,7 @@
     margin: 0 !important;
 }
 
-button{
+.buttonPlay{
     background-color: yellow;
     border: none;
 }
@@ -59,7 +59,7 @@ button:active{
 }
 
 
-p{
+.pPlay{
     font-size: 2vh;
     margin-bottom: 2vh !important;
 }

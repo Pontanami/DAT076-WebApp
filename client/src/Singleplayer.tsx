@@ -70,16 +70,16 @@ function DisplayCourses({ courses, newCourse }: { courses: [Course, Course], new
     )
 
     function createButton(course: Course) {
-        return <button className="col-md-6 noPadding fitContent" style={{ backgroundColor: "aqua" }} onSubmit={
+        return <button className="col-md-6 noPadding fitContent buttonPlay" style={{ backgroundColor: "aqua" }} onSubmit={
             async (e) => {
                 postAnswer(e);
             } }>
             <div className="col-8 mx-auto">
-                <p className="course-code">
+                <p className="course-code pPlay">
                     <strong>{course.code}</strong>
                 </p>
-                <p>{course.name}</p>
-                <p>{course.failrate}</p>
+                <p className='pPlay'>{course.name}</p>
+                <p className='pPlay'>{course.failrate}</p>
             </div>
         </button>;
 
