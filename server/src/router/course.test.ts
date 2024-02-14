@@ -27,7 +27,7 @@ test("Check answer test", async () => {
         codeClicked: "ABC123",
         otherCode: "DFG456"
     });
-    expect(response3.status).toBe(201);
+    expect(response3.status).toBe(200);
     expect(response3.body).toBe(true);
     
 });

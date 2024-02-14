@@ -5,6 +5,7 @@ import { courseRouter } from "./router/course";
 import cors from "cors";
 import { json } from "stream/consumers";
 import { CourseService } from "./service/course";
+import { singlePlayerRouter } from "./router/singlePlayer";
 
 export const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use("/leaderboard", leaderboardRouter);
 app.use("/player", playerRouter);
 app.use("/course", courseRouter);
+app.use("/singlePlayer", singlePlayerRouter);
 
 const courseService = CourseService.getInstance()
 
@@ -49,9 +51,9 @@ const url = "https://stats.ftek.se/courses?items=500"
                     i += 1
                     */
                     if(people >= 100){
-                        console.log("Course Added")
                         await courseService.createCourse(code, name, prate)
                     }   
                 });
+                console.log("Finished with adding tasks")
             }
         }

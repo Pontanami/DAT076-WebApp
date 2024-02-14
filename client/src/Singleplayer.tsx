@@ -6,17 +6,30 @@ interface Course {
     name: string;
     failrate: number;
 }
-
-
+//Ta bort sen
+let gameId = 0;
 
 function Singleplayer() {
 
-    const [courseList, setCourseList] = useState<Course[]>([]);
+    const [courseList, setCourseList] = useState<[Course, Course]>([{code : "Abc", name: "placeholder", failrate : 1 },{code : "Abc", name: "placeholder", failrate : 1 }]);
 
-    async function updateCourses() {
+    async function initGame() {
             try {
-                const response = await axios.get<Course[]>("http://localhost:8080/session/getquestion");
-                const newCourse: Course[] = response.data;
+                console.log("hej")
+                const response1 = await axios.post<number>('http://localhost:8080/singleplayer', {
+                    playerId : 1
+                }); 
+
+                console.log("ehsfehfls")
+                gameId = response1.data
+                
+
+                const response = await axios.get<[Course, Course]>("http://localhost:8080/singlePlayer", {
+                    params : {
+                        id : gameId
+                    }
+                });
+                const newCourse: [Course, Course] = response.data;
                 // TODO Check that courses is a list of Courses
                 setCourseList(newCourse);
             } catch (error: any) {
@@ -25,14 +38,15 @@ function Singleplayer() {
     }
 
     useEffect(() => {
-        updateCourses();
+        console.log("ahgakwdjka")
+        initGame();
     }, []);
 
     return (
         <div>
             <div className="container-fluid h-100">
                 <div className="row justify-content-center fitContent">
-                    <DisplayCourses courses={courseList} newCourse={async() => await updateCourses()} />
+                    <DisplayCourses courses={courseList} newCourse={async() => await initGame()} />
                 </div>
             </div>
             <div className="align-center">
@@ -42,13 +56,15 @@ function Singleplayer() {
     )
 }
 
-function DisplayCourses({ courses, newCourse }: { courses: Course[], newCourse: () => void }) {
+function DisplayCourses({ courses, newCourse }: { courses: [Course, Course], newCourse: () => void }) {
     return (
         <div>
             {
-                courses.map((course: Course) =>
-                    createButton(course)
-                )
+                
+                createButton(courses[0])
+            }
+            {
+                createButton(courses[1])
             }
         </div>
 
@@ -71,7 +87,7 @@ function DisplayCourses({ courses, newCourse }: { courses: Course[], newCourse: 
         function postAnswer(e: React.FormEvent<HTMLButtonElement>) {
             e.preventDefault();
             //Fix post
-            axios.post('http://localhost:8080/course:jfj', {
+            axios.post('http://localhost:8080/course', {
                 courseCode: course.code
             }); //TODO: Handle error
             newCourse();

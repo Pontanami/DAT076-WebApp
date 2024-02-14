@@ -13,13 +13,16 @@ export class singlePlayerService{
     private gameService = new GameService();
     private playerService = PlayerService.getInstance();
 
-    async createSinglePlayerGame(playerId : number) : Promise<[Course, Course]>{
-
+    async createSinglePlayerGame(playerId : number) : Promise<number>{
+        
         let player = await this.playerService.getPlayer(playerId);
         let game = await this.gameService.createGame()
 
-        if(!player||!game)
+        if(!player||!game){
+            console.log("yaaas")
             throw new Error("Player or Session could not be created");
+
+        }
 
         let newSingleGame = {
             player : player,
@@ -28,12 +31,19 @@ export class singlePlayerService{
 
         this.singlePlayerGames.push(newSingleGame)
 
-        let currentQuestions = await this.gameService.getCurrentQuestions(game.id);
-
-        return currentQuestions
+        return game.id
     }
 
     async getGameService() : Promise<GameService>{
         return this.gameService
+    }
+
+    async getSinglePlayerGame(id: number) : Promise<singlePlayer>{
+        let game = this.singlePlayerGames.find(Spgame => Spgame.game.id = id)
+
+        if(!game)
+            throw new Error("No matching single player game");
+            
+        return game
     }
 }
