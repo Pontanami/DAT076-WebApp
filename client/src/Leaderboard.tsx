@@ -50,6 +50,18 @@ function Leaderboard() {
         updatePlayers();
     }, []);  
 
+    async function addMockPlayer() {
+        try {
+            const mockData = { name: "mock"};
+            const response = await axios.post("http://localhost:8080/player", mockData);
+            const mockPlayer : Player = response.data;
+            await axios.post<Player>("http://localhost:8080/leaderboard", mockPlayer);
+            updatePlayers();
+          } catch (error : any) {
+              handleError(error, displayErrorMessage) ;
+          };
+    }
+
   return (
     <div className="Leaderboard">
         <BackButton/>
@@ -57,11 +69,14 @@ function Leaderboard() {
             <h2>Leaderboard</h2>
             <div id="leaderboard">
             <div className="playerEntry">
-                <strong className="">Place Name Score</strong>
+                <strong className="">Rank</strong>
+                <strong className="">Name</strong>
+                <strong className="">Score</strong>
             </div>
                 <LeaderboardPlayer players = {playerList}/>
             </div>
         </section>
+        <button onClick={addMockPlayer}>Add mock player</button>
     </div>
   );
 }
