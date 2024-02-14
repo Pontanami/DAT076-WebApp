@@ -2,6 +2,7 @@ import express from "express";
 import { leaderboardRouter } from "./router/leaderboard";
 import { playerRouter } from "./router/player";
 import { courseRouter } from "./router/course";
+import { PlayerService } from "./service/player";
 import cors from "cors";
 import { json } from "stream/consumers";
 import { CourseService } from "./service/course";
@@ -17,6 +18,7 @@ app.use("/course", courseRouter);
 app.use("/singlePlayer", singlePlayerRouter);
 
 const courseService = CourseService.getInstance()
+const playerService = PlayerService.getInstance()
 
 const url = "https://stats.ftek.se/courses?items=100"
         var XMLHttpRequest = require('xhr2');
@@ -34,7 +36,7 @@ const url = "https://stats.ftek.se/courses?items=100"
                 let i = 0;
                 courses.forEach(async data => {
                     let course = JSON.parse(JSON.stringify(data))
-
+                    
                     let code = course.courseCode
                     let name = course.courseName
                     let prate = course.passRate 
@@ -43,26 +45,27 @@ const url = "https://stats.ftek.se/courses?items=100"
                     let y: number = +slice;
                     y = (y * 10000)/100
                     console.log(y)
-                    
                     let people = course.total
                     let prateRounded = parseFloat(prate.toFixed(2));
-                    
+
 
                     /*
                     console.log("Code for course: " + code + "\n");
                     console.log("Name of course: " + name + "\n");
                     console.log("Passrate of course: " + prate + " \n")
                     console.log("People in course: " + people + " \n")
-                    
-                    
+
+
 
                     console.log("-----------------\n")
                     i += 1
                     */
                     if(people >= 100){
                         await courseService.createCourse(code, name, y)
-                    }   
+                    }
                 });
                 //console.log("Finished with adding tasks")
+                let player = await playerService.createPlayer("TestPlayer")
+                console.log(JSON.stringify(player))
             }
         }

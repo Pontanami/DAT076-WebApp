@@ -19,7 +19,6 @@ export class singlePlayerService{
         let game = await this.gameService.createGame()
 
         if(!player||!game){
-            console.log("yaaas")
             throw new Error("Player or Session could not be created");
 
         }

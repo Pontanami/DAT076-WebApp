@@ -57,26 +57,23 @@ export class GameService{
         return JSON.parse(JSON.stringify(game.questions))
     }
 
-    async checkAnswer(courseClickedId: string, course2Id: string, playerId : number){
-        let courseService = CourseService.getInstance();
-        let isCorrect = await courseService.checkAnswer(courseClickedId, course2Id)
-
-        if(isCorrect){
-            let player =  await this.playerService.getPlayer(playerId)
-            if(player)
-                await this.playerService.updatePlayerScore(player.id)
-        }
-        else
-            console.log("Game over")
-            //Quit game
+    async gameUpdate(playerId : number, gameId: number){
+        await this.playerService.updatePlayerScore(playerId)
+        await this.startNextRound(gameId)
+        
     }
 
     async getCurrentQuestions(gameId : number) : Promise<[Course, Course]>{
-        let game = await this.getGameQuestions(gameId)
-        if(!game)
+        let questions = await this.getGameQuestions(gameId)
+        if(!questions)
             throw new Error("Game does not exist!");
 
-        return [game[0], game[1]]            
+        return [questions[0], questions[1]]            
     }
 
+    private async startNextRound(id:number): Promise<[Course, Course]>{
+        let game =await this.getGame(id);
+        game?.questions.shift();
+        return this.getCurrentQuestions(id)
+    }
 }

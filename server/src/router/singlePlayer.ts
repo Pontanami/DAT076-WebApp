@@ -3,6 +3,7 @@ import { Course } from "../model/course";
 import { Player } from "../model/player";
 import { PlayerService } from "../service/player";
 import { singlePlayerService } from "../service/singlePlayer";
+import { GameService } from "../service/game";
 
 const SinglePlayerService = new singlePlayerService()
 export const singlePlayerRouter = express.Router();
@@ -45,6 +46,29 @@ singlePlayerRouter.post("/", async (
         res.status(500).send(e.message);
     }
 })
+
+singlePlayerRouter.post("/update", async(
+    req: Request<{}, {}, {playerId: number, gameId: number}>,
+    res: Response<[Course, Course] | string>
+    ) => {
+        try {
+            const playerId = req.body.playerId;
+            const gameId = req.body.gameId;
+            if (typeof(playerId) !== "number" || typeof(gameId) !== "number") {
+                res.status(400).send(`Bad PUT call to ${req.originalUrl} --- playerId has type ${typeof(playerId)} and gameId has type ${typeof(gameId)}`);
+                return;
+            }
+
+            let gameService = await SinglePlayerService.getGameService()
+            gameService.gameUpdate(playerId, gameId)
+            let sP = await SinglePlayerService.getSinglePlayerGame(gameId)
+            res.status(200).send([sP.game.questions[0], sP.game.questions[1]]);
+        
+        } catch (e: any) {
+            console.log(e)
+            res.status(500).send(e.message);
+        }
+    });
 
 singlePlayerRouter.get("/:id", async (
     req: Request<{id : string}, {}, {}>,

@@ -17,6 +17,7 @@ interface Player{
 
 //Ta bort sen
 let gameId = 0;
+let playerId = 1;
 
 function Singleplayer() {
 
@@ -36,12 +37,9 @@ function Singleplayer() {
     
     async function initGame() {
             try {
-                const response2 = await axios.post<Player>('http://localhost:8080/player', {
-                    name : "test"
-                });
                 
                 const response1 = await axios.post<number>('http://localhost:8080/singleplayer', {
-                    playerId : response2.data.id
+                    playerId : playerId
                 }); 
 
                 gameId = response1.data
@@ -55,6 +53,7 @@ function Singleplayer() {
     }
 
     useEffect(() => {
+        console.log("Setting up game")
         initGame();
     }, []);
 
@@ -97,13 +96,27 @@ function DisplayCourses({ courses, nextRound }: { courses: [Course, Course], nex
             </div>
         </button>;
 
-        function postAnswer(e: React.FormEvent<HTMLButtonElement>) {
+        async function postAnswer(e: React.FormEvent<HTMLButtonElement>) {
             e.preventDefault();
             //Fix post
-            axios.post('http://localhost:8080/course', {
-                courseCode: course.code
+            let otherCourse = courses[0].code === course.code ? courses[1].code : courses[0].code;
+            console.log("Other course: " + otherCourse)
+            const answer = await axios.post('http://localhost:8080/course/answer', {
+                codeClicked: course.code,
+                otherCode:  otherCourse
             }); //TODO: Handle error
-            nextRound();
+            if(answer.data === true){
+                console.log("Updating")
+                await axios.post('http://localhost:8080/singlePlayer/update', {
+                    playerId: playerId,
+                    gameId: gameId,
+                });
+                nextRound();
+            }
+            else{
+                console.log("Wrong answer")
+            }
+            console.log("Answer posted " + answer.data)
         }
     }
 }

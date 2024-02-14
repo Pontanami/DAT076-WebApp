@@ -61,3 +61,28 @@ playerRouter.post("/", async (
         res.status(500).send(e.message);
     }
 });
+
+playerRouter.put("/:id", async (
+    req: Request<{id: string}, {}, {}>,
+    res: Response<Player | string>
+) => {
+    try {
+        if (req.params.id == null) {
+            res.status(400).send(`Bad PUT call to ${req.originalUrl} --- missing id param`);
+            return;
+        }
+        const index = parseInt(req.params.id, 10);
+        if (index < 0) {
+            res.status(400).send(`Bad PUT call to ${req.originalUrl} --- id number must be a non-negative integer`);
+            return;
+        }
+        const player = await playerService.updatePlayerScore(index);
+        if(!player)
+            res.status(404).send(`Player with id ${index} not found`);
+        else{
+        res.status(200).send(player);
+        }
+    } catch (e: any) {
+        res.status(500).send(e.message);
+    }
+});
