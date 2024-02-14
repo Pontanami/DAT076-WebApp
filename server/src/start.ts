@@ -41,7 +41,8 @@ const url = "https://stats.ftek.se/courses?items=100"
                     let string = prate.toString()
                     let slice = string.slice(0, 4)
                     let y: number = +slice;
-                    console.log((y * 10000)/100)
+                    y = (y * 10000)/100
+                    console.log(y)
                     
                     let people = course.total
                     let prateRounded = parseFloat(prate.toFixed(2));

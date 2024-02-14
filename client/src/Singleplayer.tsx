@@ -22,6 +22,18 @@ function Singleplayer() {
 
     const [courseList, setCourseList] = useState<[Course, Course]>([{code : "Abc", name: "placeholder", failrate : 1 },{code : "Abc", name: "placeholder", failrate : 2 }]);
 
+    async function newRound() {
+        try{
+            const response = await axios.get<[Course, Course]>("http://localhost:8080/singlePlayer/" + gameId)
+                const newCourse: [Course, Course] = response.data;
+                // TODO Check that courses is a list of Courses
+                setCourseList(newCourse);
+        }catch(error : any){
+            console.log(error)
+        }
+    }
+    
+    
     async function initGame() {
             try {
                 const response2 = await axios.post<Player>('http://localhost:8080/player', {
@@ -35,25 +47,21 @@ function Singleplayer() {
                 gameId = response1.data
                 console.log(gameId)
                 
-
-                const response = await axios.get<[Course, Course]>("http://localhost:8080/singlePlayer/" + response1.data)
-                const newCourse: [Course, Course] = response.data;
-                // TODO Check that courses is a list of Courses
-                setCourseList(newCourse);
+                newRound();
+                
             } catch (error: any) {
                 console.log(error)
             }
     }
 
     useEffect(() => {
-        console.log("ahgakwdjka")
         initGame();
     }, []);
 
     return (
         <div>
             <div className="container-fluid h-100">
-                    <DisplayCourses courses={courseList} newCourse={async() => await initGame()} />
+                    <DisplayCourses courses={courseList} nextRound={async() => await newRound()} />
             </div>
             <div className="align-center">
                 <h2>10s</h2>
@@ -62,7 +70,7 @@ function Singleplayer() {
     )
 }
 
-function DisplayCourses({ courses, newCourse }: { courses: [Course, Course], newCourse: () => void }) {
+function DisplayCourses({ courses, nextRound }: { courses: [Course, Course], nextRound: () => void }) {
     return (
         <div className="row justify-content-center fitContent">
             {
@@ -76,7 +84,7 @@ function DisplayCourses({ courses, newCourse }: { courses: [Course, Course], new
     )
 
     function createButton(course: Course) {
-        return <button className="col-md-6 noPadding fitContent buttonPlay" style={{ backgroundColor: "aqua" }} onSubmit={
+        return <button className="col-md-6 noPadding fitContent buttonPlay" style={{ backgroundColor: "aqua" }} onClick={
             async (e) => {
                 postAnswer(e);
             } }>
@@ -95,7 +103,7 @@ function DisplayCourses({ courses, newCourse }: { courses: [Course, Course], new
             axios.post('http://localhost:8080/course', {
                 courseCode: course.code
             }); //TODO: Handle error
-            newCourse();
+            nextRound();
         }
     }
 }
