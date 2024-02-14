@@ -16,21 +16,22 @@ body .container{
 }
 
 nav {
-  display: flex;
-  justify-content: space-between;
   padding: 2rem;
 }
 
 .title {
   display: flex;
   align-items: center;
-  width: 250px;
+  width: 120px;
+  float: left;
 }
 
 .nav-links {
+
   display: flex;
   align-items: center;
-  width: 120px;
+  float: right;
+  width: auto;
   justify-content: space-between;
 }
 
@@ -111,6 +112,7 @@ h1{
   margin-right: 3%;
   border: none;
   border-radius: 500px;
+  margin-left: 20px;
 }
 
 i{

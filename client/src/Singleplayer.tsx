@@ -6,10 +6,12 @@ import DisplayCourses from './DisplatCourse';
 import Course from './ICourse';
 import PlayScreens from './PlayScreens';
 import handleError from './ErrorHandling';
+import CurrentUser from './CurrentUser';
+
 
 //Ta bort sen
 let gameId = 0;
-let playerId = 1;
+//let playerId = 1;
 
 function Singleplayer() {
 
@@ -47,7 +49,7 @@ function Singleplayer() {
         try {
 
             const response1 = await axios.post<number>('http://localhost:8080/singleplayer', {
-                playerId: playerId
+                playerId: CurrentUser.getId()
             });
 
             gameId = response1.data
@@ -99,7 +101,7 @@ function Singleplayer() {
                 <div className="container-fluid h-100">
                     <DisplayCourses
                         courses={courseList}
-                        playerId = {playerId}
+                        playerId = {CurrentUser.getId()}
                         gameId = {gameId}
                         nextRound={async () => await newRound()}
                         updateScore={async () => await updateScore()}

@@ -17,8 +17,8 @@ export class PlayerService{
 
     async createPlayer(name: string): Promise<Player>{
         let newPlayer : Player = {
-            name: name,
             id :this.playerId,
+            name: name,
             score : 0
         }
         this.playerId += 1;
@@ -39,6 +39,16 @@ export class PlayerService{
         //console.log(`Searching for ${id}`)
         //console.log(`All players ${JSON.stringify(this.players)}`)
         let player = this.players.find(player => player.id === id);
+        //console.log(`Found player ${JSON.stringify(player)}`)
+        if(!player)
+            return;
+        return player
+    }
+
+    async getPlayerByName(name: string) : Promise<Player | undefined>{
+        //console.log(`Searching for ${id}`)
+        //console.log(`All players ${JSON.stringify(this.players)}`)
+        let player = this.players.find(player => player.name === name);
         //console.log(`Found player ${JSON.stringify(player)}`)
         if(!player)
             return;

@@ -3,6 +3,7 @@ import logo from './Image/logo.png';
 import trophy from './Image/trophy.jpg';
 import './Home.css';
 import {Link} from "react-router-dom";
+import Login from './Login';
 
 
 function Home() {
@@ -13,10 +14,13 @@ function Home() {
           <h1>Higher or Lower</h1>
           <img className="logo" alt='' src={logo}/>
         </div>
+        
         <div className="nav-links">
           <Link to="/Leaderboard"><img src={trophy} alt='' style={{width: "3rem"}}/></Link>
           <button className="question"></button>
+          <Login></Login>
         </div>
+        
       </nav>
       <div className="container">
         <Link to="/host"><button className="homeButton" type="button">Host game</button></Link>

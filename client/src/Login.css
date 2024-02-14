@@ -1,0 +1,9 @@
+.login{
+    float: right;
+    margin-left: 20px;
+}
+
+.login-sidebar{
+    background-color: white;
+    z-index: 1;
+}
