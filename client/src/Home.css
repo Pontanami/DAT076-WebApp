@@ -43,7 +43,7 @@ nav {
     text-decoration: underline;
 }
 
-button{
+.homeButton{
   padding: 10px;
   font-weight: bold;
   background-color: transparent;
@@ -57,7 +57,7 @@ button{
   display: block;
 }
 
-button:hover{
+.homeButton:hover{
   color: white;
   background-color: #000000;
   transition: 0.2s ease-in;
@@ -65,7 +65,7 @@ button:hover{
   cursor: pointer;
 }
 
-button::after{
+.homeButton::after{
   background-color: white;
   color: #000000;
 }
