@@ -1,4 +1,5 @@
 import axios from 'axios';
+import CurrentUser from './CurrentUser';
 import Course from './ICourse';
 import PlayScreens from './PlayScreens';
 
@@ -42,22 +43,33 @@ function DisplayCourses({ courses, playerId, gameId, nextRound, updateScore, err
                     otherCode: otherCourse
                 }); 
                 if (answer.data === true) {
-                    console.log("Updating")
-                    await axios.post('http://localhost:8080/singlePlayer/update', {
-                        playerId: playerId,
-                        gameId: gameId,
-                    });
-                    updateScore()
+                    await updatePlayerScore();
                     nextRound();
                 }
                 else {
-
+                    console.log(CurrentUser.getId())
+                    const response = await axios.post('http://localhost:8080/leaderboard', {
+                         id: CurrentUser.getId()
+                        })
+                    console.log("Player added to leaderboard")
+        
                     changePlayState(PlayScreens.GAMEOVER)
                     console.log("Wrong answer")
                 }
                 console.log("Answer posted " + answer.data)
             } catch (e: any) {
                 error(e)
+            }
+            
+
+
+            async function updatePlayerScore() {
+                console.log("Updating");
+                await axios.post('http://localhost:8080/singlePlayer/update', {
+                    playerId: playerId,
+                    gameId: gameId,
+                });
+                updateScore();
             }
         }
     }

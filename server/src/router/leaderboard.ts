@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { Leaderboard } from "../model/leaderboard";
 import { LeaderboardService } from "../service/leaderboard";
 import { Player } from "../model/player";
+import { PlayerService } from "../service/player";
 
 /*
 interface addPlayerRequest extends Request{
@@ -82,34 +83,40 @@ leaderboardRouter.post("/", async (
 
 
 
-
+//Behöver kollas om denna ska skrivas om
 leaderboardRouter.put("/:playerid", async (
-    req: Request<{playerid: string}, {}, {score : number}>,
+    req: Request<{playerid: string}, {}, {}>,
     res: Response<Leaderboard | string>
 ) => {
     try {
+        let id = parseInt(req.params.playerid, 10);
         if (req.params.playerid == null) {
             res.status(400).send(`Bad PUT call to ${req.originalUrl} --- missing id param`);
             return;
         }
-        if (typeof (req.body.score) !== "number") {
-            res.status(400).send(`Bad PUT call to ${req.originalUrl} --- field 'score' has type ${typeof(req.body.score)}`);
-            return;
-        }
-        if (req.body.score <= 0) {
-            res.status(405).send(`Bad PUT call to ${req.originalUrl} --- Score can't be negative`);
-            return;
-        }
-        const index = parseInt(req.params.playerid, 10);
-        if (index < 0) {
+
+        if (id < 0) {
             res.status(400).send(`Bad PUT call to ${req.originalUrl} --- id number must be a non-negative integer`);
             return;
         }
 
-        const update = await leaderboardService.updatePlayerInLeaderboard(index, req.body.score);
+        let player = await PlayerService.getInstance().getPlayer(id)
+
+        if(!player){
+            res.status(404).send(`No player with id ${id}`)
+            return;
+        }
+
+        if (player.score <= 0) {
+            res.status(405).send(`Bad PUT call to ${req.originalUrl} --- Score can't be negative`);
+            return;
+        }
+        
+
+        const update = await leaderboardService.updatePlayerInLeaderboard(id, player.score);
 
         if (!update) {
-            res.status(404).send(`No leaderboard entry with index ${index}`)
+            res.status(404).send(`No leaderboard entry with index ${id}`)
             return;
         }
         res.status(200).send("Leaderboard updated");
