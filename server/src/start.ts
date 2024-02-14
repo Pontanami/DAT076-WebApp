@@ -18,7 +18,7 @@ app.use("/singlePlayer", singlePlayerRouter);
 
 const courseService = CourseService.getInstance()
 
-const url = "https://stats.ftek.se/courses?items=500"
+const url = "https://stats.ftek.se/courses?items=100"
         var XMLHttpRequest = require('xhr2');
         let a = new XMLHttpRequest;
         a.open("GET", url);
@@ -37,8 +37,16 @@ const url = "https://stats.ftek.se/courses?items=500"
 
                     let code = course.courseCode
                     let name = course.courseName
-                    let prate = course.passRate * 100
+                    let prate = course.passRate 
+                    let string = prate.toString()
+                    let slice = string.slice(0, 4)
+                    let y: number = +slice;
+                    console.log((y * 10000)/100)
+                    
                     let people = course.total
+                    let prateRounded = parseFloat(prate.toFixed(2));
+                    
+
                     /*
                     console.log("Code for course: " + code + "\n");
                     console.log("Name of course: " + name + "\n");
@@ -51,7 +59,7 @@ const url = "https://stats.ftek.se/courses?items=500"
                     i += 1
                     */
                     if(people >= 100){
-                        await courseService.createCourse(code, name, prate)
+                        await courseService.createCourse(code, name, y)
                     }   
                 });
                 //console.log("Finished with adding tasks")

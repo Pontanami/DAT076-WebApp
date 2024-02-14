@@ -26,11 +26,7 @@ function Singleplayer() {
                 console.log(gameId)
                 
 
-                const response = await axios.get<[Course, Course]>("http://localhost:8080/singlePlayer", {
-                    params : {
-                        id : gameId
-                    }
-                });
+                const response = await axios.get<[Course, Course]>("http://localhost:8080/singlePlayer/" + response1.data)
                 const newCourse: [Course, Course] = response.data;
                 // TODO Check that courses is a list of Courses
                 setCourseList(newCourse);

@@ -33,18 +33,13 @@ singlePlayerRouter.post("/", async (
     res: Response<number | string>
 ) => {
     try {
-        console.log("hej")
         const playerId = req.body.playerId;
         if (typeof(playerId) !== "number") {
             res.status(400).send(`Bad PUT call to ${req.originalUrl} --- playerId has type ${typeof(playerId)}`);
             return;
         }
-        console.log("Bapp")
         const newGameID : number = await SinglePlayerService.createSinglePlayerGame(playerId);
-        console.log(typeof(newGameID))
-        console.log("Napp")
         res.status(201).json(newGameID)
-        console.log("Japp")
     } catch (e: any) {
         console.log(e)
         res.status(500).send(e.message);
@@ -57,7 +52,7 @@ singlePlayerRouter.get("/:id", async (
 ) => {
     try {
         if (req.params.id == null) {
-            res.status(402).send(`Bad PUT call to ${req.originalUrl} --- missing id param`);
+            res.status(400).send(`Bad PUT call to ${req.originalUrl} --- missing id param`);
             return;
         }
         const gameId = parseInt(req.params.id, 10);
@@ -65,11 +60,14 @@ singlePlayerRouter.get("/:id", async (
             res.status(400).send(`Bad PUT call to ${req.originalUrl} --- id must be a non-negative integer`);
             return;
         }
+        console.log(gameId)
+
         let gameService = await SinglePlayerService.getGameService()
         let questions = await gameService.getCurrentQuestions(gameId)
         res.status(200).send(questions);
     
     } catch (e: any) {
+        console.log(e)
         res.status(500).send(e.message);
     }
 });
