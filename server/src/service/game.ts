@@ -13,6 +13,7 @@ export class GameService{
     async createGame(): Promise<Game>{
 
         let questions = await this.courseService.getListOfCourses()
+        questions.sort(() => Math.random() - 0.5);
 
         let newGame : Game = {
             id : Date.now(),
