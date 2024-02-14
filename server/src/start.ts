@@ -54,6 +54,6 @@ const url = "https://stats.ftek.se/courses?items=500"
                         await courseService.createCourse(code, name, prate)
                     }   
                 });
-                console.log("Finished with adding tasks")
+                //console.log("Finished with adding tasks")
             }
         }

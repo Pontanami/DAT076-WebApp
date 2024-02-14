@@ -33,9 +33,12 @@ playerRouter.get("/:id", async (
             return;
         }
 
-        const player = await playerService.createPlayer(req.params.id);
+        const player = await playerService.getPlayer(index);
+        if(!player)
+            res.status(404).send(`Player with id ${index} not found`);
+        else{
         res.status(200).send(player);
-    
+        }
     } catch (e: any) {
         //console.log("Det är knas")
         res.status(500).send(e.message);

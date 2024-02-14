@@ -33,6 +33,7 @@ leaderboardRouter.get("/players", async (
 ) => {
     try {
         const players = await leaderboardService.getPlayerEntries();
+        players.sort((a, b) => b.score - a.score);
         res.status(200).send(players);
     } catch (e: any) {
         res.status(500).send(e.message);

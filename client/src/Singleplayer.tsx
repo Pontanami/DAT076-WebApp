@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import './singleplayer.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 
 interface Course {
@@ -11,7 +13,7 @@ let gameId = 0;
 
 function Singleplayer() {
 
-    const [courseList, setCourseList] = useState<[Course, Course]>([{code : "Abc", name: "placeholder", failrate : 1 },{code : "Abc", name: "placeholder", failrate : 1 }]);
+    const [courseList, setCourseList] = useState<[Course, Course]>([{code : "Abc", name: "placeholder", failrate : 1 },{code : "Abc", name: "placeholder", failrate : 2 }]);
 
     async function initGame() {
             try {
@@ -20,8 +22,8 @@ function Singleplayer() {
                     playerId : 1
                 }); 
 
-                console.log("ehsfehfls")
                 gameId = response1.data
+                console.log(gameId)
                 
 
                 const response = await axios.get<[Course, Course]>("http://localhost:8080/singlePlayer", {
@@ -45,9 +47,7 @@ function Singleplayer() {
     return (
         <div>
             <div className="container-fluid h-100">
-                <div className="row justify-content-center fitContent">
                     <DisplayCourses courses={courseList} newCourse={async() => await initGame()} />
-                </div>
             </div>
             <div className="align-center">
                 <h2>10s</h2>
@@ -58,9 +58,8 @@ function Singleplayer() {
 
 function DisplayCourses({ courses, newCourse }: { courses: [Course, Course], newCourse: () => void }) {
     return (
-        <div>
+        <div className="row justify-content-center fitContent">
             {
-                
                 createButton(courses[0])
             }
             {
@@ -71,7 +70,7 @@ function DisplayCourses({ courses, newCourse }: { courses: [Course, Course], new
     )
 
     function createButton(course: Course) {
-        return <button className="col-md-6 noPadding" style={{ backgroundColor: "aqua" }} onSubmit={
+        return <button className="col-md-6 noPadding fitContent" style={{ backgroundColor: "aqua" }} onSubmit={
             async (e) => {
                 postAnswer(e);
             } }>
