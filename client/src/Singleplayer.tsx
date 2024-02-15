@@ -32,6 +32,7 @@ function Singleplayer() {
             const newCourse: [Course, Course] = response.data;
             // TODO Check that courses is a list of Courses
             setCourseList(newCourse);
+            setTimer(10);
         } catch (error: any) {
             handleError(error, displayErrorMessage);
         }
@@ -44,6 +45,23 @@ function Singleplayer() {
     function displayErrorMessage(errorMessage: string) {
         setErrorMessage(errorMessage)
         setPlayState(PlayScreens.ERROR)
+    }
+
+    async function handleGameOver() {
+        try{
+        //TODO: fix error handling and post/put beroende på om personen redan finns
+        console.log(CurrentUser.getId())
+        const response = await axios.post('http://localhost:8080/leaderboard', {
+             id: CurrentUser.getId()
+            })
+        console.log("Player added to leaderboard")
+
+        setPlayState(PlayScreens.GAMEOVER);
+        console.log("Wrong answer")
+        }
+        catch(error: any){
+            handleError(error, displayErrorMessage);
+        }
     }
 
     async function initGame() {
@@ -122,7 +140,7 @@ function Singleplayer() {
                         nextRound={async () => await newRound()}
                         updateScore={async () => await updateScore()}
                         error={(e: any) => displayErrorMessage(e)}
-                        changePlayState={(state: PlayScreens) => setPlayState(state)} />
+                        handleGameOver={async () => await handleGameOver()} />
                 </div>
                 <div className="align-center">
                     <h2>{timer}</h2>

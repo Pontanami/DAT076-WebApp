@@ -3,8 +3,8 @@ import CurrentUser from './CurrentUser';
 import Course from './ICourse';
 import PlayScreens from './PlayScreens';
 
-function DisplayCourses({ courses, playerId, gameId, nextRound, updateScore, error, changePlayState }
-    : { courses: [Course, Course], playerId : number, gameId : number,nextRound: () => void, updateScore: () => void, error: (e: any) => void, changePlayState: (playState: PlayScreens) => void }) {
+function DisplayCourses({ courses, playerId, gameId, nextRound, updateScore, error, handleGameOver}
+    : { courses: [Course, Course], playerId : number, gameId : number,nextRound: () => void, updateScore: () => void, error: (e: any) => void, handleGameOver: () => void}) {
     return (
         <div className="row justify-content-center fitContent">
             {
@@ -47,15 +47,7 @@ function DisplayCourses({ courses, playerId, gameId, nextRound, updateScore, err
                     nextRound();
                 }
                 else {
-                    //TODO: fix error handling and post/put beroende på om personen redan finns
-                    console.log(CurrentUser.getId())
-                    const response = await axios.post('http://localhost:8080/leaderboard', {
-                         id: CurrentUser.getId()
-                        })
-                    console.log("Player added to leaderboard")
-        
-                    changePlayState(PlayScreens.GAMEOVER)
-                    console.log("Wrong answer")
+                    handleGameOver();
                 }
                 console.log("Answer posted " + answer.data)
             } catch (e: any) {
