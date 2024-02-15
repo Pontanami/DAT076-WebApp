@@ -1,0 +1,18 @@
+.error-background{
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 1);
+    margin: 0;
+}
+
+.marginTop{
+    margin-top: 6%;
+}
+
+.errorImg{
+    max-width: 500px;
+    max-height: 600px;
+}
+
+.spacing{
+    margin-top: 2rem;
+}

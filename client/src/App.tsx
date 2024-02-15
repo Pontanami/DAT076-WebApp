@@ -1,13 +1,13 @@
-import Home from './Home';
+import Home from './Home/Home';
 import { Routes, Route } from 'react-router-dom';
-import Leaderboard from "./Leaderboard";
+import Leaderboard from "./Leaderboard/Leaderboard";
 import Host from "./Host";
 import Join from "./Join";
-import Singleplayer from "./Singleplayer";
+import Singleplayer from "./Play/Singleplayer";
 import React, { useEffect, useState } from 'react';
-import PlayScreens from './PlayScreens';
-import CreateErrorScreen from './ErrorScreen';
-import getErrorMessage from './ErrorHandling';
+import PlayScreens from './Play/PlayScreens';
+import CreateErrorScreen from './Error/ErrorScreen';
+import getErrorMessage from './Error/ErrorHandling';
 
 enum Screens{
   NOERROR,

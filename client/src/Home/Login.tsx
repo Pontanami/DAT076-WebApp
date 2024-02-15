@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './Login.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios, { AxiosResponse } from 'axios';
-import Player from './IPlayer';
-import CurrentUser from './CurrentUser';
-import CreateErrorScreen from './ErrorScreen';
-import handleError from './ErrorHandling';
-import getErrorMessage from './ErrorHandling';
+import Player from '../IPlayer';
+import CurrentUser from '../CurrentUser';
+import CreateErrorScreen from '../Error/ErrorScreen';
+import handleError from '../Error/ErrorHandling';
+import getErrorMessage from '../Error/ErrorHandling';
 
 enum DisplayLogin {
     BUTTON,

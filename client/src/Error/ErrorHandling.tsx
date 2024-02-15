@@ -3,7 +3,9 @@ import CreateErrorScreen from "./ErrorScreen";
 
 function getErrorMessage(error: any) : string {
     if (error.response) {
-        return error.response.status
+        let errorString : string = error.response.status + ": " + error.response.data
+        return errorString
+        //error.response.status
         //denna skickar vidare any, vet inte hur vi vill ha det
         //<CreateErrorScreen error={error.response.status} ></CreateErrorScreen>
     }

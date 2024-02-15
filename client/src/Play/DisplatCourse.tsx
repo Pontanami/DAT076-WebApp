@@ -1,6 +1,6 @@
 import axios from 'axios';
-import CurrentUser from './CurrentUser';
-import Course from './ICourse';
+import CurrentUser from '../CurrentUser';
+import Course from '../ICourse';
 import PlayScreens from './PlayScreens';
 
 function DisplayCourses({ courses, gameId, nextRound, updateScore, errorHandler, handleGameOver}

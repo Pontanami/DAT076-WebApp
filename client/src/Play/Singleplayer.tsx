@@ -3,11 +3,11 @@ import './singleplayer.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import DisplayCourses from './DisplatCourse';
-import Course from './ICourse';
+import Course from '../ICourse';
 import PlayScreens from './PlayScreens';
-import CurrentUser from './CurrentUser';
+import CurrentUser from '../CurrentUser';
 import {Link} from "react-router-dom";
-import getErrorMessage from './ErrorHandling';
+import getErrorMessage from '../Error/ErrorHandling';
 
 
 //Ta bort sen
