@@ -72,7 +72,7 @@ leaderboardRouter.post("/", async (
             res.status(400).send(`Bad POST call to ${req.originalUrl} --- Id is of wrong type, it has type ${typeof(id)}`);
             return;
         }
-        const addLeaderboardEntry = await leaderboardService.addLeaderboardEntry(id);
+        const addLeaderboardEntry = await leaderboardService.changeLeaderboard(id);
         res.status(201).send(addLeaderboardEntry);
     } catch (e: any) {
         console.log(e.message);

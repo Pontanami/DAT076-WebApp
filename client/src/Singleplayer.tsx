@@ -143,7 +143,6 @@ function Singleplayer() {
                 <div className="container-fluid h-100">
                     <DisplayCourses
                         courses={courseList}
-                        playerId = {CurrentUser.getId()}
                         gameId = {gameId}
                         nextRound={async () => await newRound()}
                         updateScore={async () => await updateScore()}
