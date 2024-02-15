@@ -9,7 +9,11 @@ function CreateErrorScreen({error, setNoErrorScreen} : {error : string, setNoErr
                 setNoErrorScreen();
             }
         }>Go back to HomeScreen</button></Link>
-        
+        <button onClick={
+            async (e) => {
+                setNoErrorScreen();
+            }
+        }>Resend request</button>
     </div>;
 }
 
