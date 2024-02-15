@@ -35,13 +35,14 @@ export class PlayerService{
         return player;
     }
 
-    async getPlayer(id: number) : Promise<Player | undefined>{
+    async getPlayer(id: number) : Promise<Player>{
         //console.log(`Searching for ${id}`)
         //console.log(`All players ${JSON.stringify(this.players)}`)
         let player = this.players.find(player => player.id === id);
         //console.log(`Found player ${JSON.stringify(player)}`)
         if(!player)
-            return;
+            throw new Error("Player Not found!");
+            
         return player
     }
 
@@ -57,5 +58,11 @@ export class PlayerService{
 
     async getPlayers() : Promise<Player[]>{
         return JSON.parse(JSON.stringify(this.players))
+    }
+
+    async resetPlayerScore(playerId : number) : Promise<Player>{
+        let player = await this.getPlayer(playerId)
+        player.score = 0;
+        return player;
     }
 }

@@ -36,6 +36,7 @@ export class LeaderboardService{
         this.nr_entries += 1;
         let copyPlayer = JSON.parse(JSON.stringify(player));
         this.player_entries.push(copyPlayer);
+        await this.playerService.resetPlayerScore(id)
         
         return this.getLeaderboard();
 

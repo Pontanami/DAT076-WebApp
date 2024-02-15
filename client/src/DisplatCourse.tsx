@@ -47,6 +47,7 @@ function DisplayCourses({ courses, playerId, gameId, nextRound, updateScore, err
                     nextRound();
                 }
                 else {
+                    //TODO: fix error handling and post/put beroende på om personen redan finns
                     console.log(CurrentUser.getId())
                     const response = await axios.post('http://localhost:8080/leaderboard', {
                          id: CurrentUser.getId()
