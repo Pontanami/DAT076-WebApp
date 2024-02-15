@@ -1,24 +1,53 @@
-import React from 'react';
 import Home from './Home';
 import { Routes, Route } from 'react-router-dom';
 import Leaderboard from "./Leaderboard";
 import Host from "./Host";
 import Join from "./Join";
 import Singleplayer from "./Singleplayer";
+import React, { useEffect, useState } from 'react';
+import PlayScreens from './PlayScreens';
+import CreateErrorScreen from './ErrorScreen';
+import getErrorMessage from './ErrorHandling';
 
+enum Screens{
+  NOERROR,
+  ERROR
+}
 
 function App() {
-  return (
-    <div className="App">
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/host" element={<Host />} />
-            <Route path="/join" element={<Join />} />
-            <Route path="/singleplayer" element={<Singleplayer />} />
-        </Routes>
-    </div>
-  );
+  const [screenState, setScreenState] = useState<Screens>(Screens.NOERROR);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  switch(screenState){
+    case Screens.NOERROR:
+      return (
+        <div className="App">
+            <Routes>
+                <Route path="/" element={<Home errorHandler={async (error : string) => await setErrorScreen(error)} />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/host" element={<Host />} />
+                <Route path="/join" element={<Join />} />
+                <Route path="/singleplayer" element={<Singleplayer errorHandler={async (error : any) => await setErrorScreen(error)}/>} />
+            </Routes>
+        </div>
+      );
+      case Screens.ERROR:
+        return <CreateErrorScreen 
+                  error={errorMessage}
+                  setNoErrorScreen={async () => setNoErrorScreen()}
+                  />
+
+  }
+
+  async function setErrorScreen(error : any){
+    setErrorMessage(getErrorMessage(error))
+    setScreenState(Screens.ERROR)
+  }
+
+  async function setNoErrorScreen(){
+    setScreenState(Screens.NOERROR)
+  }
+  
 }
 
 export default App;

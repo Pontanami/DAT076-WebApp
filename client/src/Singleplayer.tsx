@@ -5,16 +5,16 @@ import axios from 'axios';
 import DisplayCourses from './DisplatCourse';
 import Course from './ICourse';
 import PlayScreens from './PlayScreens';
-import handleError from './ErrorHandling';
 import CurrentUser from './CurrentUser';
 import {Link} from "react-router-dom";
+import getErrorMessage from './ErrorHandling';
 
 
 //Ta bort sen
 let gameId = 0;
 //let playerId = 1;
 
-function Singleplayer() {
+function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}) {
 
     const [courseList, setCourseList] = useState<[Course, Course]>([{ code: "Abc", name: "placeholder", failrate: 1 }, { code: "Abc", name: "placeholder", failrate: 2 }]);
     const [playState, setPlayState] = useState<PlayScreens>(PlayScreens.PLAYING);
@@ -35,18 +35,20 @@ function Singleplayer() {
             setCourseList(newCourse);
             setTimer(10);
         } catch (error: any) {
-            handleError(error, displayErrorMessage);
+            errorHandler(error)
+            //Borde nog döpa om handle error
+            //displayErrorMessage(error)
         }
     }
 
     async function updateScore() {
         incrementScore();
     }
-
+    /*
     function displayErrorMessage(errorMessage: string) {
-        setErrorMessage(errorMessage)
+        setErrorMessage(handleError(errorMessage))
         setPlayState(PlayScreens.ERROR)
-    }
+    }*/
 
     async function handleGameOver() {
         try{
@@ -61,13 +63,12 @@ function Singleplayer() {
         console.log("Wrong answer")
         }
         catch(error: any){
-            handleError(error, displayErrorMessage);
+            errorHandler(error)
         }
     }
 
     async function initGame() {
         try {
-
             const response1 = await axios.post<number>('http://localhost:8080/singleplayer', {
                 playerId: CurrentUser.getId()
             });
@@ -78,7 +79,7 @@ function Singleplayer() {
             newRound();
 
         } catch (error: any) {
-            handleError(error, displayErrorMessage);
+            errorHandler(error)
         }
     }
 
@@ -108,9 +109,6 @@ function Singleplayer() {
 
         case PlayScreens.GAMEOVER:
             return createGameOverScreen()
-
-        case PlayScreens.ERROR:
-            return createErrorScreen()
     }
 
 
@@ -146,7 +144,7 @@ function Singleplayer() {
                         gameId = {gameId}
                         nextRound={async () => await newRound()}
                         updateScore={async () => await updateScore()}
-                        error={(e: any) => displayErrorMessage(e)}
+                        errorHandler={(errorMsg: string) => errorHandler(errorMsg)}
                         handleGameOver={async () => await handleGameOver()} />
                 </div>
                 <div className="align-center">

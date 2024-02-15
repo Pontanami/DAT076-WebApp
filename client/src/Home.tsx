@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import Login from './Login';
 
 
-function Home() {
+function Home({errorHandler} : {errorHandler: (error : any) => void} ) {
   return (
     <div className="App">
       <nav>
@@ -18,7 +18,7 @@ function Home() {
         <div className="nav-links">
           <Link to="/Leaderboard"><img src={trophy} alt='' style={{width: "3rem"}}/></Link>
           <button className="question"></button>
-          <Login></Login>
+          <Login errorHandler={(error : any) => errorHandler(error)}></Login>
         </div>
         
       </nav>

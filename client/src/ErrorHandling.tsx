@@ -1,13 +1,21 @@
-function handleError(error: any, displayErrorMessage: (errorMessage: string) => void) {
+import CreateErrorScreen from "./ErrorScreen";
+
+
+function getErrorMessage(error: any) : string {
     if (error.response) {
-        displayErrorMessage(error.response.status)
+        return error.response.status
+        //denna skickar vidare any, vet inte hur vi vill ha det
+        //<CreateErrorScreen error={error.response.status} ></CreateErrorScreen>
     }
     else if (error.request) {
-        displayErrorMessage("No response provided from the server")
+        return "No response provided by the server"
+        //<CreateErrorScreen error={"No response provided from the server"} ></CreateErrorScreen>
     }
     else {
-        displayErrorMessage("Error occured while processing request")
+        return "Error occured while processing request";
+        //<CreateErrorScreen error={"Error occured while processing request"} ></CreateErrorScreen>
+
     }
 }
 
-export default handleError;
+export default getErrorMessage;

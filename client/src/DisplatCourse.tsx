@@ -3,8 +3,8 @@ import CurrentUser from './CurrentUser';
 import Course from './ICourse';
 import PlayScreens from './PlayScreens';
 
-function DisplayCourses({ courses, gameId, nextRound, updateScore, error, handleGameOver}
-    : { courses: [Course, Course], gameId : number,nextRound: () => void, updateScore: () => void, error: (e: any) => void, handleGameOver: () => void}) {
+function DisplayCourses({ courses, gameId, nextRound, updateScore, errorHandler, handleGameOver}
+    : { courses: [Course, Course], gameId : number,nextRound: () => void, updateScore: () => void, errorHandler: (error : any) => void, handleGameOver: () => void}) {
     return (
         <div className="row justify-content-center fitContent">
             {
@@ -51,7 +51,7 @@ function DisplayCourses({ courses, gameId, nextRound, updateScore, error, handle
                 }
                 console.log("Answer posted " + answer.data)
             } catch (e: any) {
-                error(e)
+                errorHandler(e)
             }
             
 

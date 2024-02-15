@@ -1,7 +1,6 @@
 enum PlayScreens {
     PLAYING,
-    GAMEOVER,
-    ERROR
+    GAMEOVER
 }
 
 export default PlayScreens

@@ -4,14 +4,18 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios, { AxiosResponse } from 'axios';
 import Player from './IPlayer';
 import CurrentUser from './CurrentUser';
+import CreateErrorScreen from './ErrorScreen';
+import handleError from './ErrorHandling';
+import getErrorMessage from './ErrorHandling';
 
 enum DisplayLogin {
     BUTTON,
     LOGINSCREEN
 }
 
-function Login() {
+function Login({errorHandler} : {errorHandler: (error : any) => void}) {
     const [displayScreen, setDisplayScreen] = useState<DisplayLogin>(DisplayLogin.BUTTON)
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     useEffect(() => {
         setDisplayScreen(DisplayLogin.BUTTON)
@@ -25,7 +29,7 @@ function Login() {
             console.log("Success Create")
             setCurrentPlayer(response);
         }catch(error : any){
-            console.log(error)
+            errorHandler(error)
         }
     }
 
@@ -35,7 +39,7 @@ function Login() {
             console.log("Success Login")
             setCurrentPlayer(response);
         }catch(error : any){
-            console.log(error)
+            errorHandler(error)
         }
     }
 
