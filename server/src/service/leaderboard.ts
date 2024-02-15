@@ -16,7 +16,7 @@ export class LeaderboardService{
         return {...leaderboard}
     }
     /*
-    async addLeaderboardEntry(player: Player) : Promise<Leaderboard>{
+    async changeLeaderboard(player: Player) : Promise<Leaderboard>{
         this.nr_entries += 1;
         let addplayer : Player = player;
         //Denna pushar undefined, player finns inte?
@@ -27,16 +27,23 @@ export class LeaderboardService{
     }*/
 
     //Är det här korrekt för att hämta spelarna utan att påverka resterande del av programmet?
-    async addLeaderboardEntry(id: number) : Promise<Leaderboard | undefined>{
+    async changeLeaderboard(id: number) : Promise<Leaderboard>{
+
         let player = await this.playerService.getPlayer(id);
 
         if(!player)
-            return undefined;
+            throw new Error("Player does not exist!");
+            
 
-        this.nr_entries += 1;
-        let copyPlayer = JSON.parse(JSON.stringify(player));
-        this.player_entries.push(copyPlayer);
-        await this.playerService.resetPlayerScore(id)
+        let playerExist = await this.isPlayerInLeaderboard(id);
+
+        if(playerExist == false){
+            await this.addPlayerToLeaderboard(player);
+        }
+        else{
+            await this.updatePlayerInLeaderboard(player.id, player.score)
+        }
+        await this.playerService.resetPlayerScore(player.id);
         
         return this.getLeaderboard();
 
@@ -53,12 +60,18 @@ export class LeaderboardService{
         return this.getLeaderboard();*/
     }
 
-    async updatePlayerInLeaderboard(id : number, score: number) : Promise<Leaderboard | undefined>{
-        let player = this.player_entries.find(player => player.id = id);
+    private async addPlayerToLeaderboard(player: Player) {
+        this.nr_entries += 1;
+        let copyPlayer = JSON.parse(JSON.stringify(player));
+        this.player_entries.push(copyPlayer);
+    }
+
+    async updatePlayerInLeaderboard(id : number, score: number) : Promise<Leaderboard>{
+        let player = this.player_entries.find(player => player.id === id);
 
         if(!player)
-            return undefined;
-        
+            throw new Error("Player is not yet on the leaderboard");
+            
         else if (score > player.score)
             player.score = score;
 
@@ -67,5 +80,13 @@ export class LeaderboardService{
 
     async getPlayerEntries() : Promise<Player[]>{
         return JSON.parse(JSON.stringify(this.player_entries))
+    }
+
+    private async isPlayerInLeaderboard(id :  number) : Promise<boolean> {
+        let player = this.player_entries.find(player => player.id === id);
+        if(!player)
+            return false;
+
+        return true;
     }
 }
