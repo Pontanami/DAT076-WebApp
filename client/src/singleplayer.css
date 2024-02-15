@@ -82,3 +82,13 @@ button:active{
     align-items: center;
     margin-top: 6rem;
 }
+
+.gif {
+    margin: 2rem;
+    width: 600px;
+    height: 500px;
+}
+
+.endButtons {
+    display: flex;
+}

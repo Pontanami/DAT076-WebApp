@@ -56,7 +56,7 @@ function Singleplayer() {
              id: CurrentUser.getId()
             })
         console.log("Player added to leaderboard")
-
+        setTimer(0);
         setPlayState(PlayScreens.GAMEOVER);
         console.log("Wrong answer")
         }
@@ -123,10 +123,15 @@ function Singleplayer() {
     }
 
     function createGameOverScreen() {
+        const rndInt = Math.floor(Math.random() * 6) + 1;
+        const dynamicFile = require('./Image/gifs/end' + rndInt + '.gif');
         return <div className='endScreen'>
             <h2>Game Over</h2>
-            <Link to="/"><button className="homeButton" type="button">Home</button></Link>
-            <Link to="/leaderboard"><button className="homeButton" type="button">Leaderboard</button></Link>
+            <img className='gif' src={dynamicFile}/>
+            <div className='endButtons'>
+                <Link to="/"><button className="homeButton" type="button">Home</button></Link>
+                <Link to="/leaderboard"><button className="homeButton" type="button">Leaderboard</button></Link>
+            </div>
         </div>;
     }
 
