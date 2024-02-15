@@ -63,7 +63,7 @@ const url = "https://stats.ftek.se/courses?items=100"
                     }
                 });
                 //console.log("Finished with adding tasks")
-                let player = await playerService.createPlayer("TestPlayer")
+                let player = await playerService.createPlayer("test")
                 console.log(JSON.stringify(player))
             }
         }

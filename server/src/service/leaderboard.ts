@@ -34,7 +34,8 @@ export class LeaderboardService{
             return undefined;
 
         this.nr_entries += 1;
-        this.player_entries.push(player);
+        let copyPlayer = JSON.parse(JSON.stringify(player));
+        this.player_entries.push(copyPlayer);
         
         return this.getLeaderboard();
 

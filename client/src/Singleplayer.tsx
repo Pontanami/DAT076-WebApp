@@ -19,6 +19,7 @@ function Singleplayer() {
     const [playState, setPlayState] = useState<PlayScreens>(PlayScreens.PLAYING);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [score, setScore] = useState<number>(0);
+    const [timer, setTimer] = useState<number>(10);
 
     const incrementScore = () => {
         console.log("Incrementing score")
@@ -67,6 +68,21 @@ function Singleplayer() {
         initGame();
     }, []);
 
+    useEffect(() => {
+        const timerId = setInterval(() => {
+            setTimer((prevTimer) => prevTimer - 1);
+        }, 1000);
+
+        if (timer === 0) {
+            clearInterval(timerId);
+            setPlayState(PlayScreens.GAMEOVER);
+        }
+
+        return () => {
+            clearInterval(timerId);
+        };
+    }, [timer]);
+
     switch (playState) {
         case PlayScreens.PLAYING:
             return createPlayScreen()
@@ -109,7 +125,7 @@ function Singleplayer() {
                         changePlayState={(state: PlayScreens) => setPlayState(state)} />
                 </div>
                 <div className="align-center">
-                    <h2>10s</h2>
+                    <h2>{timer}</h2>
                 </div>
                 <div>
                     <h2 className='score-counter'>
