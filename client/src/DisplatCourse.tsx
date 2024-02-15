@@ -3,8 +3,8 @@ import CurrentUser from './CurrentUser';
 import Course from './ICourse';
 import PlayScreens from './PlayScreens';
 
-function DisplayCourses({ courses, playerId, gameId, nextRound, updateScore, error, handleGameOver}
-    : { courses: [Course, Course], playerId : number, gameId : number,nextRound: () => void, updateScore: () => void, error: (e: any) => void, handleGameOver: () => void}) {
+function DisplayCourses({ courses, gameId, nextRound, updateScore, error, handleGameOver}
+    : { courses: [Course, Course], gameId : number,nextRound: () => void, updateScore: () => void, error: (e: any) => void, handleGameOver: () => void}) {
     return (
         <div className="row justify-content-center fitContent">
             {
@@ -59,7 +59,7 @@ function DisplayCourses({ courses, playerId, gameId, nextRound, updateScore, err
             async function updatePlayerScore() {
                 console.log("Updating");
                 await axios.post('http://localhost:8080/singlePlayer/update', {
-                    playerId: playerId,
+                    playerId: CurrentUser.getId(),
                     gameId: gameId,
                 });
                 updateScore();
