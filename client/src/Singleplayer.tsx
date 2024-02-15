@@ -7,6 +7,7 @@ import Course from './ICourse';
 import PlayScreens from './PlayScreens';
 import handleError from './ErrorHandling';
 import CurrentUser from './CurrentUser';
+import {Link} from "react-router-dom";
 
 
 //Ta bort sen
@@ -122,8 +123,10 @@ function Singleplayer() {
     }
 
     function createGameOverScreen() {
-        return <div>
-            <p>Du är sämst</p>
+        return <div className='endScreen'>
+            <h2>Game Over</h2>
+            <Link to="/"><button className="homeButton" type="button">Home</button></Link>
+            <Link to="/leaderboard"><button className="homeButton" type="button">Leaderboard</button></Link>
         </div>;
     }
 

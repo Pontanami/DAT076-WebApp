@@ -75,3 +75,10 @@ button:active{
     left: 50%;
     transform: translateX(-50%);
 }
+
+.endScreen{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 6rem;
+}
