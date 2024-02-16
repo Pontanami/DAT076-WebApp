@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./errorScreen.css"
 
 function CreateErrorScreen({ error, setNoErrorScreen }: { error: string, setNoErrorScreen: () => void }) {
-    const filePath = require('./Image/gifs/angry-panda.gif');
+    const filePath = require('../Image/gifs/angry-panda.gif');
     return (
         <div className='endScreen error-background'>
             <h2 className="marginTop">Ohh no, something went wrong :(</h2>
@@ -26,18 +26,3 @@ function CreateErrorScreen({ error, setNoErrorScreen }: { error: string, setNoEr
 }
 
 export default CreateErrorScreen;
-/*<div>
-        <h1>Ohh no, something went wrong :(</h1>
-        <br></br>
-        <p>{error}</p>
-        <Link to="/"><button onClick={
-            async (e) => {
-                setNoErrorScreen();
-            }
-        }>Go back to HomeScreen</button></Link>
-        <button onClick={
-            async (e) => {
-                setNoErrorScreen();
-            }
-        }>Return to last screen</button>
-    </div>*/

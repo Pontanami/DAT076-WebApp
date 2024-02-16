@@ -1,10 +1,10 @@
 import axios from 'axios';
 import CurrentUser from '../CurrentUser';
 import Course from '../ICourse';
-import PlayScreens from './PlayScreens';
 
-function DisplayCourses({ courses, gameId, nextRound, updateScore, errorHandler, handleGameOver}
-    : { courses: [Course, Course], gameId : number,nextRound: () => void, updateScore: () => void, errorHandler: (error : any) => void, handleGameOver: () => void}) {
+
+function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver}
+    : { courses: [Course, Course], nextRound: () => void, errorHandler: (error : any) => void, handleGameOver: () => void}) {
     return (
         <div className="row justify-content-center fitContent">
             {
@@ -43,7 +43,6 @@ function DisplayCourses({ courses, gameId, nextRound, updateScore, errorHandler,
                     otherCode: otherCourse
                 }); 
                 if (answer.data === true) {
-                    await updatePlayerScore();
                     nextRound();
                 }
                 else {
@@ -52,17 +51,6 @@ function DisplayCourses({ courses, gameId, nextRound, updateScore, errorHandler,
                 console.log("Answer posted " + answer.data)
             } catch (e: any) {
                 errorHandler(e)
-            }
-            
-
-
-            async function updatePlayerScore() {
-                console.log("Updating");
-                await axios.post('http://localhost:8080/singlePlayer/update', {
-                    playerId: CurrentUser.getId(),
-                    gameId: gameId,
-                });
-                updateScore();
             }
         }
     }

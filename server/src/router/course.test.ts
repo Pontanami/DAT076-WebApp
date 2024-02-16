@@ -10,7 +10,7 @@ test("Check answer test", async () => {
     const response1 = await request.post("/course").send({
         code: "ABC123",
         name: "test",
-        passrate: 50
+        failrate: 50
     });
     expect(response1.status).toBe(201);
     expect(response1.body.code).toBe("ABC123");
@@ -18,7 +18,7 @@ test("Check answer test", async () => {
     const response2 = await request.post("/course").send({
         code: "DFG456",
         name: "test2",
-        passrate: 60
+        failrate: 60
     });
     expect(response2.status).toBe(201);
     expect(response2.body.code).toBe("DFG456");
@@ -28,6 +28,6 @@ test("Check answer test", async () => {
         otherCode: "DFG456"
     });
     expect(response3.status).toBe(200);
-    expect(response3.body).toBe(true);
+    expect(response3.body).toBe(false);
     
 });

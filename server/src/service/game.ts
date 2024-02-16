@@ -27,10 +27,10 @@ export class GameService{
     //Multi
     
     //vara kvar/ta bort
-    async getGame(gameId: number): Promise<Game | undefined> {
+    async getGame(gameId: number): Promise<Game> {
         let game = this.games.find(game => game.id === gameId);
         if(!game)
-            return undefined;
+            throw new Error("No game matches the id");;
 
         return game;
     }
@@ -43,21 +43,19 @@ export class GameService{
         let game = await this.getGame(gameId)
         let course = await this.courseService.getCourse(code)
         if(!game || !course)
-            return undefined;
+             throw new Error("Game or course does not exist");
         
         game.questions.push(course);
         
         return game;
     }
     //vara kvar
-    async getGameQuestions(gameId : number) : Promise<Course[] | undefined>{
+    async getGameQuestions(gameId : number) : Promise<Course[]>{
         let game = await this.getGame(gameId)
-        if(!game)
-            return undefined;
-
         return JSON.parse(JSON.stringify(game.questions))
     }
 
+    //denna kanske inte egentligen borde ligga här
     async gameUpdate(playerId : number, gameId: number){
         await this.playerService.updatePlayerScore(playerId)
         await this.startNextRound(gameId)
@@ -74,7 +72,7 @@ export class GameService{
 
     private async startNextRound(id:number): Promise<[Course, Course]>{
         let game =await this.getGame(id);
-        game?.questions.shift();
+        game.questions.shift();
         return this.getCurrentQuestions(id)
     }
 }

@@ -3,7 +3,7 @@
 }
 
 body {
-  background: url("Image/Main_bg.jpg") center center fixed;
+  background: url("../Image/Main_bg.jpg") center center fixed;
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -102,7 +102,7 @@ h1{
 }
 
 .question{
-  background: url("Image/question.png");
+  background: url("../Image/question.png");
   background-size: cover;
   background-position: center center;
   float: right;

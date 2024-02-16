@@ -18,18 +18,18 @@ courseRouter.get("/", async (
 });
 
 courseRouter.post("/", async (
-    req: Request<{}, {}, { code: string, name: string, passrate: number}>,
+    req: Request<{}, {}, { code: string, name: string, failrate: number}>,
     res: Response<Course|string>
 ) => {
     try {
     const cs = CourseService.getInstance();
     const request = req.body;
     
-        if (!request.code || !request.name || !request.passrate) {
-            res.status(400).send(`Bad POST call to ${req.originalUrl} --- missing code, name, or passrate. name: ${request.name}, code: ${request.code}, passrate: ${request.passrate}`);
+        if (!request.code || !request.name || !request.failrate) {
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- missing code, name, or passrate. name: ${request.name}, code: ${request.code}, passrate: ${request.failrate}`);
             return;
         }
-        const newCourse = await cs.createCourse(request.code, request.name, request.passrate);
+        const newCourse = await cs.createCourse(request.code, request.name, request.failrate);
       
         res.status(201).send(newCourse);
 }catch (e: any) {

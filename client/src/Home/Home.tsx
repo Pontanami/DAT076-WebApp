@@ -1,6 +1,6 @@
 import React from 'react';
-import logo from './Image/logo.png';
-import trophy from './Image/trophy.jpg';
+import logo from '../Image/logo.png';
+import trophy from '../Image/trophy.jpg';
 import './Home.css';
 import {Link} from "react-router-dom";
 import Login from './Login';

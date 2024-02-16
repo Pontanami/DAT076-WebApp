@@ -14,9 +14,8 @@ test("End-to-end test", async () => {
     });
     expect(response1.status).toBe(201);
     expect(response1.body.player_entries.map((player : Player) => player.name)).toContain(player.name);
-    const response2 = await request.put(`/leaderboard/${player.id}`).send({
-        score: 11
-    });
+    player.score=11;
+    const response2 = await request.put(`/leaderboard/${player.id}`).send();
 
     expect(response2.status).toBe(200);
     const response3 = await request.get("/leaderboard/players");

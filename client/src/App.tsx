@@ -5,7 +5,6 @@ import Host from "./Host";
 import Join from "./Join";
 import Singleplayer from "./Play/Singleplayer";
 import React, { useEffect, useState } from 'react';
-import PlayScreens from './Play/PlayScreens';
 import CreateErrorScreen from './Error/ErrorScreen';
 import getErrorMessage from './Error/ErrorHandling';
 
@@ -24,7 +23,7 @@ function App() {
         <div className="App">
             <Routes>
                 <Route path="/" element={<Home errorHandler={async (error : string) => await setErrorScreen(error)} />} />
-                <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/leaderboard" element={<Leaderboard errorHandler={async (error : string) => await setErrorScreen(error)}/>} />
                 <Route path="/host" element={<Host />} />
                 <Route path="/join" element={<Join />} />
                 <Route path="/singleplayer" element={<Singleplayer errorHandler={async (error : any) => await setErrorScreen(error)}/>} />

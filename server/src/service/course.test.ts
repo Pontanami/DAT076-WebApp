@@ -25,8 +25,8 @@ test("The checkAnswer method should return true if the first course has a higher
     console.log("_________________________________________________________________________________________");
     
     const courseService = new CourseService();
-    const course1: Course = await courseService.createCourse("ABC123", "test", 50);
-    const course2 : Course = await courseService.createCourse("DEF456", "test2", 60);
+    const course1: Course = await courseService.createCourse("ABC123", "test", 60);
+    const course2 : Course = await courseService.createCourse("DEF456", "test2", 50);
     const response = await courseService.checkAnswer(course1.code, course2.code);
     expect(response).toBe(true);
 });

@@ -6,7 +6,7 @@ test("If a player is added to the leaderboard they should be on the leadeboard",
     const leaderboardService = new LeaderboardService();
     let playerService = PlayerService.getInstance();
     let player =  await playerService.createPlayer("test5")
-    await leaderboardService.addLeaderboardEntry(player.id);
+    await leaderboardService.changeLeaderboard(player.id);
     const player_list = await leaderboardService.getPlayerEntries();
     expect(player_list.map((ply: Player) => ply.id)).toContain(player.id);
 });
