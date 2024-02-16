@@ -1,9 +1,20 @@
 .login{
+    background-color: transparent;
     float: right;
-    margin-left: 20px;
+    margin-left: 10px;
+    border: none;
 }
 
-.login-sidebar{
+.login-popup{
     background-color: white;
     z-index: 1;
+    height: 70vh;
+    width: 50vw;
+    top: 60vh;
+    position: absolute;
+}
+
+.close{
+    top: 5%;
+    left: 5%;
 }

@@ -4,9 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios, { AxiosResponse } from 'axios';
 import Player from '../IPlayer';
 import CurrentUser from '../CurrentUser';
-import CreateErrorScreen from '../Error/ErrorScreen';
-import handleError from '../Error/ErrorHandling';
-import getErrorMessage from '../Error/ErrorHandling';
+
 
 enum DisplayLogin {
     BUTTON,
@@ -15,7 +13,6 @@ enum DisplayLogin {
 
 function Login({errorHandler} : {errorHandler: (error : any) => void}) {
     const [displayScreen, setDisplayScreen] = useState<DisplayLogin>(DisplayLogin.BUTTON)
-    const [errorMessage, setErrorMessage] = useState<string>("");
 
     useEffect(() => {
         setDisplayScreen(DisplayLogin.BUTTON)
@@ -51,17 +48,17 @@ function Login({errorHandler} : {errorHandler: (error : any) => void}) {
     }
 
     
-
+    const profile = require("../Image/profile.png");
     switch (displayScreen) {
         case DisplayLogin.BUTTON:
             return (
                 <button className='login' onClick={async () =>
                     setDisplayScreen(DisplayLogin.LOGINSCREEN)
-                }>Login</button>
+                }><img src={profile} alt='' style={{width: "3rem"}}/></button>
             )
         case DisplayLogin.LOGINSCREEN:
             return (
-                <div className="container h-100 login-sidebar">
+                <div className="container login-popup">
                     <button className="" onClick={async () =>
                         setDisplayScreen(DisplayLogin.BUTTON)
                     }>Close</button>

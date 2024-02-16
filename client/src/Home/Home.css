@@ -102,12 +102,8 @@ h1{
 }
 
 .question{
-  background: url("../Image/question.png");
-  background-size: cover;
-  background-position: center center;
+  background-color: transparent;
   float: right;
-  width: 5vmin;
-  height: 5vmin;
   margin-top: 3%;
   margin-right: 3%;
   border: none;

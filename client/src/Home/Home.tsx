@@ -4,6 +4,7 @@ import trophy from '../Image/trophy.jpg';
 import './Home.css';
 import {Link} from "react-router-dom";
 import Login from './Login';
+import about from '../Image/question.png'
 
 
 function Home({errorHandler} : {errorHandler: (error : any) => void} ) {
@@ -17,7 +18,7 @@ function Home({errorHandler} : {errorHandler: (error : any) => void} ) {
         
         <div className="nav-links">
           <Link to="/Leaderboard"><img src={trophy} alt='' style={{width: "3rem"}}/></Link>
-          <button className="question"></button>
+          <button className="question"><img src={about} alt='' style={{width: "3rem"}}/></button>
           <Login errorHandler={(error : any) => errorHandler(error)}></Login>
         </div>
         
