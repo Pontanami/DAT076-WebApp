@@ -12,7 +12,7 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver }
 
     useEffect(() => {
         setcourse2Failrate("?")
-    }, []);
+    }, [courses]);
 
     async function showResults() {
         setcourse2Failrate(hiddenFailrate)
