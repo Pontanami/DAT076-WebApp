@@ -3,8 +3,8 @@ import Course from '../ICourse';
 import React, { useEffect, useState } from 'react';
 
 
-function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver }
-    : { courses: [Course, Course], nextRound: () => void, errorHandler: (error: any) => void, handleGameOver: () => void }) {
+function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stopTimer }
+    : { courses: [Course, Course], nextRound: () => void, errorHandler: (error: any) => void, handleGameOver: () => void, stopTimer: () =>void }) {
 
     const hiddenFailrate = courses[1].failrate;
     const [course2Failrate, setcourse2Failrate] = useState<number | string>("?")
@@ -50,7 +50,7 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver }
 
         async function postAnswer(e: React.FormEvent<HTMLButtonElement>) {
             e.preventDefault();
-
+            stopTimer();
             showResult()
             setTimeout(async function(){
                 try {
@@ -65,7 +65,7 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver }
                 } catch (e: any) {
                     errorHandler(e)
                 }
-            }, 2000);
+            }, 1000);
         }
 
         async function newFunction() {

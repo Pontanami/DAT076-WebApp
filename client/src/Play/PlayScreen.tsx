@@ -9,6 +9,7 @@ function PlayScreen({courseList, gameId, nextRound, errorHandler, setGameOver}
     : {courseList: [Course, Course], gameId : number,nextRound: () => void, errorHandler: (error : any) => void, setGameOver : () => void}) {
     const [score, setScore] = useState<number>(0);
     const [timer, setTimer] = useState<number>(10);
+    const [isPlaying, setIsPlaying] = useState<boolean>(true)
 
     async function updateScore() {
         try{
@@ -28,19 +29,23 @@ function PlayScreen({courseList, gameId, nextRound, errorHandler, setGameOver}
         setScore(score + 1);
     }
 
+    //TODO: Kanske borde kolla på hur vi stoppar timer
+
     useEffect(() => {
-        const timerId = setInterval(() => {
-            setTimer((prevTimer) => prevTimer - 1);
-        }, 1000);
-
-        if (timer === 0) {
-            clearInterval(timerId);
-            handleGameOver()
-        }
-
-        return () => {
-            clearInterval(timerId);
-        };
+            const timerId = setInterval(() => {
+                if(isPlaying){
+                    setTimer((prevTimer) => prevTimer - 1);
+                }
+            }, 1000);
+    
+            if (timer === 0 && isPlaying) {
+                clearInterval(timerId);
+                handleGameOver()
+            }
+    
+            return () => {
+                clearInterval(timerId);
+            };
     }, [timer]);
 
     async function handleGameOver() {
@@ -51,8 +56,13 @@ function PlayScreen({courseList, gameId, nextRound, errorHandler, setGameOver}
     async function startNextRound(){
         await updateScore();
         setTimer(10)
+        setIsPlaying(true)
         nextRound()
         
+    }
+
+    async function stopTimer(){
+        setIsPlaying(false)
     }
 
     return (
@@ -63,7 +73,8 @@ function PlayScreen({courseList, gameId, nextRound, errorHandler, setGameOver}
                     courses={courseList}
                     nextRound={async () => await startNextRound()}
                     errorHandler={errorHandler}
-                    handleGameOver={async () => await handleGameOver()} />
+                    handleGameOver={async () => await handleGameOver()}
+                    stopTimer = {async () => await stopTimer()} />
             </div>
             <div className="align-center">
                 <h2>{timer}</h2>
