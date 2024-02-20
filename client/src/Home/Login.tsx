@@ -58,7 +58,7 @@ function Login({errorHandler} : {errorHandler: (error : any) => void}) {
             )
         case DisplayLogin.LOGINSCREEN:
             return (
-                <div className="container login-popup">
+                <div className="login-popup">
                     <button className="" onClick={async () =>
                         setDisplayScreen(DisplayLogin.BUTTON)
                     }>Close</button>

@@ -22,7 +22,7 @@ nav {
 .title {
   display: flex;
   align-items: center;
-  width: 120px;
+  width: 29%;
   float: left;
 }
 
@@ -71,7 +71,7 @@ nav {
   color: #000000;
 }
 
-button:hover{
+.homeButton:hover{
   color: white;
 }
 .container {
@@ -123,9 +123,9 @@ i{
 }
 
 .question > *:hover{
-  transition-duration: 0.8s;
+  transition-duration: 0.5s;
   animation-name: wiggle;
-  animation-duration: 2s;
+  animation-duration: 0.5s;
   animation-iteration-count: 1;
   animation-timing-function: linear;
 }

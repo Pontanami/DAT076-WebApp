@@ -10,8 +10,14 @@
     z-index: 1;
     height: 70vh;
     width: 50vw;
-    top: 60vh;
+    top: 55vh;
     position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .close{
