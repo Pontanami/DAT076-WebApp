@@ -6,7 +6,7 @@ import IPlayer from '../IPlayer';
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;
 
-test('renders learn react link', () => {
+test('render gets correct player', () => {
 
     let p1 : IPlayer ={
         id : 1,

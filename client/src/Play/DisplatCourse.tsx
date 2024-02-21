@@ -20,16 +20,18 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
 
     return (
         <div className="row justify-content-center fitContent">
-            {
-                createButton(courses[0], courses[0].failrate, () => showResults())
-            }
-            {
-                createButton(courses[1], course2Failrate, () => showResults())
-            }
+            <CreateButton 
+                course={courses[0]}
+                courseFailrate={courses[0].failrate}
+                showResult={() => showResults()}/>
+            <CreateButton 
+                course={courses[1]}
+                courseFailrate={course2Failrate}
+                showResult={() => showResults()}/>
         </div>
     )
 
-    function createButton(course : Course, courseFailrate : number | string,showResult : () => void) {
+    function CreateButton({course, courseFailrate, showResult} : {course : Course, courseFailrate : number | string, showResult : () => void}) {
 
         return (
             <button className="col-md-6 noPadding fitContent buttonPlay" style={{ backgroundColor: "aqua" }} onClick={
@@ -54,7 +56,8 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
             showResult()
             setTimeout(async function(){
                 try {
-                    const answer = await newFunction();
+                    const answer = await checkAnswer
+        ();
                     if (answer.data === true) {
                         nextRound();
                     }
@@ -68,7 +71,7 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
             }, 1000);
         }
 
-        async function newFunction() {
+        async function checkAnswer() {
             let otherCourse = courses[0].code === course.code ? courses[1].code : courses[0].code;
             console.log("Other course: " + otherCourse);
             const answer = await axios.post('http://localhost:8080/course/answer', {
