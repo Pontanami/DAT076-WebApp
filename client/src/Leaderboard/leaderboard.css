@@ -9,7 +9,6 @@ body {
     background: url("../Image/Main_bg.jpg") center center fixed;
     background-size: cover;
     background-repeat: no-repeat;
-    opacity: 0.9;
   }
   
   .colTitle {
