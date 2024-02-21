@@ -59,19 +59,22 @@ function Login({errorHandler} : {errorHandler: (error : any) => void}) {
         case DisplayLogin.LOGINSCREEN:
             return (
                 <div className="login-popup">
-                    <button className="" onClick={async () =>
+                    <button className="close" onClick={async () =>
                         setDisplayScreen(DisplayLogin.BUTTON)
                     }>Close</button>
-                    <input id="nameBox" type="text" placeholder='Enter name' />
-                    <input id="passwordBox" type="text" placeholder='Enter password' />
-                    <button onClick={
-                        async () => {
-                            AccountAction(async (name : string, password : string) => await loginPlayer(name, password));
-                        }}>Login</button>
-                    <button onClick={
-                        async () => {
-                            AccountAction(async (name : string, password : string) => await createPlayer(name, password));
-                        }}>CreatePlayer</button>
+                    <h2>Login</h2>
+                    <div className='inputs'>
+                        <input id="nameBox" type="text" placeholder='Enter name' />
+                        <input id="passwordBox" type="text" placeholder='Enter password' />
+                        <button onClick={
+                            async () => {
+                                AccountAction(async (name : string, password : string) => await loginPlayer(name, password));
+                            }}>Login</button>
+                        <button onClick={
+                            async () => {
+                                AccountAction(async (name : string, password : string) => await createPlayer(name, password));
+                            }}>CreatePlayer</button>
+                    </div>
                 </div>
             )
     }
