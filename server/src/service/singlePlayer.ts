@@ -38,7 +38,7 @@ export class singlePlayerService{
     }
 
     async getSinglePlayerGame(id: number) : Promise<singlePlayer>{
-        let game = this.singlePlayerGames.find(Spgame => Spgame.game.id = id)
+        let game = this.singlePlayerGames.find(Spgame => Spgame.game.id === id)
 
         if(!game)
             throw new Error("No matching single player game");
