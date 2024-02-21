@@ -54,10 +54,8 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
             e.preventDefault();
             stopTimer();
             showResult()
-            setTimeout(async function(){
                 try {
-                    const answer = await checkAnswer
-        ();
+                    const answer = await checkAnswer();
                     if (answer.data === true) {
                         nextRound();
                     }
@@ -68,7 +66,6 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
                 } catch (e: any) {
                     errorHandler(e)
                 }
-            }, 1000);
         }
 
         async function checkAnswer() {

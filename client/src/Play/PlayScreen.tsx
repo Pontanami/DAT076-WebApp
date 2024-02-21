@@ -55,10 +55,11 @@ function PlayScreen({courseList, gameId, nextRound, errorHandler, setGameOver}
 
     async function startNextRound(){
         await updateScore();
+        setTimeout(async function(){
         setTimer(10)
         setIsPlaying(true)
         nextRound()
-        
+        }, 1000);
     }
 
     async function stopTimer(){
