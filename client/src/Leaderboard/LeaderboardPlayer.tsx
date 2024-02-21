@@ -1,11 +1,16 @@
 import Player from "../IPlayer";
+import './leaderboard.css';
 
 function LeaderboardPlayer({ player, index } : {player : Player, index : number}){
 
     
     return (
         <div className="playerEntry" key={player.id}>
-            <strong className="">{index} {player.name} {player.score}</strong>
+            <div>
+                <strong className="">{index}</strong>
+                <strong className="">{player.name}</strong>
+                <strong className="">{player.score}</strong>
+            </div>
         </div>
     );
 }
