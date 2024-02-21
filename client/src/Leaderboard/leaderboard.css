@@ -47,7 +47,22 @@ body {
   border: 5px solid goldenrod;
 }
 
-.playerEntry {
+.columnNames {
   padding: 1rem;
   border: 1px solid black;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.playerEntry {
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+}
+
+.playerEntry > *{
+  width: 98%;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-evenly;
 }

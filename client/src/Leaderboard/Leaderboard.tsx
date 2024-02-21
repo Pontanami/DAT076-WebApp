@@ -53,7 +53,7 @@ function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
             <section className="text-center">
                 <h2>Leaderboard</h2>
                 <div id="leaderboard">
-                    <div className="playerEntry">
+                    <div className="columnNames">
                         <strong className="">Rank</strong>
                         <strong className="">Name</strong>
                         <strong className="">Score</strong>
