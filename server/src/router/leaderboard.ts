@@ -16,10 +16,10 @@ export const leaderboardRouter = express.Router();
 
 leaderboardRouter.get("/", async (
     req: Request<{}, {}, {}>,
-    res: Response<Leaderboard | String>
+    res: Response<Player[] | String>
 ) => {
     try { 
-        const leaderboard = await leaderboardService.getLeaderboard();
+        const leaderboard = await leaderboardService.getPlayerEntries();
         res.status(200).send(leaderboard);
     } catch (e: any) {
         //console.log("Det är knas")
@@ -64,7 +64,7 @@ leaderboardRouter.post("/", async (
 
 leaderboardRouter.post("/", async (
     req: Request<{}, {}, {id: number}>,
-    res: Response<Leaderboard | string>
+    res: Response<Player[] | string>
 ) => {
     try {
         const id = req.body.id;

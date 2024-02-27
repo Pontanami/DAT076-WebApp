@@ -47,8 +47,6 @@ const url = "https://stats.ftek.se/courses?items=100"
                     let decimalPlaces = 2
                     let failrateRounded = Number(Math.round(parseFloat(failrate + 'e' + decimalPlaces)) + 'e-' + decimalPlaces)
                     let people = course.total
-                    
-                    console.log(failrateRounded)
 
                     /*
                     console.log("Code for course: " + code + "\n");

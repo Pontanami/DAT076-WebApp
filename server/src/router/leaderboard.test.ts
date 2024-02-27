@@ -1,10 +1,10 @@
 import * as SuperTest from "supertest";
 import { Player } from "../model/player";
 import { PlayerService } from "../service/player";
+import {MongoMemoryServer} from "mongodb-memory-server";
 import { app } from "../start";
-
-
 const request = SuperTest.default(app);
+jest.mock("../db/conn.ts");
 
 test("End-to-end test", async () => {
     let playerService = PlayerService.getInstance();
@@ -13,11 +13,13 @@ test("End-to-end test", async () => {
         id: player.id,
     });
     expect(response1.status).toBe(201);
-    expect(response1.body.player_entries.map((player : Player) => player.name)).toContain(player.name);
+    expect(response1.body.map((player : Player) => player.name)).toContain(player.name);
     player.score=11;
-    const response2 = await request.put(`/leaderboard/${player.id}`).send();
+    const response2 = await request.post("/leaderboard").send({
+        id: player.id,
+    });
 
-    expect(response2.status).toBe(200);
+    expect(response2.status).toBe(201);
     const response3 = await request.get("/leaderboard/players");
     expect(response3.status).toBe(200);
     expect(response3.body.map((player: Player) => player.id)).toContain (player.id)

@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { userModel } from "../../db/user.db";
+import { userModel } from "../db/user.db";
 import { user } from "../model/user"
 import { IUserService } from "./IUserService";
 

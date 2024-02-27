@@ -1,6 +1,6 @@
 import {Schema, Model} from "mongoose";
 
-import {Player} from "../src/model/player";
+import {Player} from "../model/player";
 
 import { conn } from "./conn";
 
@@ -18,4 +18,4 @@ async function makeModel() : Promise<Model<Player>> {
 }
 
 
-export const userModel : Promise<Model<Player>> = makeModel()
+export const playerModel : Promise<Model<Player>> = makeModel()

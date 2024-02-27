@@ -2,6 +2,8 @@ import { Player } from "../model/player";
 import { LeaderboardService } from "../service/leaderboard";
 import { PlayerService } from "./player";
 
+jest.mock("../db/conn.ts");
+
 test("If a player is added to the leaderboard they should be on the leadeboard", async () => {
     const leaderboardService = new LeaderboardService();
     let playerService = PlayerService.getInstance();

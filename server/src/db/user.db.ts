@@ -1,7 +1,7 @@
 import {Schema, Model} from "mongoose";
 
 import { conn } from "./conn";
-import { user } from "../src/model/user";
+import { user } from "../model/user";
 
 const userSchema : Schema = new Schema({
 
