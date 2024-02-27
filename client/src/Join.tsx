@@ -42,7 +42,7 @@ function Join() {
             onChange={(e) => setPin(e.target.value)}
             style={{ fontSize: '20px'}}
           />
-          <button type="submit" onClick={handleSubmit}>Submit</button>
+          <Link to="/joinscreen"><button type="submit" onClick={handleSubmit}>Join</button></Link>
         </form>
       </section>
     </div>

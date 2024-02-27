@@ -4,6 +4,7 @@ import Leaderboard from "./Leaderboard/Leaderboard";
 import Host from "./Host";
 import Join from "./Join";
 import Singleplayer from "./Play/Singleplayer";
+import JoinScreen from './JoinScreen';
 import React, { useEffect, useState } from 'react';
 import CreateErrorScreen from './Error/ErrorScreen';
 import getErrorMessage from './Error/ErrorHandling';
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/host" element={<Host />} />
                 <Route path="/join" element={<Join />} />
                 <Route path="/singleplayer" element={<Singleplayer errorHandler={async (error : any) => await setErrorScreen(error)}/>} />
+                <Route path="/joinscreen" element={<JoinScreen />} />
             </Routes>
         </div>
       );
