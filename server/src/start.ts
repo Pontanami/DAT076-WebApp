@@ -9,6 +9,7 @@ import { CourseService } from "./service/course";
 import { singlePlayerRouter } from "./router/singlePlayer";
 import { userService } from "./service/user";
 import { userRouter } from "./router/user";
+import { mpRouter } from "./router/multiplayer";
 
 export const app = express();
 
@@ -19,6 +20,7 @@ app.use("/player", playerRouter);
 app.use("/course", courseRouter);
 app.use("/singlePlayer", singlePlayerRouter);
 app.use("/user", userRouter)
+app.use("/multiPlayer", mpRouter)
 
 const courseService = CourseService.getInstance()
 const UserService = new userService()
