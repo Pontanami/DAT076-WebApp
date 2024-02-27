@@ -53,14 +53,4 @@ test("Game Test", async () =>{
     if(!game){
         return;
     }
-    /*
-    await sPService.sessionService.addQuestion(game.session.id, course1.code);
-    await sPService.sessionService.addQuestion(game.session.id, course2.code);
-    await sPService.sessionService.addQuestion(game.session.id, course3.code);
-
-    let players = await playerService.getPlayers();
-    await sPService.sessionService.checkAnswer(course1.code, course2.code, game.player.id);
-    let playertest = await playerService.getPlayer(game.player.id);
-    console.log("Player after (game)" + JSON.stringify(playertest));
-    */
 });

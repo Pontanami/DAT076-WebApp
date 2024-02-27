@@ -3,7 +3,7 @@ import { CourseService } from "./course";
 import { PlayerService } from "./player";
 import { singlePlayerService } from "./singlePlayer";
 
-test("If a player is created it should be in the list of players", async () => {
+test("The questions in a singleplayergame shifts on step every time the user answers", async () => {
     let courseService = new CourseService();
     let SinglePlayerService = new singlePlayerService()
     let playerService =  PlayerService.getInstance();

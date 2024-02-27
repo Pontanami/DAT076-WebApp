@@ -1,16 +1,22 @@
 import { Player } from "../model/player";
 
-export interface IPLayerService{
+export interface IPLayerService {
 
-getPlayers() : Promise<Player[]>;
+    // getPlayers returns a list of all players
+    getPlayers(): Promise<Player[]>;
 
-getPlayer(id: number) : Promise<Player>;
+    // getPlayer returns a player with the given id
+    getPlayer(id: number): Promise<Player>;
 
-getPlayerByName(name: string) : Promise<Player | undefined>;
+    // getPlayerByName returns a player with the given name
+    getPlayerByName(name: string): Promise<Player | undefined>;
 
-createPlayer(id: number,name: string): Promise<Player>;
+    // createPlayer creates a new player with the given name and id
+    createPlayer(id: number,name: string): Promise<Player>;
 
-updatePlayerScore(id: number) : Promise<Player | undefined>;
+    // updatePlayerScore updates the score of the player with the given id
+    updatePlayerScore(id: number): Promise<Player | undefined>;
 
-resetPlayerScore(id: number) : Promise<Player | undefined>;
+    // resetPlayerScore resets the score of the player with the given id
+    resetPlayerScore(id: number): Promise<Player | undefined>;
 }
