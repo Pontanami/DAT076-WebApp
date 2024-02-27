@@ -7,6 +7,8 @@ import cors from "cors";
 import { json } from "stream/consumers";
 import { CourseService } from "./service/course";
 import { singlePlayerRouter } from "./router/singlePlayer";
+import { userService } from "./service/user";
+import { userRouter } from "./router/user";
 
 export const app = express();
 
@@ -16,9 +18,10 @@ app.use("/leaderboard", leaderboardRouter);
 app.use("/player", playerRouter);
 app.use("/course", courseRouter);
 app.use("/singlePlayer", singlePlayerRouter);
+app.use("/user", userRouter)
 
 const courseService = CourseService.getInstance()
-const playerService = PlayerService.getInstance()
+const UserService = new userService()
 
 const url = "https://stats.ftek.se/courses?items=100"
         var XMLHttpRequest = require('xhr2');
@@ -63,7 +66,7 @@ const url = "https://stats.ftek.se/courses?items=100"
                     }
                 });
                 //console.log("Finished with adding tasks")
-                let player = await playerService.createPlayer("test")
-                console.log(JSON.stringify(player))
+                //let player = await UserService.createUser("test", "test")
+                //console.log(JSON.stringify(player))
             }
         }

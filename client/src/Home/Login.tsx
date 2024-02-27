@@ -11,50 +11,51 @@ enum DisplayLogin {
     LOGINSCREEN
 }
 
-function Login({errorHandler} : {errorHandler: (error : any) => void}) {
+function Login({ errorHandler }: { errorHandler: (error: any) => void }) {
     const [displayScreen, setDisplayScreen] = useState<DisplayLogin>(DisplayLogin.BUTTON)
 
     useEffect(() => {
         setDisplayScreen(DisplayLogin.BUTTON)
     }, []);
 
-    async function createPlayer(name: string, password : string) {
-        try{
-            const response = await axios.post<Player>('http://localhost:8080/player', {
-                name : name
+    async function createUser(name: string, password: string) {
+        try {
+            const response = await axios.post<[number, string]>('http://localhost:8080/user/signup', {
+                username: name,
+                password: password
             });
             console.log("Success Create")
-            setCurrentPlayer(response);
-        }catch(error : any){
+            setCurrentUser(response);
+        } catch (error: any) {
             errorHandler(error)
         }
     }
 
-    async function loginPlayer(name: string, password : string){
-        try{
-            const response = await axios.get<Player>("http://localhost:8080/player/name/" + name)
+    async function loginUser(name: string, password: string) {
+        try {
+            const response = await axios.get<[number, string]>(`http://localhost:8080/user/login/?username=${name}&password=${password}`)
             console.log("Success Login")
-            setCurrentPlayer(response);
-        }catch(error : any){
+            setCurrentUser(response);
+        } catch (error: any) {
             errorHandler(error)
         }
     }
 
-    function setCurrentPlayer(response: AxiosResponse<Player, any>) {
-        let playerId = response.data.id;
-        let playerName = response.data.name;
-        CurrentUser.setActivePlayer(playerId, playerName);
+    function setCurrentUser(response: AxiosResponse<[number, string], any>) {
+        let playerId = response.data[0];
+        let playerName = response.data[1];
+        CurrentUser.setActiveUser(playerId, playerName);
         console.log(`Active user's name is ${CurrentUser.getName()}`)
     }
 
-    
+
     const profile = require("../Image/profile.png");
     switch (displayScreen) {
         case DisplayLogin.BUTTON:
             return (
                 <button className='login' onClick={async () =>
                     setDisplayScreen(DisplayLogin.LOGINSCREEN)
-                }><img src={profile} alt='' style={{width: "3rem"}}/></button>
+                }><img src={profile} alt='' style={{ width: "3rem" }} /></button>
             )
         case DisplayLogin.LOGINSCREEN:
             return (
@@ -68,18 +69,18 @@ function Login({errorHandler} : {errorHandler: (error : any) => void}) {
                         <input id="passwordBox" type="text" placeholder='Enter password' />
                         <button onClick={
                             async () => {
-                                AccountAction(async (name : string, password : string) => await loginPlayer(name, password));
+                                AccountAction(async (name: string, password: string) => await loginUser(name, password));
                             }}>Login</button>
                         <button onClick={
                             async () => {
-                                AccountAction(async (name : string, password : string) => await createPlayer(name, password));
+                                AccountAction(async (name: string, password: string) => await createUser(name, password));
                             }}>CreatePlayer</button>
                     </div>
                 </div>
             )
     }
 
-    function AccountAction(action: (name : string, password : string) => void) {
+    function AccountAction(action: (name: string, password: string) => void) {
         const userName = (document.getElementById('nameBox') as HTMLInputElement).value;
         const userPassWord = (document.getElementById('passwordBox') as HTMLInputElement).value;
         action(userName, userPassWord);
