@@ -33,22 +33,24 @@ playerRouter.get("/:id", async (
 });
 
 playerRouter.post("/", async (
-    req: Request<{}, {}, {name : string}>,
+    req: Request<{}, {}, {id : string, name : string}>,
     res: Response<Player | string>
 ) => {
     try {
-        const name = req.body.name;
-        if(typeof(name) !== "string"){
-            res.status(400).send(`Bad POST call to ${req.originalUrl} --- Name type doesn't match, Name has type ${typeof(name)}`);
+        const id = req.body.id;
+        const name = req.body.name
+        if(typeof(id) !== "number" || typeof(name) !== "string"){
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- Name or Id type doesn't match, Name has type ${typeof(name)} and Id has type ${typeof(id)}`);
             return;
         }
-        const player = await playerService.createPlayer(name);
+        const player = await playerService.createPlayer(id, name);
         res.status(201).send(player);
     } catch (e: any) {
         res.status(500).send(e.message);
     }
 });
 
+//Borde nog tas bort
 playerRouter.get("/name/:name", async (
     req: Request<{name : string}, {}, {}>,
     res: Response<Player | string>

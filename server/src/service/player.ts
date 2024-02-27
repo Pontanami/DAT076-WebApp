@@ -2,7 +2,6 @@ import {Player} from "../model/player";
 
 export class PlayerService{
     players : Player[] = [];
-    playerId = 1;
 
     private static instance : PlayerService;
 
@@ -15,13 +14,12 @@ export class PlayerService{
         return PlayerService.instance;
     }
 
-    async createPlayer(name: string): Promise<Player>{
+    async createPlayer(id : number,name: string): Promise<Player>{
         let newPlayer : Player = {
-            id :this.playerId,
+            id :id,
             name: name,
             score : 0
         }
-        this.playerId += 1;
         this.players.push(newPlayer)
         return newPlayer;
     }

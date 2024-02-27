@@ -48,6 +48,22 @@ function PlayScreen({courseList, gameId, nextRound, errorHandler, setGameOver}
             };
     }, [timer]);
 
+    useEffect(() =>{
+        createPlayer()
+    }, [])
+
+    function createPlayer(){
+        try{
+             axios.post('http://localhost:8080/player', {
+                    id: CurrentUser.getId(),
+                    name : CurrentUser.getName()
+                    
+                });
+        }catch(error : any){
+            errorHandler(error);
+        }
+    }
+
     async function handleGameOver() {
         setTimer(0);
         setGameOver();

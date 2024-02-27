@@ -42,18 +42,22 @@ export class LeaderboardService implements ILeaderboardService{
     async updatePlayerInLeaderboard(id : number, score: number) : Promise<Player[]>{
         const pm = await playerModel;
         let player: Player|null = await pm.findOne({id: id});
+        console.log("Score is: " + score)
+        console.log("PlayerScore is: " + player?.score)
 
         if(!player)
             throw new Error("Player is not yet on the leaderboard");
             
-        else if (score > player.score)
-            player.score = score;
+        else if (score > player.score){
             console.log("Updating player: " + JSON.stringify(player));
             await pm.updateOne({
                 id: id
             }, {
                 score: score
             });
+        }
+            //player.score = score;
+            
 
         return this.getPlayerEntries();
     }

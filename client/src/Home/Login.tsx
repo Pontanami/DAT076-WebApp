@@ -33,7 +33,10 @@ function Login({ errorHandler }: { errorHandler: (error: any) => void }) {
 
     async function loginUser(name: string, password: string) {
         try {
-            const response = await axios.get<[number, string]>(`http://localhost:8080/user/login/?username=${name}&password=${password}`)
+            const response = await axios.post<[number, string]>("http://localhost:8080/user/login/", {
+                username : name,
+                password : password
+            })
             console.log("Success Login")
             setCurrentUser(response);
         } catch (error: any) {

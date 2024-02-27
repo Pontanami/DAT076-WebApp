@@ -41,14 +41,13 @@ userRouter.post("/signup", async(
 
 
 //TODO: Ändra till en POST för den ändrar servern
-userRouter.get("/login", async (
-    req: Request<{username : string, password : string}, {}, {}>,
+userRouter.post("/login", async (
+    req: Request<{}, {}, {username : string, password : string}>,
     res: Response<[number,string] | string>
 ) => {
     try {
-        console.log("hello")
-        const uname = req.query.username?.toString();
-        const password = req.query.password?.toString();
+        const uname = req.body.username.toString();
+        const password = req.body.password.toString();
 
         if(!uname || !password){
             res.status(400).send(`Bad Get call to ${req.originalUrl} --- missing id param`);
