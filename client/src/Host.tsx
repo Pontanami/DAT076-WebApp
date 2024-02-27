@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './host.css';
 import { Link } from 'react-router-dom';
 import back from './Image/back.svg';
 import CurrentUser from './CurrentUser';
 import axios from 'axios';
 import errorHandler from './Error/ErrorHandling';
+import { SocketIO } from './socket';
+import { io } from 'socket.io-client';
+
+const socket = io("http://localhost:8080");
 
 function Host() {
     const [gamePin, setGamePin] = useState<number>();
+
     async function createGame (){
       try {
         const gamePin = await axios.post("http://localhost:8080/multiPlayer", {
@@ -18,6 +23,11 @@ function Host() {
           errorHandler(error)
       }
     }
+
+    useEffect(() => {
+      socket.emit('connection');
+  }, []);
+
   return (
     <div className="Host">
         <Link to="/"><img alt=''src={back} style={{width: "3rem"}}/></Link>

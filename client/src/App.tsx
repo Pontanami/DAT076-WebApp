@@ -8,6 +8,7 @@ import JoinScreen from './JoinScreen';
 import React, { useEffect, useState } from 'react';
 import CreateErrorScreen from './Error/ErrorScreen';
 import getErrorMessage from './Error/ErrorHandling';
+import { io } from "socket.io-client";
 
 enum Screens{
   NOERROR,
@@ -17,6 +18,13 @@ enum Screens{
 function App() {
   const [screenState, setScreenState] = useState<Screens>(Screens.NOERROR);
   const [errorMessage, setErrorMessage] = useState<string>("");
+
+  useEffect(() => {
+    const socket = io("http://localhost:8080", {
+      transports: ['websocket']
+    });
+}, []);
+
 
   switch(screenState){
     case Screens.NOERROR:

@@ -2,7 +2,6 @@ import { multiPlayer } from "../model/multiPlayer"
 import { Player } from "../model/player";
 import { PlayerService } from "./player";
 import { GameService } from "./game";
-import { promises } from "dns";
 
 export class multiPlayerService{
 

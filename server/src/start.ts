@@ -2,17 +2,19 @@ import express from "express";
 import { leaderboardRouter } from "./router/leaderboard";
 import { playerRouter } from "./router/player";
 import { courseRouter } from "./router/course";
-import { PlayerService } from "./service/player";
 import cors from "cors";
-import { json } from "stream/consumers";
 import { CourseService } from "./service/course";
 import { singlePlayerRouter } from "./router/singlePlayer";
 import { userService } from "./service/user";
 import { userRouter } from "./router/user";
 import { mpRouter } from "./router/multiplayer";
+import { Server } from 'socket.io';
+
+
+
+
 
 export const app = express();
-
 app.use(express.json());
 app.use(cors());
 app.use("/leaderboard", leaderboardRouter);
@@ -22,6 +24,29 @@ app.use("/singlePlayer", singlePlayerRouter);
 app.use("/user", userRouter)
 app.use("/multiPlayer", mpRouter)
 
+const http = require('http');
+export const server = http.createServer(app);
+const io = new Server(server, {
+    cors : {
+        origin: "http://localhost:3000"
+    }
+});
+
+//server.listen(process.env.PORT || 3000, () => console.log(`Server has started`))
+
+io.engine.on("connection_error", (err) => {
+    console.log(err.req);      // the request object
+    console.log(err.code);     // the error code, for example 1
+    console.log(err.message);  // the error message, for example "Session ID unknown"
+    console.log(err.context);  // some additional error context
+  });
+
+io.on('connection', () => {
+    console.log("Connection oejafjas")
+});
+
+
+//TODO: Borde bryta ut
 const courseService = CourseService.getInstance()
 const UserService = new userService()
 
@@ -70,3 +95,4 @@ const url = "https://stats.ftek.se/courses?items=100"
                 //console.log(JSON.stringify(player))
             }
         }
+
