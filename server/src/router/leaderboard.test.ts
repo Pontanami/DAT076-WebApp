@@ -25,12 +25,16 @@ test("End-to-end test", async () => {
     expect(response3.body.map((player: Player) => player.id)).toContain (player.id)
     expect(response3.status).toBe(200);
     expect(response3.body.map((player: Player) => player.score)).toContain(11)
-    //should have updated score
+});
 
+test("A post to /leaderboard with a non-number id should return 400", async () => {
+    const response = await request.post("/leaderboard").send({
+        id: "test",
+    });
+    expect(response.status).toBe(400);
+});
 
-    /*
-    const response2 = await request.get("/leaderboard/players");
-    expect(response2.status).toBe(200);
-    expect(response2.body.map((player: Player) => player.id)).toContain (player.id);
-    */
+test ("A get to /leaderboard/players should return 200", async () => {
+    const response = await request.get("/leaderboard/players");
+    expect(response.status).toBe(200);
 });

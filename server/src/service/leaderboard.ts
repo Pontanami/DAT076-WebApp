@@ -1,4 +1,3 @@
-import { Leaderboard } from "../model/leaderboard";
 import { Player } from "../model/player";
 import { PlayerService } from "./player";
 import { ILeaderboardService } from "./ILeaderboardService";

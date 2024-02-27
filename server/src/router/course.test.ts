@@ -31,3 +31,16 @@ test("Check answer test", async () => {
     expect(response3.body).toBe(false);
     
 });
+
+test("A Get to /course should return 200", async () => {
+    const response = await request.get("/course");
+    expect(response.status).toBe(200);
+});
+
+test("A post to /answer with a non-string codeClicked should return 400", async () => {
+    const response = await request.post("/course/answer").send({
+        codeClicked: 1,
+        otherCode: "DFG456"
+    });
+    expect(response.status).toBe(400);
+});

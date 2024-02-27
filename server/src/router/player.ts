@@ -51,6 +51,7 @@ playerRouter.post("/", async (
 });
 
 //Borde nog tas bort
+/*
 playerRouter.get("/name/:name", async (
     req: Request<{name : string}, {}, {}>,
     res: Response<Player | string>
@@ -73,3 +74,4 @@ playerRouter.get("/name/:name", async (
         res.status(500).send(e.message);
     }
 });
+*/

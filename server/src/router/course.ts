@@ -44,9 +44,12 @@ courseRouter.post("/answer", async (
     try {
     const cs = CourseService.getInstance();
     const request = req.body;
-    console.log(request.codeClicked, request.otherCode)
         if (!request.codeClicked || !request.otherCode) {
             res.status(400).send(`Bad POST call to ${req.originalUrl} --- missing codeClicked or otherCode. codeClicked: ${request.codeClicked}, otherCode: ${request.otherCode}`);
+            return;
+        }
+        if (typeof(request.codeClicked) !== "string" || typeof(request.otherCode) !== "string") {
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- codeClicked or otherCode is of wrong type. codeClicked: ${typeof request.codeClicked}, otherCode: ${typeof request.otherCode}`);
             return;
         }
         const answer = await cs.checkAnswer(request.codeClicked, request.otherCode);
