@@ -8,7 +8,7 @@ test("The questions in a singleplayergame shifts on step every time the user ans
     let SinglePlayerService = new singlePlayerService()
     let playerService =  PlayerService.getInstance();
 
-    let player = await playerService.createPlayer("Jon")
+    let player = await playerService.createPlayer(99,"Jon")
 
     let course1: Course = await courseService.createCourse("ABC123", "test1", 50);
     let course2: Course = await courseService.createCourse("ABC124", "test2", 50);

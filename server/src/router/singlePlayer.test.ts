@@ -12,7 +12,7 @@ const request = SuperTest.default(app);
 test("Check post session test", async () => {
 
     let playerService = PlayerService.getInstance()
-    let player = await playerService.createPlayer("test")
+    let player = await playerService.createPlayer(50,"test")
     let SinglePlayerService = new singlePlayerService()
 
     const response1 = await request.post("/singlePlayer").send({

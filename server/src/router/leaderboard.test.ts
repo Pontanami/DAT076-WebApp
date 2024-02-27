@@ -8,7 +8,7 @@ jest.mock("../db/conn.ts");
 
 test("End-to-end test", async () => {
     let playerService = PlayerService.getInstance();
-    let player = await playerService.createPlayer("test6")
+    let player = await playerService.createPlayer(66,"test66")
     const response1 = await request.post("/leaderboard").send({
         id: player.id,
     });
