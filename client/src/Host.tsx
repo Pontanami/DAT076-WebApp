@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './host.css';
 import { Link } from 'react-router-dom';
 import back from './Image/back.svg';
@@ -8,21 +8,29 @@ import errorHandler from './Error/ErrorHandling';
 
 function Host() {
     const [gamePin, setGamePin] = useState<number>();
-    async function createGame (){
-      try {
-        const gamePin = await axios.post("http://localhost:8080/multiPlayer", {
-          hostId: CurrentUser.getId()
-        })
-        setGamePin(gamePin.data);
-      } catch (error: any) {
-          errorHandler(error)
+    useEffect(() => {
+      // Initialize ketLines with three elements when the component mounts
+      async function createGame (){
+        try {
+          const gamePin = await axios.post("http://localhost:8080/multiPlayer", {
+            hostId: CurrentUser.getId()
+          })
+          setGamePin(gamePin.data);
+          return gamePin.data;
+        } catch (error: any) {
+            errorHandler(error)
+        }
       }
-    }
+      createGame();
+    }, []); 
+    
   return (
     <div className="Host">
         <Link to="/"><img alt=''src={back} style={{width: "3rem"}}/></Link>
-        <button onClick={createGame}>Create Game</button>
-        <h2>Game PIN: {gamePin}</h2>
+        <section className='host-container'>
+          <h2>Game PIN:</h2>
+          <h1>{gamePin}</h1>
+        </section>
     </div>
   );
 }
