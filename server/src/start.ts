@@ -41,9 +41,12 @@ io.engine.on("connection_error", (err) => {
     console.log(err.context);  // some additional error context
   });
 
-io.on('connection', () => {
-    console.log("Connection oejafjas")
+io.on('connection', (socket) => {
+    socket.on('room', (gamePin)=>{;
+        console.log("Roooommmm: " + gamePin.data)
+    })
 });
+
 
 
 //TODO: Borde bryta ut

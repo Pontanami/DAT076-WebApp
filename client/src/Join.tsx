@@ -3,6 +3,9 @@ import './join.css';
 import { Link } from 'react-router-dom';
 import back from './Image/back.svg';
 import axios from 'axios';
+import { io } from 'socket.io-client';
+
+const socket = io("http://localhost:8080");
 
 function Join() {
   // State variable to store the entered PIN
@@ -15,6 +18,9 @@ function Join() {
     //;
     // Clear the input field
     setPin('');
+
+    
+    //Emit user has been added
   }
 
   // Function to handle PIN submission

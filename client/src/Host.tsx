@@ -5,7 +5,6 @@ import back from './Image/back.svg';
 import CurrentUser from './CurrentUser';
 import axios from 'axios';
 import errorHandler from './Error/ErrorHandling';
-import { SocketIO } from './socket';
 import { io } from 'socket.io-client';
 
 const socket = io("http://localhost:8080");
