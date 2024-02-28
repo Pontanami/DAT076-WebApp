@@ -5,12 +5,12 @@ import back from './Image/back.svg';
 import CurrentUser from './CurrentUser';
 import axios from 'axios';
 import errorHandler from './Error/ErrorHandling';
-import { io } from 'socket.io-client';
+import { socket } from './socket';
 
-const socket = io("http://localhost:8080");
+
 
 function Host() {
-    const [gamePin, setGamePin] = useState<number>();
+    const [gamePin, setGamePin] = useState('');
     useEffect(() => {
       // Initialize ketLines with three elements when the component mounts
       async function createGame (){
@@ -18,14 +18,22 @@ function Host() {
           const gamePin = await axios.post("http://localhost:8080/multiPlayer", {
             hostId: CurrentUser.getId()
           })
-          setGamePin(gamePin.data);
-          socket.emit('room', gamePin)
+          //TODO: Denna kan behöva skrivas om lite, kanske sus att converta till en string. Göra det i Router?
+          let stringPin = gamePin.data.toString()
+          setGamePin(stringPin);
+          socket.emit("join_room", stringPin);
         } catch (error: any) {
             errorHandler(error)
         }
       }
       createGame();
     }, []); 
+
+    useEffect(() => {
+      socket.on('user_joined', () => {
+        console.log("User has been added")
+      });
+    }, [socket]);
     
   return (
     <div className="Host">

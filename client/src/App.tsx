@@ -5,11 +5,9 @@ import Host from "./Host";
 import Join from "./Join";
 import Singleplayer from "./Play/Singleplayer";
 import JoinScreen from './JoinScreen';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CreateErrorScreen from './Error/ErrorScreen';
 import getErrorMessage from './Error/ErrorHandling';
-import { io, Socket } from "socket.io-client";
-import {SocketIO} from "./socket"
 
 enum Screens{
   NOERROR,

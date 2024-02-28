@@ -4,28 +4,42 @@ import { Link } from 'react-router-dom';
 import back from './Image/back.svg';
 import axios from 'axios';
 import { io } from 'socket.io-client';
-
-const socket = io("http://localhost:8080");
+import { socket } from './socket';
 
 function Join() {
   // State variable to store the entered PIN
   const [pin, setPin] = useState('');
 
-  const handleSubmit = () => {
+  async function handleSubmit(){
     // Save the PIN in a variable (for demonstration purposes)
     const enteredPin = pin;
     console.log('Submitted PIN:', enteredPin);
     //;
     // Clear the input field
+    /*
+    try{
+      const join = await axios.post("http://localhost:8080/multiPlayer/addPlayer", {
+            gameId: pin,
+            playerId : 1
+          })
+        
+    }catch(e : any){
+
+    }*/
+    socket.emit("join_room", enteredPin);
+    socket.emit("alert_joined", enteredPin);
+
     setPin('');
 
+    //Emit event telling that the user has been added
     
+
     //Emit user has been added
   }
 
   // Function to handle PIN submission
   {/*async function handleSubmit() {
-    
+
     
     // TODO send PIN to server instead
     const response = await axios.post('http://localhost:8000/', {gamepin : pin})
@@ -35,6 +49,8 @@ function Join() {
 
     setPin('');
   }; */}
+
+
 
   return (
     <div className="Join">

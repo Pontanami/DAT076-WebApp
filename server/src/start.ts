@@ -42,9 +42,27 @@ io.engine.on("connection_error", (err) => {
   });
 
 io.on('connection', (socket) => {
-    socket.on('room', (gamePin)=>{;
+    /*socket.on('room', (gamePin)=>{;
         console.log("Roooommmm: " + gamePin.data)
+    })*/
+
+    socket.on("join_room", (gamePin) => {
+        console.log("Trying to join game: " + gamePin)
+        socket.join(gamePin);
+    });
+    
+    socket.on("alert_joined", (gamePin) => {
+        console.log("Alert join game: " + gamePin)
+        socket.to(gamePin).emit('user_joined')
     })
+
+    socket.on("next_question", (data) =>{
+        socket.to(data.room).emit("receive_update_call");
+    })
+
+    socket.on("joinroom", (data) => {
+        socket.to(data.room).emit("joined", data);
+      });
 });
 
 
