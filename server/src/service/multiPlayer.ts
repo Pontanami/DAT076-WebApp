@@ -30,19 +30,22 @@ export class multiPlayerService{
         throw new Error("Somehting went wrong when creating the session");
     }
 
-    async joinMultiPlayerGame(gameId : number, playerId : number) : Promise<multiPlayer>{
+    async joinMultiPlayerGame(gameId : number, playerId : number) : Promise<boolean>{
        
         let player = playerId
         let game = gameId
 
-        this.addPlayerToGame(game, player);
-       
-        throw new Error("Somehting went wrong when joining the session");
+        let success = await this.addPlayerToGame(game, player);
+        if(!success){
+            throw new Error("Somehting went wrong when joining the session");
+        }
+        return true
     }
 
+    //TODO: fixa gamePin för den är kaos nu, är sträng ibland och number ibland
     async addPlayerToGame(gameId : number, playerId: number): Promise<boolean>{
         let player = await this.playerService.getPlayer(playerId)
-        let game = this.mpGames.find(mpGame => mpGame.game.id === gameId);
+        let game = this.mpGames.find(mpGame => mpGame.pin === gameId.toString());
         if (!player) {
             throw new Error("Player Not found!");
         } else if (!game) {
@@ -53,15 +56,17 @@ export class multiPlayerService{
         //bool if adding succeeded
         return true;
     }
-
-    async getSessionPlayers(gameId : number): Promise<Player[] | undefined> {
-        let game = this.mpGames.find(mpGame => mpGame.game.id === gameId);
+    
+    //TODO: STRING! :( kolla alla typer 
+    async getPlayers(gameId : number): Promise<Player[] | undefined> {
+        let game = this.mpGames.find(mpGame => mpGame.pin === gameId.toString());
         if (!game) {
             throw new Error("Game not found!");
         }
         return JSON.parse(JSON.stringify(game.players));
     }
 
+    //TODO: Vi kan ändra denna till att inte returnera en string så slipper vi converta i react när vi vill skicka emit
     async createGamePin(): Promise<string> {
         let newPin : string = await this.generatePin();
         if (this.gamePins.includes(newPin)){

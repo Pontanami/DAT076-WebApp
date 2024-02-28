@@ -60,9 +60,10 @@ io.on('connection', (socket) => {
         socket.to(data.room).emit("receive_update_call");
     })
 
-    socket.on("joinroom", (data) => {
-        socket.to(data.room).emit("joined", data);
-      });
+    socket.on("start_game", (Pin) =>{
+        console.log("Notify StartGame for: ", Pin)
+        socket.to(Pin).emit('Starting')
+    })
 });
 
 

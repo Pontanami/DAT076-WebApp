@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { Player } from "../model/player";
 import { multiPlayerService } from "../service/multiPlayer";
 
 const mpService = new multiPlayerService();
@@ -24,7 +25,7 @@ mpRouter.post("/", async (
 
 mpRouter.post("/addPlayer", async (
     req: Request<{}, {}, {gameId : number, playerId : number}>,
-    res: Response<string>
+    res: Response<boolean|string>
 ) => {
     try {
         const gameId = req.body.gameId;
@@ -38,9 +39,37 @@ mpRouter.post("/addPlayer", async (
         }
 
         const mpGame = await mpService.joinMultiPlayerGame(gameId, playerId);
-        res.status(201).send(mpGame.pin);
+        res.status(201).send(mpGame);
     } catch (e: any) {
         res.status(500).send(e.message);
         console.log(e.message);
+    }
+});
+
+//TODO: Kolla på hur man gör ett sånt här interface
+interface FetchMpGamePlayers extends Request{
+    params : {id : string}
+}
+
+mpRouter.get("/:id", async (
+    req: Request<{id:string}, {}, {}>,
+    res: Response<Player[] | string>
+) => {
+    try {
+        if (req.params.id == null) {
+            res.status(400).send(`Bad PUT call to ${req.originalUrl} --- missing id param`);
+            return;
+        }
+        const gameId = parseInt(req.params.id, 10);
+        if (gameId < 0) {
+            res.status(400).send(`Bad PUT call to ${req.originalUrl} --- id must be a non-negative integer`);
+            return;
+        }
+        let players = await mpService.getPlayers(gameId)
+        res.status(200).send(players);
+    
+    } catch (e: any) {
+        console.log(e)
+        res.status(500).send(e.message);
     }
 });

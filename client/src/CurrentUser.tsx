@@ -3,29 +3,31 @@ var CurrentUser = (function () {
     var userId: number;
 
     var getName = function () {
-        const localStorageName = localStorage.getItem("activeUserName")
+        /*const localStorageName = localStorage.getItem("activeUserName")
         if(localStorageName){
             const name = JSON.parse(localStorageName)
             return name
         }
-        throw new Error("No Active User");
+        throw new Error("No Active User");*/
+        //window.sessionStorage.setItem("key", "value");
+        return userName
     };
 
     var getId = function () {
-        //return userId
-        const localStorageID = localStorage.getItem("activeUserID")
+        return userId
+        /*const localStorageID = localStorage.getItem("activeUserID")
         if(localStorageID){
             const id = JSON.parse(localStorageID)
             return id
         }
-        throw new Error("No Active User");
+        throw new Error("No Active User");*/
     }
 
     var setActiveUser = function (id: number, name: string) {
-        //userId = id
-        //userName = name;
-        localStorage.setItem("activeUserName", JSON.stringify(name))
-        localStorage.setItem("activeUserID", JSON.stringify(id))
+        userId = id
+        userName = name;
+        //localStorage.setItem("activeUserName", JSON.stringify(name))
+        //localStorage.setItem("activeUserID", JSON.stringify(id))
     }
 
     return {
