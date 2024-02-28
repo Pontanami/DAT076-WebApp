@@ -5,15 +5,15 @@ import { GameService } from "./game";
 
 export class multiPlayerService{
 
-    sessionService = new GameService();
+    gameService = new GameService();
     playerService = PlayerService.getInstance();
-    mpSession ?: multiPlayer 
+    mpGames : multiPlayer[] = []; 
     gamePins: string[] = [];
     
     async createMultiPlayerGame(hostId: number) : Promise<multiPlayer>{
        
         let host = hostId
-        let game = await this.sessionService.createGame()
+        let game = await this.gameService.createGame()
         let pin: string = await this.createGamePin();
         if(host && game){
             let newMultiSession = {
@@ -23,28 +23,43 @@ export class multiPlayerService{
                 pin : pin
             }
 
-            this.mpSession = newMultiSession;
+            this.mpGames.push(newMultiSession);
         
-            return JSON.parse(JSON.stringify(this.mpSession))
+            return JSON.parse(JSON.stringify(newMultiSession))
         }
         throw new Error("Somehting went wrong when creating the session");
     }
 
-    async addPlayerToSession(playerId: number): Promise<multiPlayer | undefined>{
-        let player = await this.playerService.getPlayer(playerId)
-        if (!player || !this.mpSession)
-            return undefined;
-        
-        this.mpSession?.players.push(player)
+    async joinMultiPlayerGame(gameId : number, playerId : number) : Promise<multiPlayer>{
+       
+        let player = playerId
+        let game = gameId
 
-        return this.mpSession;
+        this.addPlayerToGame(game, player);
+       
+        throw new Error("Somehting went wrong when joining the session");
     }
 
-    async getSessionPlayers(): Promise<Player[] | undefined> {
-        if(!this.mpSession)
-            return undefined;
+    async addPlayerToGame(gameId : number, playerId: number): Promise<boolean>{
+        let player = await this.playerService.getPlayer(playerId)
+        let game = this.mpGames.find(mpGame => mpGame.game.id === gameId);
+        if (!player) {
+            throw new Error("Player Not found!");
+        } else if (!game) {
+            throw new Error("Game not found!");
+        }
+        game.players.push(player);
+        
+        //bool if adding succeeded
+        return true;
+    }
 
-        return JSON.parse(JSON.stringify(this.mpSession.players));
+    async getSessionPlayers(gameId : number): Promise<Player[] | undefined> {
+        let game = this.mpGames.find(mpGame => mpGame.game.id === gameId);
+        if (!game) {
+            throw new Error("Game not found!");
+        }
+        return JSON.parse(JSON.stringify(game.players));
     }
 
     async createGamePin(): Promise<string> {
