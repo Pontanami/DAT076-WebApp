@@ -68,9 +68,9 @@ singlePlayerRouter.post("/", async (
         res.status(500).send(e.message);
     }
 })*/
-
+/*
 interface UpdateSPGameRequest extends Request{
-    body : {playerId : number, gameId : number}
+    body : {gameId : number}
 }
 
 singlePlayerRouter.post("/update", async(
@@ -78,15 +78,14 @@ singlePlayerRouter.post("/update", async(
     res: Response<[Course, Course] | string>
     ) => {
         try {
-            const playerId = req.body.playerId;
             const gameId = req.body.gameId;
-            if (typeof(playerId) !== "number" || typeof(gameId) !== "number") {
-                res.status(400).send(`Bad PUT call to ${req.originalUrl} --- playerId has type ${typeof(playerId)} and gameId has type ${typeof(gameId)}`);
+            if (typeof(gameId) !== "number") {
+                res.status(400).send(`Bad PUT call to ${req.originalUrl} --- gameId has type ${typeof(gameId)}`);
                 return;
             }
 
             let gameService = await SinglePlayerService.getGameService()
-            gameService.gameUpdate(playerId, gameId)
+            gameService.startNextRound(gameId)
             let sP = await SinglePlayerService.getSinglePlayerGame(gameId)
             res.status(200).send([sP.game.questions[0], sP.game.questions[1]]);
         
@@ -95,6 +94,7 @@ singlePlayerRouter.post("/update", async(
             res.status(500).send(e.message);
         }
     });
+    */
 /*
 singlePlayerRouter.post("/update", async(
     req: Request<{}, {}, {playerId: number, gameId: number}>,
@@ -119,7 +119,7 @@ singlePlayerRouter.post("/update", async(
         }
     });
 */
-
+/*
 interface FetchSPQuestionsRequest extends Request{
     params : {id : string}
 }
@@ -148,7 +148,7 @@ singlePlayerRouter.get("/:id", async (
         console.log(e)
         res.status(500).send(e.message);
     }
-});
+});*/
 /*
 singlePlayerRouter.get("/:id", async (
     req: Request<{id : string}, {}, {}>,

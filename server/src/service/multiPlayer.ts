@@ -5,7 +5,7 @@ import { GameService } from "./game";
 
 export class multiPlayerService{
 
-    gameService = new GameService();
+    gameService = GameService.getInstance();
     playerService = PlayerService.getInstance();
     mpGames : multiPlayer[] = []; 
     gamePins: string[] = [];

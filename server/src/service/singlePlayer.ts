@@ -5,7 +5,7 @@ import { PlayerService } from "./player";
 export class singlePlayerService {
   private singlePlayerGames: singlePlayer[] = [];
 
-  private gameService = new GameService();
+  private gameService = GameService.getInstance();
   private playerService = PlayerService.getInstance();
 
   async createSinglePlayerGame(playerId: number): Promise<number> {

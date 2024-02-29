@@ -25,10 +25,11 @@ export class PlayerService implements IPLayerService{
         return newPlayer;
     }
 
-    async updatePlayerScore(id: number) : Promise<Player | undefined>{
+    async updatePlayerScore(id: number) : Promise<Player>{
         let player = await this.getPlayer(id);    
         if(!player)
-            return;
+            throw new Error("Player does not exist");
+            ;
 
         player.score+=1;
         return player;

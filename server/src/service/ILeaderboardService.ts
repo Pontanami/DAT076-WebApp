@@ -1,4 +1,3 @@
-import { Leaderboard } from "../model/leaderboard";
 import { Player } from "../model/player";
 
 export interface ILeaderboardService {

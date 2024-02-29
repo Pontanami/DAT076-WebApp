@@ -8,6 +8,7 @@ import JoinScreen from './JoinScreen';
 import { useState } from 'react';
 import CreateErrorScreen from './Error/ErrorScreen';
 import getErrorMessage from './Error/ErrorHandling';
+import MultiPlayer from './Play/MultiPlayer';
 
 enum Screens{
   NOERROR,
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/join" element={<Join />} />
                 <Route path="/singleplayer" element={<Singleplayer errorHandler={async (error : any) => await setErrorScreen(error)}/>} />
                 <Route path="/joinscreen" element={<JoinScreen />} />
+                <Route path="/multiplayer" element={<MultiPlayer errorHandler={async (error : any) => await setErrorScreen(error)} />} />
             </Routes>
         </div>
       );

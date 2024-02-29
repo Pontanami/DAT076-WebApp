@@ -5,26 +5,27 @@ import axios from 'axios';
 import CurrentUser from '../CurrentUser';
 
 
-function PlayScreen({courseList, gameId, nextRound, errorHandler, setGameOver} 
-    : {courseList: [Course, Course], gameId : number,nextRound: () => void, errorHandler: (error : any) => void, setGameOver : () => void}) {
+function PlayScreen({courseList, handleCorrectGuess, errorHandler, handleWrongGuess} 
+    : {courseList: [Course, Course],handleCorrectGuess: () => void, errorHandler: (error : any) => void, handleWrongGuess : () => void}) {
     const [score, setScore] = useState<number>(0);
     const [timer, setTimer] = useState<number>(10);
     const [isPlaying, setIsPlaying] = useState<boolean>(true)
 
-    async function updateScore() {
+    /*
+    async function updateScore() {   
+        
         try{
-            await axios.post('http://localhost:8080/singlePlayer/update', {
-                    playerId: CurrentUser.getId(),
+            await axios.post('http://localhost:8080/game/update', {
                     gameId: gameId,
                 });
         }catch(error : any){
             errorHandler(error);
-        }
-        
+        } 
         incrementScore();
     }
+    */
 
-    const incrementScore = () => {
+    async function incrementScore() {
         console.log("Incrementing score")
         setScore(score + 1);
     }
@@ -48,6 +49,10 @@ function PlayScreen({courseList, gameId, nextRound, errorHandler, setGameOver}
             };
     }, [timer]);
 
+    useEffect(() => {
+        setTimer(10)
+    }, [courseList])
+    /*
     useEffect(() =>{
         createPlayer()
     }, [])
@@ -63,18 +68,18 @@ function PlayScreen({courseList, gameId, nextRound, errorHandler, setGameOver}
             errorHandler(error);
         }
     }
+    */
 
     async function handleGameOver() {
         setTimer(0);
-        setGameOver();
+        handleWrongGuess();
     }
 
     async function startNextRound(){
-        await updateScore();
+        await incrementScore();
         setTimeout(async function(){
-        setTimer(10)
         setIsPlaying(true)
-        nextRound()
+        handleCorrectGuess()
         }, 1000);
     }
 

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Course from '../ICourse';
 import React, { useEffect, useState } from 'react';
+import CurrentUser from '../CurrentUser';
 
 
 function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stopTimer }
@@ -73,7 +74,8 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
             console.log("Other course: " + otherCourse);
             const answer = await axios.post('http://localhost:8080/course/answer', {
                 codeClicked: course.code,
-                otherCode: otherCourse
+                otherCode: otherCourse, 
+                playerId: CurrentUser.getId()
             });
             return answer;
         }

@@ -1,28 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import './singleplayer.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import axios from 'axios';
-import DisplayCourses from './DisplatCourse';
-import Course from '../ICourse';
-import CurrentUser from '../CurrentUser';
-
-import Gameover from './Gameover';
-import PlayScreen from './PlayScreen';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import CurrentUser from "../CurrentUser";
+import Course from "../ICourse";
+import { socket } from "../socket";
+import Gameover from "./Gameover";
+import PlayScreen from "./PlayScreen";
 
 enum PlayScreens {
     PLAYING,
+    CORRECTANSWER,
+    WRONGANSWER,
     GAMEOVER
 }
 
-//Ta bort sen
-let gameId = 0;
-//let playerId = 1;
-
-function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
-
+function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
     const [courseList, setCourseList] = useState<[Course, Course]>([{ code: "Abc", name: "placeholder", failrate: 1 }, { code: "Abc", name: "placeholder", failrate: 2 }]);
     const [playState, setPlayState] = useState<PlayScreens>(PlayScreens.PLAYING);
 
+    /*
     async function startNextRound(){
         try{
             const response = await axios.post('http://localhost:8080/game/update', {
@@ -33,7 +28,7 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
             errorHandler(error)
         }
 
-    }
+    }*/
 
     async function updateDisplayedCourses(response: { data: [Course, Course]; }){
         const newCourse: [Course, Course] = response.data;
@@ -52,28 +47,16 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
                 })
             console.log("Player added to leaderboard")
             setPlayState(PlayScreens.GAMEOVER);
-            console.log("Wrong answer")
             }
             catch(error: any){
                 errorHandler(error)
             }
     }
 
-    async function initGame() {
+    async function fetchCurrentQuestions(gameId : number) {
         try {
-            await axios.post('http://localhost:8080/player', {
-                    id: CurrentUser.getId(),
-                    name : CurrentUser.getName()
-                    
-                });
-
-            const response1 = await axios.post<number>('http://localhost:8080/singleplayer', {
-                playerId: CurrentUser.getId()
-            });
-
-            gameId = response1.data
-            console.log(gameId)
-
+            setPlayState(PlayScreens.PLAYING)
+            console.log("Client gameID is: " + gameId)
             const response = await axios.get<[Course, Course]>("http://localhost:8080/game/" + gameId)
             updateDisplayedCourses(response)
 
@@ -82,23 +65,62 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
         }
     }
 
+    async function displayCorrectAnswer(){
+        setPlayState(PlayScreens.CORRECTANSWER)
+    }
+
+    //We need to check if we are on the "CorrectAnswerScreen" otherwise if the timer is 0 
+    async function displayWrongAnswer(){
+        if(playState != PlayScreens.CORRECTANSWER){
+            setPlayState(PlayScreens.WRONGANSWER)
+        }
+    }
+    /*
     useEffect(() => {
-        console.log("Setting up game")
-        initGame();
-    }, []);
+        fetchCurrentQuestions(1)
+    }, [])*/
+
+    useEffect(() => {
+        socket.on('new_round_started', (gameId) => {
+            console.log("Updating displayed Questions, id: " + gameId)
+            fetchCurrentQuestions(gameId)
+          });
+
+          socket.on('game_over', () =>{
+              setGameOver()
+              console.log("Calling MPGameOver")
+          })
+    }, [socket])
 
     switch (playState) {
         case PlayScreens.PLAYING:
             return <PlayScreen
                 courseList={courseList}
-                handleCorrectGuess = {async () => await startNextRound()}
+                handleCorrectGuess = {async () => await displayCorrectAnswer()}
                 errorHandler = {(error : any) => errorHandler(error)}
-                handleWrongGuess = {async () => await setGameOver()}
+                handleWrongGuess = {async () => await displayWrongAnswer()}
             />
+
+        case PlayScreens.CORRECTANSWER:
+            return (
+                <div>
+                    <p>Answer is correct</p>
+                    <p>Waiting for host to start the next round</p>
+                </div>
+            )
+
+            case PlayScreens.WRONGANSWER:
+                return (
+                    <div>
+                        <p>Answer is incorrect</p>
+                        <p>Waiting for host to start the next round</p>
+                    </div>
+                )
 
         case PlayScreens.GAMEOVER:
             return <Gameover/>
     }
+
 }
 
-export default Singleplayer
+export default MultiPlayer

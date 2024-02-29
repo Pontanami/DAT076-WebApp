@@ -9,6 +9,7 @@ import { userService } from "./service/user";
 import { userRouter } from "./router/user";
 import { mpRouter } from "./router/multiplayer";
 import { Server } from 'socket.io';
+import { gameRouter } from "./router/game";
 
 
 
@@ -23,6 +24,7 @@ app.use("/course", courseRouter);
 app.use("/singlePlayer", singlePlayerRouter);
 app.use("/user", userRouter)
 app.use("/multiPlayer", mpRouter)
+app.use("/game", gameRouter)
 
 const http = require('http');
 export const server = http.createServer(app);
@@ -56,13 +58,20 @@ io.on('connection', (socket) => {
         socket.to(gamePin).emit('user_joined')
     })
 
-    socket.on("next_question", (data) =>{
-        socket.to(data.room).emit("receive_update_call");
+    socket.on("start_game", (data) =>{
+        console.log(`Notify fetchRound for: ${data.gamePin} and gameId: ${data.gameId}`)
+        socket.to(data.gamePin).emit("starting")
+        socket.to(data.gamePin).emit("new_round_started", data.gameId);
     })
 
-    socket.on("start_game", (Pin) =>{
-        console.log("Notify StartGame for: ", Pin)
-        socket.to(Pin).emit('Starting')
+    socket.on("new_round", (data) =>{
+        console.log(`Notify fetchRound for: ${data.gamePin} and gameId: ${data.gameId}`)
+        socket.to(data.gamePin).emit("new_round_started", data.gameId);
+    })
+
+    socket.on("end_game", (gamePin) =>{
+        console.log(`Notify endGame for: ${gamePin}`)
+        socket.to(gamePin).emit("game_over");
     })
 });
 

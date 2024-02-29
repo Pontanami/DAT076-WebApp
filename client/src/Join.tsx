@@ -59,9 +59,9 @@ function Join() {
   }, [])
 
   useEffect(() => {
-    socket.on("Starting", () => {
+    socket.on("starting", () => {
       console.log("Time to staaaaaart!!!")
-      navigate("/");
+      navigate("/multiplayer");
     })
   }, [socket])
 

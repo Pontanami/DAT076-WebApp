@@ -3,12 +3,12 @@ import { CourseService } from "./course";
 import { PlayerService } from "./player";
 import { singlePlayerService } from "./singlePlayer";
 
-test("The questions in a singleplayergame shifts on step every time the user answers", async () => {
+test("If we start a new round, the questions should be shifted one step", async () => {
     let courseService = new CourseService();
     let SinglePlayerService = new singlePlayerService()
     let playerService =  PlayerService.getInstance();
 
-    let player = await playerService.createPlayer(99,"Jon")
+    let player = await playerService.createPlayer(1,"Jon")
 
     let course1: Course = await courseService.createCourse("ABC123", "test1", 50);
     let course2: Course = await courseService.createCourse("ABC124", "test2", 50);
@@ -23,11 +23,11 @@ test("The questions in a singleplayergame shifts on step every time the user ans
     let currentquestions : [Course, Course] = await gameService.getCurrentQuestions(SpGameId)
 
     expect(currentquestions).toEqual([questions[0], questions[1]])
-    gameService.gameUpdate(player.id, SpGameId)
+    gameService.startNextRound(SpGameId)
     expect(currentquestions).toEqual([questions[1], questions[2]])
-    gameService.gameUpdate(player.id, SpGameId)
+    gameService.startNextRound(SpGameId)
     expect(currentquestions).toEqual([questions[2], questions[3]])
-    gameService.gameUpdate(player.id, SpGameId)
+    gameService.startNextRound(SpGameId)
     expect(currentquestions).toEqual([questions[3], questions[4]])
 
 });

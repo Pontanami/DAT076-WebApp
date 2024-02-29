@@ -70,7 +70,6 @@ export class LeaderboardService implements ILeaderboardService{
         console.log("Checking if player is in leaderboard with id: " + id);
         const pm = await playerModel;
         let player: Player|null = await pm.findOne({id: id});
-        console.log(player);
         if(!player)
             return false;
 
