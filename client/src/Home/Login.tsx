@@ -6,18 +6,9 @@ import Player from '../IPlayer';
 import CurrentUser from '../CurrentUser';
 
 
-enum DisplayLogin {
-    BUTTON,
-    LOGINSCREEN
-}
 
-function Login({ errorHandler }: { errorHandler: (error: any) => void }) {
-    const [displayScreen, setDisplayScreen] = useState<DisplayLogin>(DisplayLogin.BUTTON)
 
-    useEffect(() => {
-        setDisplayScreen(DisplayLogin.BUTTON)
-    }, []);
-
+function Login({ errorHandler, closeLogin }: { errorHandler: (error: any) => void, closeLogin: () => void}) {
     async function createUser(name: string, password: string) {
         try {
             const response = await axios.post<[number, string]>('http://localhost:8080/user/signup', {
@@ -53,34 +44,25 @@ function Login({ errorHandler }: { errorHandler: (error: any) => void }) {
 
 
     const profile = require("../Image/profile.png");
-    switch (displayScreen) {
-        case DisplayLogin.BUTTON:
-            return (
-                <button className='login' onClick={async () =>
-                    setDisplayScreen(DisplayLogin.LOGINSCREEN)
-                }><img src={profile} alt='' style={{ width: "3rem" }} /></button>
-            )
-        case DisplayLogin.LOGINSCREEN:
-            return (
-                <div className="login-popup">
-                    <button className="close" onClick={async () =>
-                        setDisplayScreen(DisplayLogin.BUTTON)
-                    }>Close</button>
-                    <h2>Login</h2>
-                    <div className='inputs'>
-                        <input id="nameBox" type="text" placeholder='Enter name' />
-                        <input id="passwordBox" type="text" placeholder='Enter password' />
-                        <button onClick={
-                            async () => {
-                                AccountAction(async (name: string, password: string) => await loginUser(name, password));
-                            }}>Login</button>
-                        <button onClick={
-                            async () => {
-                                AccountAction(async (name: string, password: string) => await createUser(name, password));
-                            }}>CreatePlayer</button>
-                    </div>
+        return (
+            <div className="login-popup">
+                <h2>Login</h2>
+                <div className='inputs'>
+                    <input id="nameBox" type="text" placeholder='Enter name' />
+                    <input id="passwordBox" type="text" placeholder='Enter password' />
+                    <button onClick={
+                        async () => {
+                            AccountAction(async (name: string, password: string) => await loginUser(name, password));
+                            closeLogin();
+                        }}>Login</button>
+                    <button onClick={
+                        async () => {
+                            AccountAction(async (name: string, password: string) => await createUser(name, password));
+                            closeLogin();
+                        }}>CreatePlayer</button>
                 </div>
-            )
+            </div>
+        )
     }
 
     function AccountAction(action: (name: string, password: string) => void) {
@@ -88,7 +70,6 @@ function Login({ errorHandler }: { errorHandler: (error: any) => void }) {
         const userPassWord = (document.getElementById('passwordBox') as HTMLInputElement).value;
         action(userName, userPassWord);
     }
-}
 
 export default Login;
 
