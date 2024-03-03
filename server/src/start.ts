@@ -23,7 +23,6 @@ app.use("/user", userRouter)
 app.use("/multiPlayer", mpRouter)
 app.use("/game", gameRouter)
 
-//const port = "95.80.24.119"
 const port = "localhost"
 
 export const server = http.createServer(app);
