@@ -9,7 +9,6 @@ import CurrentUser from '../CurrentUser';
 import Gameover from './Gameover';
 import PlayScreen from './PlayScreen';
 import { hostPort } from '../hostPort';
-import { idText } from 'typescript';
 
 enum PlayScreens {
     PLAYING,
