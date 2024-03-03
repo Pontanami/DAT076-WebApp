@@ -56,26 +56,11 @@ function Join() {
   }; */}
 
   useEffect(() => {
-    createPlayer()
-  }, [])
-
-  useEffect(() => {
       socket.on("starting", (game) => {
       console.log("Time to staaaaaart!!!")
       navigate("/multiplayer", {state: game});
     })
   }, [socket])
-
-  async function createPlayer() {
-    try {
-      await axios.post(`http://${hostPort}:8080/player`, {
-        id: CurrentUser.getId(),
-        name: CurrentUser.getName()
-      });
-    } catch (error: any) {
-      console.log("Coudn't create player")
-    }
-  }
 
   return (
     <div className="Join">

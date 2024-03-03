@@ -8,15 +8,15 @@ import CurrentUser from '../CurrentUser';
 
 import Gameover from './Gameover';
 import PlayScreen from './PlayScreen';
+import { hostPort } from '../hostPort';
+import { idText } from 'typescript';
 
 enum PlayScreens {
     PLAYING,
     GAMEOVER
 }
 
-//Ta bort sen
 let gameId = 0;
-//let playerId = 1;
 
 function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
 
@@ -25,7 +25,7 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
 
     async function startNextRound(){
         try{
-            const response = await axios.post('http://localhost:8080/game/update', {
+            const response = await axios.post(`http://${hostPort}:8080/game/update`, {
                     gameId: gameId,
                 });
             updateDisplayedCourses(response)
@@ -47,7 +47,7 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
         try{
             //TODO: fix error handling and post/put beroende på om personen redan finns
             console.log(CurrentUser.getId())
-            const response = await axios.post('http://localhost:8080/leaderboard', {
+            const response = await axios.post(`http://${hostPort}:8080/leaderboard`, {
                  id: CurrentUser.getId()
                 })
             console.log("Player added to leaderboard")
@@ -61,20 +61,14 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
 
     async function initGame() {
         try {
-            await axios.post('http://localhost:8080/player', {
-                    id: CurrentUser.getId(),
-                    name : CurrentUser.getName()
-                    
-                });
-
-            const response1 = await axios.post<number>('http://localhost:8080/singleplayer', {
+            const response1 = await axios.post<number>(`http://${hostPort}:8080/singleplayer`, {
                 playerId: CurrentUser.getId()
             });
 
             gameId = response1.data
             console.log(gameId)
 
-            const response = await axios.get<[Course, Course]>("http://localhost:8080/game/" + gameId)
+            const response = await axios.get<[Course, Course]>(`http://${hostPort}:8080/game/` + gameId)
             updateDisplayedCourses(response)
 
         } catch (error: any) {

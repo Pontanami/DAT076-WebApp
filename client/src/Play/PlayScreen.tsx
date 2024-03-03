@@ -3,87 +3,72 @@ import Course from '../ICourse';
 import DisplayCourses from './DisplatCourse';
 import axios from 'axios';
 import CurrentUser from '../CurrentUser';
+import { hostPort } from '../hostPort';
+import Player from '../IPlayer';
 
 
-function PlayScreen({courseList, handleCorrectGuess, errorHandler, handleWrongGuess} 
-    : {courseList: [Course, Course],handleCorrectGuess: () => void, errorHandler: (error : any) => void, handleWrongGuess : () => void}) {
+function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongGuess }
+    : { courseList: [Course, Course], handleCorrectGuess: () => void, errorHandler: (error: any) => void, handleWrongGuess: () => void }) {
     const [score, setScore] = useState<number>(0);
     const [timer, setTimer] = useState<number>(10);
     const [isPlaying, setIsPlaying] = useState<boolean>(true)
 
-    /*
-    async function updateScore() {   
-        
-        try{
-            await axios.post('http://localhost:8080/game/update', {
-                    gameId: gameId,
-                });
-        }catch(error : any){
-            errorHandler(error);
-        } 
-        incrementScore();
-    }
-    */
-
     async function incrementScore() {
         console.log("Incrementing score")
-        setScore(score + 1);
+        setScore((score + 1));
+    }
+
+    async function getScore(){
+        try {
+            console.log("fetching player" + CurrentUser.getId())
+            const response = await axios.get<Player>(`http://${hostPort}:8080/player/` + CurrentUser.getId())
+            setScore(response.data.score);
+        }catch(error : any){
+            errorHandler(error)
+        }
     }
 
     //TODO: Kanske borde kolla på hur vi stoppar timer
 
     useEffect(() => {
-            const timerId = setInterval(() => {
-                if(isPlaying){
-                    setTimer((prevTimer) => prevTimer - 1);
-                }
-            }, 1000);
-    
-            if (timer === 0 && isPlaying) {
-                clearInterval(timerId);
-                handleGameOver()
+        const timerId = setInterval(() => {
+            if (isPlaying) {
+                setTimer((prevTimer) => prevTimer - 1);
             }
-    
-            return () => {
-                clearInterval(timerId);
-            };
+        }, 1000);
+
+        if (timer === 0 && isPlaying) {
+            clearInterval(timerId);
+            handleGameOver()
+        }
+
+        return () => {
+            clearInterval(timerId);
+        };
     }, [timer]);
 
     useEffect(() => {
         setTimer(10)
     }, [courseList])
-    /*
-    useEffect(() =>{
-        createPlayer()
-    }, [])
 
-    function createPlayer(){
-        try{
-             axios.post('http://localhost:8080/player', {
-                    id: CurrentUser.getId(),
-                    name : CurrentUser.getName()
-                    
-                });
-        }catch(error : any){
-            errorHandler(error);
-        }
-    }
-    */
+    useEffect(() =>{
+        getScore()
+    }, [])
 
     async function handleGameOver() {
         setTimer(0);
         handleWrongGuess();
     }
 
-    async function startNextRound(){
+    async function startNextRound() {
         await incrementScore();
-        setTimeout(async function(){
-        setIsPlaying(true)
-        handleCorrectGuess()
+        setTimeout(async function () {
+            setIsPlaying(true)
+            handleCorrectGuess()
         }, 1000);
     }
 
-    async function stopTimer(){
+    async function stopTimer() {
         setIsPlaying(false)
     }
 
@@ -96,7 +81,7 @@ function PlayScreen({courseList, handleCorrectGuess, errorHandler, handleWrongGu
                     nextRound={async () => await startNextRound()}
                     errorHandler={errorHandler}
                     handleGameOver={async () => await handleGameOver()}
-                    stopTimer = {async () => await stopTimer()} />
+                    stopTimer={async () => await stopTimer()} />
             </div>
             <div className="align-center">
                 <h2>{timer}</h2>

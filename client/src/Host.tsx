@@ -113,7 +113,7 @@ function Host() {
   function HostGameOverScreen() {
     return <div className="Host">
       <p>The game has ended!</p>
-      <Link to="/host"><button className="homeButton" type="button">Home</button></Link>
+      <Link to="/"><button className="homeButton" type="button">Home</button></Link>
     </div>;
   }
 
