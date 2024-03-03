@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import CurrentUser from "../CurrentUser";
+import { hostPort } from "../hostPort";
 import Course from "../ICourse";
 import { socket } from "../socket";
 import Gameover from "./Gameover";
@@ -16,6 +18,7 @@ enum PlayScreens {
 function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
     const [courseList, setCourseList] = useState<[Course, Course]>([{ code: "Abc", name: "placeholder", failrate: 1 }, { code: "Abc", name: "placeholder", failrate: 2 }]);
     const [playState, setPlayState] = useState<PlayScreens>(PlayScreens.PLAYING);
+    const { state } = useLocation();
 
     /*
     async function startNextRound(){
@@ -42,7 +45,7 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
         try{
             //TODO: fix error handling and post/put beroende på om personen redan finns
             console.log(CurrentUser.getId())
-            const response = await axios.post('http://localhost:8080/leaderboard', {
+            const response = await axios.post(`http://${hostPort}:8080/leaderboard`, {
                  id: CurrentUser.getId()
                 })
             console.log("Player added to leaderboard")
@@ -57,7 +60,7 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
         try {
             setPlayState(PlayScreens.PLAYING)
             console.log("Client gameID is: " + gameId)
-            const response = await axios.get<[Course, Course]>("http://localhost:8080/game/" + gameId)
+            const response = await axios.get<[Course, Course]>(`http://${hostPort}:8080/game/` + gameId)
             updateDisplayedCourses(response)
 
         } catch (error: any) {
@@ -75,15 +78,16 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
             setPlayState(PlayScreens.WRONGANSWER)
         }
     }
-    /*
+    
     useEffect(() => {
-        fetchCurrentQuestions(1)
-    }, [])*/
+        fetchCurrentQuestions(state)
+    }, [])
 
     useEffect(() => {
         socket.on('new_round_started', (gameId) => {
             console.log("Updating displayed Questions, id: " + gameId)
             fetchCurrentQuestions(gameId)
+            console.log(courseList)
           });
 
           socket.on('game_over', () =>{

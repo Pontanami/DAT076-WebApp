@@ -17,3 +17,23 @@
     border: 2px solid black;
     border-radius: 12px;
 }
+
+.joined-container{
+    width: 70vw;
+    height: 40vh;
+    border: none;
+    display: flex;
+    margin: auto;
+    border-radius: 10px;
+    background-color: lightgreen;
+    opacity: 0.9;
+    overflow-wrap: break-word;
+    justify-content: center;
+    align-items: center;
+    word-wrap: break-word;
+}
+
+.player{
+    margin: 3rem;
+    overflow-wrap: break-word;
+}

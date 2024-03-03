@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios, { AxiosResponse } from 'axios';
 import Player from '../IPlayer';
 import CurrentUser from '../CurrentUser';
+import { hostPort } from '../hostPort';
 
 
 
@@ -24,7 +25,7 @@ function Login({ errorHandler, closeLogin }: { errorHandler: (error: any) => voi
 
     async function loginUser(name: string, password: string) {
         try {
-            const response = await axios.post<[number, string]>("http://localhost:8080/user/login/", {
+            const response = await axios.post<[number, string]>(`http://${hostPort}:8080/user/login/`, {
                 username : name,
                 password : password
             })

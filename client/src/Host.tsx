@@ -7,6 +7,7 @@ import axios from 'axios';
 import errorHandler from './Error/ErrorHandling';
 import { socket } from './socket';
 import IPlayer from './IPlayer';
+import { hostPort } from './hostPort';
 
 enum MPGameState {
   WAITINGROOM,
@@ -24,7 +25,7 @@ function Host() {
 
   async function createGame() {
     try {
-      const response = await axios.post("http://localhost:8080/multiPlayer", {
+      const response = await axios.post(`http://${hostPort}:8080/multiPlayer`, {
         hostId: CurrentUser.getId()
       })
       console.log("room created")
@@ -55,7 +56,7 @@ function Host() {
 
   async function fetchPlayers() {
     try {
-      const response = await axios.get(`http://localhost:8080/multiPlayer/${Pin}`)
+      const response = await axios.get(`http://${hostPort}:8080/multiPlayer/${Pin}`)
       console.log(CurrentUser.getName())
       const players: IPlayer[] = response.data;
       setPlayers(players)
@@ -80,7 +81,7 @@ function Host() {
 
   async function nextRound() {
     try {
-      const response = await axios.post('http://localhost:8080/game/update', {
+      const response = await axios.post(`http://${hostPort}:8080/game/update`, {
         gameId: gameId,
       });
       console.log("Host has started the next round")
@@ -94,36 +95,49 @@ function Host() {
   switch (gameState) {
     case MPGameState.WAITINGROOM:
       return (
-        <div className="Host">
-          <Link to="/"><img alt='' src={back} style={{ width: "3rem" }} /></Link>
-          <section className='host-container'>
-            <h2>Game PIN:</h2>
-            <h1>{gamePin}</h1>
-            <button onClick={e => startGame(e)}>StartGame</button>
-          </section>
-          {players.map((player: IPlayer) =>
-            <p>{player.name}</p>
-          )}
-        </div>
+        <HostWaitingScreen/>
       );
 
     case MPGameState.PLAYING:
       return (
-        <div className="Host">
-          <button onClick={() => nextRound()}>Next Round</button>
-          <button onClick={() => endGame()}>End Game</button>
-        </div>
+        <HostPlayScreen/>
       )
     case MPGameState.GAMEOVER:
       return (
-        <div className="Host">
-          <p>The game has ended!</p>
-          <Link to="/"><button className="homeButton" type="button">Home</button></Link>
-        </div>
+        <HostGameOverScreen/>
       )
   }
 
 
+
+  function HostGameOverScreen() {
+    return <div className="Host">
+      <p>The game has ended!</p>
+      <Link to="/host"><button className="homeButton" type="button">Home</button></Link>
+    </div>;
+  }
+
+  function HostPlayScreen() {
+    return <div className="Host">
+      <button className="homeButton" onClick={() => nextRound()}>Next Round</button>
+      <button className="homeButton" onClick={() => endGame()}>End Game</button>
+    </div>;
+  }
+
+  function HostWaitingScreen() {
+    return <div className="Host">
+      <Link to="/"><img alt='' src={back} style={{ width: "3rem" }} /></Link>
+      <section className='host-container'>
+        <h2>Game PIN:</h2>
+        <h1>{gamePin}</h1>
+        <button className="homeButton" onClick={e => startGame(e)}>StartGame</button>
+      </section>
+      <div className='joined-container'>
+        {players.map((player: IPlayer) => <p className="player">{player.name}</p>
+        )}
+      </div>
+    </div>;
+  }
 }
 
 

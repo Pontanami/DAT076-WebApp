@@ -7,6 +7,7 @@ import { io } from 'socket.io-client';
 import { socket } from './socket';
 import CurrentUser from './CurrentUser';
 import { useNavigate } from "react-router-dom";
+import {hostPort} from './hostPort'
 
 function Join() {
   // State variable to store the entered PIN
@@ -21,7 +22,7 @@ function Join() {
     // Clear the input field
     
     try {
-      const join = await axios.post("http://localhost:8080/multiPlayer/addPlayer", {
+      const join = await axios.post(`http://${hostPort}:8080/multiPlayer/addPlayer`, {
         gameId: parseInt(pin, 10),
         playerId: CurrentUser.getId()
       })
@@ -59,15 +60,15 @@ function Join() {
   }, [])
 
   useEffect(() => {
-    socket.on("starting", () => {
+      socket.on("starting", (game) => {
       console.log("Time to staaaaaart!!!")
-      navigate("/multiplayer");
+      navigate("/multiplayer", {state: game});
     })
   }, [socket])
 
   async function createPlayer() {
     try {
-      await axios.post('http://localhost:8080/player', {
+      await axios.post(`http://${hostPort}:8080/player`, {
         id: CurrentUser.getId(),
         name: CurrentUser.getName()
       });

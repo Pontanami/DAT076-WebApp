@@ -2,6 +2,7 @@ import axios from 'axios';
 import Course from '../ICourse';
 import React, { useEffect, useState } from 'react';
 import CurrentUser from '../CurrentUser';
+import { hostPort } from '../hostPort';
 
 
 function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stopTimer }
@@ -72,7 +73,7 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
         async function checkAnswer() {
             let otherCourse = courses[0].code === course.code ? courses[1].code : courses[0].code;
             console.log("Other course: " + otherCourse);
-            const answer = await axios.post('http://localhost:8080/course/answer', {
+            const answer = await axios.post(`http://${hostPort}:8080/course/answer`, {
                 codeClicked: course.code,
                 otherCode: otherCourse, 
                 playerId: CurrentUser.getId()
