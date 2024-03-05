@@ -69,13 +69,14 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
     }
 
     async function displayCorrectAnswer(){
-        setPlayState(PlayScreens.CORRECTANSWER)
+        socket.emit('correct_answer',{ id: CurrentUser.getId(), gameId: state});
+        setPlayState(PlayScreens.CORRECTANSWER);
     }
 
     //We need to check if we are on the "CorrectAnswerScreen" otherwise if the timer is 0 
     async function displayWrongAnswer(){
-        if(playState != PlayScreens.CORRECTANSWER){
-            setPlayState(PlayScreens.WRONGANSWER)
+        if(playState !== PlayScreens.CORRECTANSWER){
+            setPlayState(PlayScreens.WRONGANSWER);
         }
     }
     

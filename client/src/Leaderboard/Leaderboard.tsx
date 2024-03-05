@@ -35,7 +35,7 @@ function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
     useEffect(() => {
         updatePlayers();
     }, []);
-
+/*
     async function addMockPlayer() {
         try {
             const mockData = { name: "mock" };
@@ -47,6 +47,7 @@ function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
             errorHandler(error);
         };
     }
+    */
 
     return (
         <div className="Leaderboard">
@@ -61,13 +62,13 @@ function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
                     </div>
                     <section className="row">
                         {playerList.map((player: Player, index: number) =>
-                            <LeaderboardPlayer player={player} index={index + 1} />
+                            <LeaderboardPlayer player={player} index={index + 1} key={player.id} />
                             //createPlayerEntry(player, index + 1)
                         )}
                     </section>
                 </div>
             </section>
-            <button onClick={addMockPlayer}>Add mock player</button>
+           
         </div>
     );
 }

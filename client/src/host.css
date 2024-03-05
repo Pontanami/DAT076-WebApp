@@ -33,6 +33,12 @@
     word-wrap: break-word;
 }
 
+.button-container{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
 .player{
     margin: 3rem;
     overflow-wrap: break-word;

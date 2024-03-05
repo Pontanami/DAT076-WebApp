@@ -23,6 +23,7 @@ body {
   
   .Leaderboard {
     padding: 3rem;
+    overflow: none;
   }
 
   #leaderboard{
@@ -34,6 +35,7 @@ body {
     border-style: solid;
     background: linear-gradient(to bottom, white, #1a1a21);
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .text-center {

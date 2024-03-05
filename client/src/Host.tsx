@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import './host.css';
+import './Leaderboard/leaderboard.css';
 import { Link } from 'react-router-dom';
 import back from './Image/back.svg';
 import CurrentUser from './CurrentUser';
@@ -8,6 +9,7 @@ import errorHandler from './Error/ErrorHandling';
 import { socket } from './socket';
 import IPlayer from './IPlayer';
 import { hostPort } from './hostPort';
+import LeaderboardPlayer from './Leaderboard/LeaderboardPlayer';
 
 enum MPGameState {
   WAITINGROOM,
@@ -44,6 +46,10 @@ function Host() {
     socket.on('user_joined', () => {
       fetchPlayers()
       console.log("User has been added")
+    });
+    socket.on('correct_answer', (userId) => {
+      console.log(`Correct answer for: ${userId}`)
+      fetchPlayers()
     });
   }, [socket]);
 
@@ -88,16 +94,16 @@ function Host() {
   switch (gameState) {
     case MPGameState.WAITINGROOM:
       return (
-        <HostWaitingScreen/>
+        <HostWaitingScreen />
       );
 
     case MPGameState.PLAYING:
       return (
-        <HostPlayScreen/>
+        <HostPlayScreen />
       )
     case MPGameState.GAMEOVER:
       return (
-        <HostGameOverScreen/>
+        <HostGameOverScreen />
       )
   }
 
@@ -112,8 +118,25 @@ function Host() {
 
   function HostPlayScreen() {
     return <div className="Host">
+      
+      <div className="Leaderboard">
       <button className="homeButton" onClick={() => nextRound()}>Next Round</button>
       <button className="homeButton" onClick={() => endGame()}>End Game</button>
+          <section className="text-center">
+            <div id="leaderboard">
+              <div className="columnNames">
+                <strong className="">Rank</strong>
+                <strong className="">Name</strong>
+                <strong className="">Score</strong>
+              </div>
+              <section className="row">
+                {players.map((player: IPlayer, index: number) =>
+                  <LeaderboardPlayer player={player} index={index + 1} key={player.id} />
+                )}
+              </section>
+            </div>
+          </section>
+        </div>
     </div>;
   }
 
@@ -131,7 +154,7 @@ function Host() {
       </div>
     </div>;
   }
-}
 
+}
 
 export default Host;

@@ -35,5 +35,10 @@ export function socketListener(){
             console.log(`Notify endGame for: ${gameId}`)
             socket.to(gameId).emit("game_over");
         })
+
+        socket.on("correct_answer", (data) =>{
+            console.log(`Correct answer for: ${data.userId}`)
+            socket.to(data.gameId).emit("correct_answer", data.userId);
+        });
     });
 }  
