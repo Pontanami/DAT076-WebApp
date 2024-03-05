@@ -23,7 +23,11 @@ function Home({ errorHandler }: { errorHandler: (error: any) => void }) {
       errorHandler(error)
     }
   }
-  
+
+  useEffect(()=>{
+    createPlayer()
+  })
+
   return (
     <div className="Home">
       <nav>

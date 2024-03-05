@@ -16,22 +16,22 @@ function Join() {
 
   async function handleSubmit() {
     // Save the PIN in a variable (for demonstration purposes)
-    const enteredPin = pin;
-    console.log('Submitted PIN:', enteredPin);
+    const intId = parseInt(pin, 10);
+    console.log('Submitted PIN:', intId);
     //;
     // Clear the input field
     
     try {
       const join = await axios.post(`http://${hostPort}:8080/multiPlayer/addPlayer`, {
-        gameId: parseInt(pin, 10),
+        gameId: intId,
         playerId: CurrentUser.getId()
       })
 
     } catch (e: any) {
       console.log("Erroororor: " + e)
     }
-    socket.emit("join_room", enteredPin);
-    socket.emit("alert_joined", enteredPin);
+    socket.emit("join_room", intId);
+    socket.emit("alert_joined", intId);
     console.log(CurrentUser.getName())
 
     setPin('');

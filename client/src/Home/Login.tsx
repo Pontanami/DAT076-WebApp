@@ -4,33 +4,55 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios, { AxiosResponse } from 'axios';
 import CurrentUser from '../CurrentUser';
 import { hostPort } from '../hostPort';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+enum DisplayScreen {
+    NOTABLETOLOGIN,
+    LOGIN
+}
 
 function Login() {
+    const [loginScreen, setLoginScreen] = useState<DisplayScreen>(DisplayScreen.LOGIN)
+    const [errorMsg, setErrorMsg] = useState<string>("")
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setLoginScreen(DisplayScreen.LOGIN)
+    }, [])
+
     async function createUser(name: string, password: string) {
         try {
             const response = await axios.post<[number, string]>(`http://${hostPort}:8080/user/signup`, {
                 username: name,
                 password: password
             });
-            console.log("Success Create")
-            setCurrentUser(response);
+            onSuccessLogin(response);
         } catch (error: any) {
-            console.log("error")
+            onError(error)
         }
     }
-
+    
     async function loginUser(name: string, password: string) {
         try {
             const response = await axios.post<[number, string]>(`http://${hostPort}:8080/user/login/`, {
-                username : name,
-                password : password
+                username: name,
+                password: password
             })
-            console.log("Success Login")
-            setCurrentUser(response);
+            onSuccessLogin(response);
         } catch (error: any) {
-            console.log("error")
+            onError(error)
         }
+    }
+
+    function onSuccessLogin(response: AxiosResponse<[number, string]>) {
+        console.log("Success Create");
+        setCurrentUser(response);
+        navigate("/home");
+    }
+
+    async function onError(error:any){
+        setErrorMsg(error.data)
+        setLoginScreen(DisplayScreen.NOTABLETOLOGIN)
     }
 
     function setCurrentUser(response: AxiosResponse<[number, string], any>) {
@@ -40,25 +62,38 @@ function Login() {
         console.log(`Active user's name is ${CurrentUser.getName()}`)
     }
 
-
-    const profile = require("../Image/profile.png");
-        return (
-            <div className="login-popup">
-                <h2>Login</h2>
-                <div className='inputs'>
-                    <input id="nameBox" type="text" placeholder='Enter name' />
-                    <input id="passwordBox" type="text" placeholder='Enter password' />
-                    <Link to="/home"><button onClick={
-                        async () => {
-                            AccountAction(async (name: string, password: string) => await loginUser(name, password));
-                        }}>Login</button></Link>
-                    <Link to="/home"><button onClick={
-                        async () => {
-                            AccountAction(async (name: string, password: string) => await createUser(name, password));
-                        }}>CreatePlayer</button></Link>
+    switch (loginScreen) {
+        case DisplayScreen.LOGIN:
+            return (
+                <div className="login-popup">
+                    <h2>Login</h2>
+                    <LoginFields />
                 </div>
-            </div>
-        )
+            )
+
+        case DisplayScreen.NOTABLETOLOGIN:
+            return (
+                <div className="login-popup">
+                    <h2>Login</h2>
+                    <p className='errorMsg'>{errorMsg}</p>
+                    <LoginFields />
+                </div>
+            )
+    }
+
+    function LoginFields() {
+        return <div className='inputs'>
+            <input id="nameBox" type="text" placeholder='Enter name' />
+            <input id="passwordBox" type="text" placeholder='Enter password' />
+            <button onClick={
+                async () => {
+                    AccountAction(async (name: string, password: string) => await loginUser(name, password));
+                }}>Login</button>
+            <button onClick={
+                async () => {
+                    AccountAction(async (name: string, password: string) => await createUser(name, password));
+                }}>CreatePlayer</button>
+        </div>;
     }
 
     function AccountAction(action: (name: string, password: string) => void) {
@@ -66,6 +101,9 @@ function Login() {
         const userPassWord = (document.getElementById('passwordBox') as HTMLInputElement).value;
         action(userName, userPassWord);
     }
+}
+
+
 
 export default Login;
 

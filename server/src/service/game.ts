@@ -6,6 +6,7 @@ import { PlayerService } from "./player";
 
 export class GameService{
     games : Game[] = [];
+    gamePins: number[] = [];
 
     playerService = PlayerService.getInstance();
     courseService = CourseService.getInstance();
@@ -24,9 +25,10 @@ export class GameService{
 
         let questions = await this.courseService.getListOfCourses()
         questions.sort(() => Math.random() - 0.5);
+        let pin: number = await this.createGamePin();
 
         let newGame : Game = {
-            id : Date.now(),
+            id : pin,
             questions : questions,
         }
         this.games.push(newGame);
@@ -82,5 +84,23 @@ export class GameService{
         let game = await this.getGame(id);
         game.questions.shift();
         return this.getCurrentQuestions(id)
+    }
+
+    //TODO: Vi kan ändra denna till att inte returnera en string så slipper vi converta i react när vi vill skicka emit
+    async createGamePin(): Promise<number> {
+        let newPin : number = await this.generatePin();
+        if (this.gamePins.includes(newPin)){
+            return this.createGamePin();
+        } else {
+            this.gamePins.push(newPin);
+        }
+        return newPin;
+    }
+
+    async generatePin(): Promise<number> {
+        const min = 100000; // Minimum six-digit number (inclusive)
+        const max = 999999; // Maximum six-digit number (inclusive)
+        const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+        return randomNumber;
     }
 }

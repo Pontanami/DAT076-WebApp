@@ -10,30 +10,30 @@ export function socketListener(){
 
     io.on('connection', (socket) => {
 
-        socket.on("join_room", (gamePin) => {
-            console.log("Trying to join game: " + gamePin)
-            socket.join(gamePin);
+        socket.on("join_room", (gameId) => {
+            console.log("Trying to join game: " + gameId)
+            socket.join(gameId);
         });
         
-        socket.on("alert_joined", (gamePin) => {
-            console.log("Alert join game: " + gamePin)
-            socket.to(gamePin).emit('user_joined')
+        socket.on("alert_joined", (gameId) => {
+            console.log("Alert join game: " + gameId)
+            socket.to(gameId).emit('user_joined')
         })
     
-        socket.on("start_game", (data) =>{
-            console.log(`Notify fetchRound for: ${data.gamePin} and gameId: ${data.gameId}`)
-            socket.to(data.gamePin).emit("starting", data.gameId)
+        socket.on("start_game", (gameId) =>{
+            console.log(`Notify fetchRound for: ${gameId}`)
+            socket.to(gameId).emit("starting", gameId)
             //socket.emit("new_round", data)
         })
     
-        socket.on("new_round", (data) =>{
-            console.log(`Notify fetchRound for: ${data.gamePin} and gameId: ${data.gameId}`)
-            socket.to(data.gamePin).emit("new_round_started", data.gameId);
+        socket.on("new_round", (gameId) =>{
+            console.log(`Notify fetchRound for: ${gameId}`)
+            socket.to(gameId).emit("new_round_started", gameId);
         })
     
-        socket.on("end_game", (gamePin) =>{
-            console.log(`Notify endGame for: ${gamePin}`)
-            socket.to(gamePin).emit("game_over");
+        socket.on("end_game", (gameId) =>{
+            console.log(`Notify endGame for: ${gameId}`)
+            socket.to(gameId).emit("game_over");
         })
     });
 }  

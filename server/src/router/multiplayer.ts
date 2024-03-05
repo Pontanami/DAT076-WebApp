@@ -7,7 +7,7 @@ export const mpRouter = express.Router();
 
 mpRouter.post("/", async (
     req: Request<{}, {}, {hostId : number}>,
-    res: Response<[string, number]|string>
+    res: Response<number |string>
 ) => {
     try {
         const hostId = req.body.hostId;
@@ -16,7 +16,7 @@ mpRouter.post("/", async (
             return;
         }
         const mpGame = await mpService.createMultiPlayerGame(hostId);
-        res.status(201).send([mpGame.pin, mpGame.game.id]);
+        res.status(201).json(mpGame.game.id);
     } catch (e: any) {
         res.status(500).send(e.message);
         console.log(e.message);
