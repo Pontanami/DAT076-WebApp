@@ -6,15 +6,24 @@ export class PlayerService implements IPLayerService{
 
     private static instance : PlayerService;
 
-    //Om vi ska ha en playerService som tar hand om alla players måste vi väl mer eller mindre ha en singleton?
-    //Annars riskerar vi att skapa nya instanser där vissa spelare inte finns med
+    /**
+     * Method for getting the instance of the PlayerService.
+     * 
+     * @returns {PlayerService} - Returns the instance of the PlayerService.
+     */
     public static getInstance() : PlayerService{
         if (!PlayerService.instance) {
             PlayerService.instance = new PlayerService();
         }
         return PlayerService.instance;
     }
-
+    /**
+     * Asynchronously creates a new player with the provided name and adds it to a list in the singleton.
+     * 
+     * @param {number} id - The id of the player.
+     * @param {string} name - The name of the player.
+     * @returns {Promise<Player>} - Returns the created player.
+     */
     async createPlayer(id : number,name: string): Promise<Player>{
         let newPlayer : Player = {
             id :id,
@@ -25,6 +34,13 @@ export class PlayerService implements IPLayerService{
         return newPlayer;
     }
 
+    /**
+     * Asynchronously updates the score of the player with the provided id.
+     * 
+     * @param {number} id - The id of the player.
+     * @returns {Promise<Player>} - Returns the updated player.
+     * @throws {Error} - Throws an error if the player does not exist.
+     */
     async updatePlayerScore(id: number) : Promise<Player>{
         let player = await this.getPlayer(id);    
         if(!player)
@@ -35,31 +51,50 @@ export class PlayerService implements IPLayerService{
         return player;
     }
 
+    /**
+     * Asynchronously gets the player with the provided id.
+     * 
+     * @param {number} id - The id of the player.
+     * @returns {Promise<Player>} - Returns the player.
+     * @throws {Error} - Throws an error if the player does not exist.
+     */
     async getPlayer(id: number) : Promise<Player>{
-        //console.log(`Searching for ${id}`)
-        //console.log(`All players ${JSON.stringify(this.players)}`)
         let player = this.players.find(player => player.id === id);
-        //console.log(`Found player ${JSON.stringify(player)}`)
         if(!player)
             throw new Error("Player Not found!");
             
         return player
     }
 
+    /**
+     * Asynchronously gets the player with the provided name.
+     * 
+     * @param {string} name - The name of the player.
+     * @returns {Promise<Player>} - Returns the player.
+     * @throws {Error} - Throws an error if the player does not exist.
+     */
     async getPlayerByName(name: string) : Promise<Player | undefined>{
-        //console.log(`Searching for ${id}`)
-        //console.log(`All players ${JSON.stringify(this.players)}`)
         let player = this.players.find(player => player.name === name);
-        //console.log(`Found player ${JSON.stringify(player)}`)
         if(!player)
             return;
         return player
     }
 
+    /**
+     * Asynchronously gets a list of all players.
+     * 
+     * @returns {Promise<Player[]>} - Returns a list of all players.
+     */
     async getPlayers() : Promise<Player[]>{
         return JSON.parse(JSON.stringify(this.players))
     }
 
+    /**
+     * Asynchronously resets the score of the player with the provided id.
+     * 
+     * @param {number} playerId - The id of the player.
+     * @returns {Promise<Player>} - Returns the updated player.
+     */
     async resetPlayerScore(playerId : number) : Promise<Player>{
         let player = await this.getPlayer(playerId)
         player.score = 0;

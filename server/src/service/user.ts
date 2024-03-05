@@ -31,17 +31,26 @@ export class userService implements IUserService {
     return [createdUser.id, createdUser.username];
   }
 
-  //Method takes a username as input, it then searches the database and looks for a matching user. 
-  //If a user exist (result.lenght == 1) it returns true, otherwise false.
+  /**
+  * Asynchronously checks if a username is already taken.
+  * 
+  * @param {string} uname - The username to check.
+  * @returns {Promise<boolean>} - Returns true if the username is taken, otherwise false.
+   */
   private async isUsernameTaken(uname: string): Promise<boolean> {
     const um: Model<user> = await userModel;
     const result = await um.find({ username: uname });
     return result.length === 1;
   }
 
-  //takes a username and password, if username matches a user in the database we fecth that user and check so the password matches. 
-  //If there exist a user with the password and username we return the userId and name.
-  //Throws exceptions if username or password is incorrect. 
+  /**
+   * Asynchronously logs in a user with the provided username and password.
+   * 
+   * @param {string} uname - The username of the user.
+   * @param {string} password - The password of the user.
+   * @returns {Promise<[number, string]>} - Returns the id and name of the logged in user.
+   * @throws {Error} - Throws an error if the user doesn't exist or if the username or password doesn't match.
+    */ 
   async login(uname: string, password: string): Promise<[number, string]> {
     const um: Model<user> = await userModel;
     const user = await um.findOne({ username: uname });
