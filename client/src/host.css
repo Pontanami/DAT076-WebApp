@@ -23,15 +23,13 @@
     width: 70vw;
     height: 40vh;
     border: 2px solid black;
+    padding: 0.5rem;
     display: flex;
+    flex-wrap: wrap;
     margin: auto;
     border-radius: 10px;
-    background-color: rgba(20, 20, 20, 0.7);
-    opacity: 0.9;
-    overflow-wrap: break-word;
-    justify-content: center;
-    align-items: center;
-    word-wrap: break-word;
+    background-color: rgba(20, 20, 20, 0.65);
+    color: white;
 }
 
 .button-container{
@@ -41,6 +39,7 @@
 }
 
 .player{
-    margin: 3rem;
-    overflow-wrap: break-word;
+    margin: 1rem;
+    font-weight: 500;
+    height: 20px;
 }
