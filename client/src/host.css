@@ -16,16 +16,17 @@
     padding: 0.5rem;
     border: 2px solid black;
     border-radius: 12px;
+    margin-left: 0;
 }
 
 .joined-container{
     width: 70vw;
     height: 40vh;
-    border: none;
+    border: 2px solid black;
     display: flex;
     margin: auto;
     border-radius: 10px;
-    background-color: lightgreen;
+    background-color: rgba(20, 20, 20, 0.7);
     opacity: 0.9;
     overflow-wrap: break-word;
     justify-content: center;
