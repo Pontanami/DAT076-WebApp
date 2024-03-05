@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './join.css';
 import { Link } from 'react-router-dom';
 import back from './Image/back.svg';
 import axios from 'axios';
-import { io } from 'socket.io-client';
 import { socket } from './socket';
 import CurrentUser from './CurrentUser';
 import { useNavigate } from "react-router-dom";
-import {hostPort} from './hostPort'
+import { hostPort } from './hostPort'
 
-function Join() {
+function Join({errorHandler} : {errorHandler: (error : any) => void}) {
   // State variable to store the entered PIN
   const [pin, setPin] = useState('');
   const navigate = useNavigate();
@@ -20,15 +19,15 @@ function Join() {
     console.log('Submitted PIN:', intId);
     //;
     // Clear the input field
-    
+
     try {
       const join = await axios.post(`http://${hostPort}:8080/multiPlayer/addPlayer`, {
         gameId: intId,
         playerId: CurrentUser.getId()
       })
 
-    } catch (e: any) {
-      console.log("Erroororor: " + e)
+    } catch (error: any) {
+      errorHandler(error)
     }
     socket.emit("join_room", intId);
     socket.emit("alert_joined", intId);
@@ -42,23 +41,10 @@ function Join() {
     //Emit user has been added
   }
 
-  // Function to handle PIN submission
-  {/*async function handleSubmit() {
-
-    
-    // TODO send PIN to server instead
-    const response = await axios.post('http://localhost:8000/', {gamepin : pin})
-    .then(function(response: any){
-    console.log(response);
-    })
-
-    setPin('');
-  }; */}
-
   useEffect(() => {
-      socket.on("starting", (game) => {
+    socket.on("starting", (game) => {
       console.log("Time to staaaaaart!!!")
-      navigate("/multiplayer", {state: game});
+      navigate("/multiplayer", { state: game });
     })
   }, [socket])
 

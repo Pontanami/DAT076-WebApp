@@ -108,7 +108,7 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
 
         case PlayScreens.CORRECTANSWER:
             return (
-                <div>
+                <div className="correct">
                     <p>Answer is correct</p>
                     <p>Waiting for host to start the next round</p>
                 </div>
@@ -116,7 +116,7 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
 
             case PlayScreens.WRONGANSWER:
                 return (
-                    <div>
+                    <div className="inCorrect">
                         <p>Answer is incorrect</p>
                         <p>Waiting for host to start the next round</p>
                     </div>

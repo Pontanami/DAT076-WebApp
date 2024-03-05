@@ -28,8 +28,8 @@ function App() {
                 <Route path="/" element={<Login />} />
                 <Route path="/home" element={<Home errorHandler={async (error : string) => await setErrorScreen(error)} />} />
                 <Route path="/leaderboard" element={<Leaderboard errorHandler={async (error : string) => await setErrorScreen(error)}/>} />
-                <Route path="/host" element={<Host />} />
-                <Route path="/join" element={<Join />} />
+                <Route path="/host" element={<Host errorHandler={async (error : any) => await setErrorScreen(error)} />} />
+                <Route path="/join" element={<Join errorHandler={async (error : any) => await setErrorScreen(error)} />} />
                 <Route path="/singleplayer" element={<Singleplayer errorHandler={async (error : any) => await setErrorScreen(error)}/>} />
                 <Route path="/joinscreen" element={<JoinScreen />} />
                 <Route path="/multiplayer" element={<MultiPlayer errorHandler={async (error : any) => await setErrorScreen(error)} />} />

@@ -4,6 +4,7 @@ import BackButton from '../backbutton';
 import axios from 'axios';
 import LeaderboardPlayer from './LeaderboardPlayer';
 import { hostPort } from '../hostPort';
+import DisplayLeaderboard from './DisplayLeaderboard';
 
 interface Player {
     id: number,
@@ -35,40 +36,29 @@ function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
     useEffect(() => {
         updatePlayers();
     }, []);
-/*
-    async function addMockPlayer() {
-        try {
-            const mockData = { name: "mock" };
-            const response = await axios.post(`http://${hostPort}:8080/player`, mockData);
-            const mockPlayer: Player = response.data;
-            await axios.post<Player>(`http://${hostPort}:8080/leaderboard`, mockPlayer);
-            updatePlayers();
-        } catch (error: any) {
-            errorHandler(error);
-        };
-    }
-    */
+    /*
+        async function addMockPlayer() {
+            try {
+                const mockData = { name: "mock" };
+                const response = await axios.post(`http://${hostPort}:8080/player`, mockData);
+                const mockPlayer: Player = response.data;
+                await axios.post<Player>(`http://${hostPort}:8080/leaderboard`, mockPlayer);
+                updatePlayers();
+            } catch (error: any) {
+                errorHandler(error);
+            };
+        }
+        */
 
     return (
         <div className="Leaderboard">
             <BackButton />
             <section className="text-center">
                 <h2>Leaderboard</h2>
-                <div id="leaderboard">
-                    <div className="columnNames">
-                        <strong className="">Rank</strong>
-                        <strong className="">Name</strong>
-                        <strong className="">Score</strong>
-                    </div>
-                    <section className="row">
-                        {playerList.map((player: Player, index: number) =>
-                            <LeaderboardPlayer player={player} index={index + 1} key={player.id} />
-                            //createPlayerEntry(player, index + 1)
-                        )}
-                    </section>
-                </div>
+                <DisplayLeaderboard
+                    playerList={playerList}
+                />
             </section>
-           
         </div>
     );
 }

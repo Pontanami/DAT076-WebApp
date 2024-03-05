@@ -1,15 +1,14 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect} from 'react';
 import './host.css';
 import './Leaderboard/leaderboard.css';
 import { Link } from 'react-router-dom';
 import back from './Image/back.svg';
 import CurrentUser from './CurrentUser';
 import axios from 'axios';
-import errorHandler from './Error/ErrorHandling';
 import { socket } from './socket';
 import IPlayer from './IPlayer';
 import { hostPort } from './hostPort';
-import LeaderboardPlayer from './Leaderboard/LeaderboardPlayer';
+import DisplayLeaderboard from './Leaderboard/DisplayLeaderboard';
 
 enum MPGameState {
   WAITINGROOM,
@@ -17,7 +16,7 @@ enum MPGameState {
   GAMEOVER
 }
 
-function Host() {
+function Host({errorHandler} : {errorHandler: (error : any) => void}) {
   const [players, setPlayers] = useState<IPlayer[]>([])
   const [gameState, setGameState] = useState<MPGameState>(MPGameState.WAITINGROOM)
   const [gameId, setGameId] = useState<number>()
@@ -28,7 +27,7 @@ function Host() {
         hostId: CurrentUser.getId()
       })
       console.log("room created")
-      //TODO: Denna kan behöva skrivas om lite, kanske sus att converta till en string. Göra det i Router? NU har vi två id, både game och pin. Kan kännas sus men
+
       setGameId(response.data)
       const id = response.data
       console.log("gameID: " + id);
@@ -52,7 +51,7 @@ function Host() {
       console.log(`Correct answer for: ${userId}`)
       fetchPlayers(id)
     });
-  }, [socket]);
+  }, []);
 
   async function fetchPlayers(idp : Promise<number | undefined>) {
     try {
@@ -63,19 +62,17 @@ function Host() {
       console.log(CurrentUser.getName())
       const players: IPlayer[] = response.data;
       setPlayers(players)
-    } catch (e: any) {
-      console.log("Error: " + e)
+    } catch (error: any) {
+      errorHandler(error)
     }
   }
 
-  //TODO: Rerender vid knapptryck därför är Pin null, är något som måste kollas på!
   async function startGame() {
     console.log("Host emitting startgame: " + gameId)
     setGameState(MPGameState.PLAYING)
     socket.emit("start_game", gameId)
   }
 
-  //TODO: Rerender vid knapptryck därför är Pin null, är något som måste kollas på!
   async function endGame() {
     setGameState(MPGameState.GAMEOVER)
     socket.emit("end_game", gameId)
@@ -126,18 +123,9 @@ function Host() {
       <button className="homeButton" onClick={() => nextRound()}>Next Round</button>
       <button className="homeButton" onClick={() => endGame()}>End Game</button>
           <section className="text-center">
-            <div id="leaderboard">
-              <div className="columnNames">
-                <strong className="">Rank</strong>
-                <strong className="">Name</strong>
-                <strong className="">Score</strong>
-              </div>
-              <section className="row">
-                {players.map((player: IPlayer, index: number) =>
-                  <LeaderboardPlayer player={player} index={index + 1} key={player.id} />
-                )}
-              </section>
-            </div>
+            <DisplayLeaderboard
+              playerList={players}
+            />
           </section>
         </div>
     </div>;
