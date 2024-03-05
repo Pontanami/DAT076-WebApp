@@ -113,7 +113,7 @@ function Host() {
   function HostGameOverScreen() {
     return <div className="Host">
       <p>The game has ended!</p>
-      <Link to="/"><button className="homeButton" type="button">Home</button></Link>
+      <Link to="/home"><button className="homeButton" type="button">Home</button></Link>
     </div>;
   }
 
@@ -126,7 +126,7 @@ function Host() {
 
   function HostWaitingScreen() {
     return <div className="Host">
-      <Link to="/"><img alt='' src={back} style={{ width: "3rem" }} /></Link>
+      <Link to="/home"><img alt='' src={back} style={{ width: "3rem" }} /></Link>
       <section className='host-container'>
         <h2>Game PIN:</h2>
         <h1>{gamePin}</h1>

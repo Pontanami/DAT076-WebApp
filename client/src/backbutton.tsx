@@ -3,7 +3,7 @@ import back from './Image/back.svg';
 
 function BackButton () {
     return (
-        <Link to="/"><img src={back} style={{width: "3rem"}}/></Link>
+        <Link to="/home"><img src={back} style={{width: "3rem"}}/></Link>
     )
 }
 

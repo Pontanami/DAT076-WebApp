@@ -9,6 +9,7 @@ import { useState } from 'react';
 import CreateErrorScreen from './Error/ErrorScreen';
 import getErrorMessage from './Error/ErrorHandling';
 import MultiPlayer from './Play/MultiPlayer';
+import Login from './Home/Login';
 
 enum Screens{
   NOERROR,
@@ -24,7 +25,8 @@ function App() {
       return (
         <div className="App">
             <Routes>
-                <Route path="/" element={<Home errorHandler={async (error : string) => await setErrorScreen(error)} />} />
+                <Route path="/" element={<Login />} />
+                <Route path="/home" element={<Home errorHandler={async (error : string) => await setErrorScreen(error)} />} />
                 <Route path="/leaderboard" element={<Leaderboard errorHandler={async (error : string) => await setErrorScreen(error)}/>} />
                 <Route path="/host" element={<Host />} />
                 <Route path="/join" element={<Join />} />

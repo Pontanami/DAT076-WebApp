@@ -7,9 +7,9 @@ function LeaderboardPlayer({ player, index } : {player : Player, index : number}
     return (
         <div className="playerEntry" key={player.id}>
             <div>
-                <strong className="">{index}</strong>
-                <strong className="">{player.name}</strong>
-                <strong className="">{player.score}</strong>
+                <strong>{index}</strong>
+                <strong>{player.name}</strong>
+                <strong>{player.score}</strong>
             </div>
         </div>
     );

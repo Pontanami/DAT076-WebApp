@@ -14,7 +14,7 @@ function Gameover() {
             <h2>Game Over</h2>
             <img className='gif' src={dynamicFile} />
             <div className='endButtons'>
-                <Link to="/"><button className="homeButton" type="button">Home</button></Link>
+                <Link to="/home"><button className="homeButton" type="button">Home</button></Link>
                 <Link to="/leaderboard"><button className="homeButton" type="button">Leaderboard</button></Link>
             </div>
         </div>

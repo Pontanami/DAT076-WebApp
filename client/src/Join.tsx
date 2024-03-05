@@ -64,7 +64,7 @@ function Join() {
 
   return (
     <div className="Join">
-      <Link to="/"><img alt='' src={back} style={{ width: "3rem" }} /></Link>
+      <Link to="/home"><img alt='' src={back} style={{ width: "3rem" }} /></Link>
       <section className='contents'>
         <h2>Enter game PIN:</h2>
         <form onSubmit={handleSubmit}>

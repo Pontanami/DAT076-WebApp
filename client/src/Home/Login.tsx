@@ -2,24 +2,21 @@ import React, { useEffect, useState } from 'react';
 import './Login.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios, { AxiosResponse } from 'axios';
-import Player from '../IPlayer';
 import CurrentUser from '../CurrentUser';
 import { hostPort } from '../hostPort';
+import { Link } from 'react-router-dom';
 
-
-
-
-function Login({ errorHandler, closeLogin }: { errorHandler: (error: any) => void, closeLogin: () => void}) {
+function Login() {
     async function createUser(name: string, password: string) {
         try {
-            const response = await axios.post<[number, string]>('http://localhost:8080/user/signup', {
+            const response = await axios.post<[number, string]>(`http://${hostPort}:8080/user/signup`, {
                 username: name,
                 password: password
             });
             console.log("Success Create")
             setCurrentUser(response);
         } catch (error: any) {
-            errorHandler(error)
+            console.log("error")
         }
     }
 
@@ -32,7 +29,7 @@ function Login({ errorHandler, closeLogin }: { errorHandler: (error: any) => voi
             console.log("Success Login")
             setCurrentUser(response);
         } catch (error: any) {
-            errorHandler(error)
+            console.log("error")
         }
     }
 
@@ -51,16 +48,14 @@ function Login({ errorHandler, closeLogin }: { errorHandler: (error: any) => voi
                 <div className='inputs'>
                     <input id="nameBox" type="text" placeholder='Enter name' />
                     <input id="passwordBox" type="text" placeholder='Enter password' />
-                    <button onClick={
+                    <Link to="/home"><button onClick={
                         async () => {
                             AccountAction(async (name: string, password: string) => await loginUser(name, password));
-                            closeLogin();
-                        }}>Login</button>
-                    <button onClick={
+                        }}>Login</button></Link>
+                    <Link to="/home"><button onClick={
                         async () => {
                             AccountAction(async (name: string, password: string) => await createUser(name, password));
-                            closeLogin();
-                        }}>CreatePlayer</button>
+                        }}>CreatePlayer</button></Link>
                 </div>
             </div>
         )

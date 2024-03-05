@@ -1,7 +1,5 @@
 import {io} from './start'
 
-
-
 export function socketListener(){
     io.engine.on("connection_error", (err) => {
         console.log(err.req);      // the request object
