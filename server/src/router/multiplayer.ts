@@ -66,6 +66,7 @@ mpRouter.get("/:id", async (
             return;
         }
         let players = await mpService.getPlayers(gameId)
+        players.sort((a, b) => b.score - a.score);
         res.status(200).send(players);
     
     } catch (e: any) {

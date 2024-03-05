@@ -31,7 +31,7 @@ function Login() {
             onError(error)
         }
     }
-    
+
     async function loginUser(name: string, password: string) {
         try {
             const response = await axios.post<[number, string]>(`http://${hostPort}:8080/user/login/`, {
@@ -44,8 +44,8 @@ function Login() {
         }
     }
 
-    function onSuccessLogin(response: AxiosResponse<[number, string]>) {
-        console.log("Success Create");
+    async function onSuccessLogin(response: AxiosResponse<[number, string]>) {
+        console.log("Success");
         setCurrentUser(response);
         navigate("/home");
     }

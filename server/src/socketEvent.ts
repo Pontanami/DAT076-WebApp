@@ -37,8 +37,8 @@ export function socketListener(){
         })
 
         socket.on("correct_answer", (data) =>{
-            console.log(`Correct answer for: ${data.userId}`)
-            socket.to(data.gameId).emit("correct_answer", data.userId);
+            console.log(`Correct answer for: ${data.id}`)
+            socket.to(data.gameId).emit("correct_answer", data.id);
         });
     });
 }  

@@ -21,40 +21,44 @@ function Host() {
   const [players, setPlayers] = useState<IPlayer[]>([])
   const [gameState, setGameState] = useState<MPGameState>(MPGameState.WAITINGROOM)
   const [gameId, setGameId] = useState<number>()
-  let id: number
 
-  async function createGame() {
+  async function createGame() : Promise<number | undefined> {
     try {
-      const response = await axios.post(`http://${hostPort}:8080/multiPlayer`, {
+      const response = await axios.post<number>(`http://${hostPort}:8080/multiPlayer`, {
         hostId: CurrentUser.getId()
       })
       console.log("room created")
       //TODO: Denna kan behöva skrivas om lite, kanske sus att converta till en string. Göra det i Router? NU har vi två id, både game och pin. Kan kännas sus men
       setGameId(response.data)
-      id = response.data
+      const id = response.data
+      console.log("gameID: " + id);
+      console.log("Wrong game ID: " + gameId);
       socket.emit("join_room", id);
+      return id;
     } catch (error: any) {
       errorHandler(error)
+      return undefined;
     }
   }
 
   useEffect(() => {
-    createGame();
-  }, []);
-
-  useEffect(() => {
+    const id : Promise<number | undefined> = createGame();
+    if (id === undefined) return;
     socket.on('user_joined', () => {
-      fetchPlayers()
+      fetchPlayers(id)
       console.log("User has been added")
     });
     socket.on('correct_answer', (userId) => {
       console.log(`Correct answer for: ${userId}`)
-      fetchPlayers()
+      fetchPlayers(id)
     });
   }, [socket]);
 
-  async function fetchPlayers() {
+  async function fetchPlayers(idp : Promise<number | undefined>) {
     try {
+      const id = await idp;
+      console.log("id:" + id);
+      console.log("gameId: " + gameId);
       const response = await axios.get(`http://${hostPort}:8080/multiPlayer/${id}`)
       console.log(CurrentUser.getName())
       const players: IPlayer[] = response.data;
@@ -65,8 +69,7 @@ function Host() {
   }
 
   //TODO: Rerender vid knapptryck därför är Pin null, är något som måste kollas på!
-  async function startGame(e: any) {
-    e.preventDefault()
+  async function startGame() {
     console.log("Host emitting startgame: " + gameId)
     setGameState(MPGameState.PLAYING)
     socket.emit("start_game", gameId)
@@ -146,7 +149,7 @@ function Host() {
       <section className='host-container'>
         <h2>Game PIN:</h2>
         <h1>{gameId}</h1>
-        <button className="homeButton" onClick={e => startGame(e)}>StartGame</button>
+        <button className="homeButton" onClick={e => startGame()}>StartGame</button>
       </section>
       <div className='joined-container'>
         {players.map((player: IPlayer) => <p className="player">{player.name}</p>

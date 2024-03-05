@@ -5,5 +5,4 @@ export interface multiPlayer{
     host : number,
     players : Player[],
     game : Game,
-    pin : string
 }
