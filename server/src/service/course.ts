@@ -5,6 +5,10 @@ export class CourseService {
 
     private static instance: CourseService;
 
+    /**
+     * Method for getting the course service singleton
+     * @returns {CourseService} - Returns the course service singleton
+     */
     public static getInstance(): CourseService {
         if (!CourseService.instance) {
             CourseService.instance = new CourseService();
@@ -12,6 +16,7 @@ export class CourseService {
         return CourseService.instance;
     }
 
+    /** @inheritdoc */
     async createCourse(code: string, name: string, failrate: number): Promise<Course> {
         const newCourse: Course = {
             code: code,
@@ -22,26 +27,27 @@ export class CourseService {
         return { ...newCourse };
     }
 
-    async getCourse(code: string): Promise<Course | undefined> {
+    /** @inheritdoc */
+    async getCourse(code: string): Promise<Course> {
         const course = this.courses.find((course) => course.code === code);
         if (!course) {
-            return undefined;
+            throw new Error("Course doesn't exist.");
         }
         return { ...course };
     }
 
+    /** @inheritdoc */
     async getListOfCourses(): Promise<Course[]> {
         return JSON.parse(JSON.stringify(this.courses));
     }
 
-    async checkAnswer(
-        courseClickedId: string,
-        course2Id: string
-    ): Promise<boolean | undefined> {
+    /** @inheritdoc */
+    async checkAnswer(courseClickedId: string, course2Id: string): Promise<boolean> {
         let courseClicked = await this.getCourse(courseClickedId);
         let course2 = await this.getCourse(course2Id);
 
-        if (!courseClicked || !course2) return undefined;
+        if (!courseClicked || !course2)
+            throw new Error("One of the courses don't exist.");
         else if (courseClicked.failrate >= course2.failrate) {
             return true;
         }

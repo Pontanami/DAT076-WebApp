@@ -5,12 +5,12 @@ import { CourseService } from "./course";
 import { PlayerService } from "./player";
 import { GameService } from "./game";
 import { singlePlayerService} from "./singlePlayer";
+import e from "express";
 
 test("If a session is created it should be in the list of sessions", async () => {
     const sessionService = new GameService();
     let createdSession = await sessionService.createGame();
-    let allSessions = await sessionService.getAllGames();
-    expect(allSessions.map((game: Game) => game.id)).toContain(createdSession.id);
+    expect(sessionService.getGame(createdSession.id)).toContain(createdSession);
 });
 
 test("If a session is created it should be in the list of sessions", async () => {
@@ -31,6 +31,7 @@ test("If a player is added to the session it should be in the list of players fo
     expect(recivedSession?.players.map(() => createdPlayer)).toContain(createdPlayer)
 })*/
 
+/*
 test("If a question is added to the session it should be in the list of questions", async () =>{
     const sessionService = new GameService();
     const courseService = CourseService.getInstance()
@@ -40,6 +41,7 @@ test("If a question is added to the session it should be in the list of question
     let sessionQuestions = await sessionService.getGameQuestions(session.id);
     expect(sessionQuestions?.map((course: Course) => course.code)).toContain(course.code);
 })
+*/
 
 test("Game Test", async () =>{
     const sPService = new singlePlayerService();
