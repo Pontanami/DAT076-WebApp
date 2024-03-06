@@ -9,6 +9,7 @@ import Player from '../IPlayer';
 
 function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongGuess }
     : { courseList: [Course, Course], handleCorrectGuess: () => void, errorHandler: (error: any) => void, handleWrongGuess: () => void }) {
+    
     const [score, setScore] = useState<number>(0);
     const [timer, setTimer] = useState<number>(10);
     const [isPlaying, setIsPlaying] = useState<boolean>(true)

@@ -9,7 +9,7 @@ function CreateErrorScreen({ error, setNoErrorScreen }: { error: string, setNoEr
             <img className='errorImg spacing' src={filePath} />
             <h2>{error}</h2>
             <div className='endButtons spacing'>
-                <Link to="/"><button className="homeButton" onClick={
+                <Link to="/home"><button className="homeButton" onClick={
                     async (e) => {
                         setNoErrorScreen();
                     }

@@ -1,17 +1,10 @@
 import './leaderboard.css';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BackButton from '../backbutton';
 import axios from 'axios';
-import LeaderboardPlayer from './LeaderboardPlayer';
 import { hostPort } from '../hostPort';
 import DisplayLeaderboard from './DisplayLeaderboard';
-
-interface Player {
-    id: number,
-    name: string,
-    score: number
-}
-
+import Player from '../IPlayer';
 
 function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
 
@@ -26,7 +19,6 @@ function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
                     console.log("Input to player is of wrong type")
                 }
             });
-            // TODO Check that tasks is a list of Tasks
             setPlayerList(newPlayer);
         } catch (error: any) {
             errorHandler(error);
@@ -36,19 +28,6 @@ function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
     useEffect(() => {
         updatePlayers();
     }, []);
-    /*
-        async function addMockPlayer() {
-            try {
-                const mockData = { name: "mock" };
-                const response = await axios.post(`http://${hostPort}:8080/player`, mockData);
-                const mockPlayer: Player = response.data;
-                await axios.post<Player>(`http://${hostPort}:8080/leaderboard`, mockPlayer);
-                updatePlayers();
-            } catch (error: any) {
-                errorHandler(error);
-            };
-        }
-        */
 
     return (
         <div className="Leaderboard">
@@ -62,7 +41,5 @@ function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
         </div>
     );
 }
-
-
 
 export default Leaderboard;

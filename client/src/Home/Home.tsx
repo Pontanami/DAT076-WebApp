@@ -8,12 +8,13 @@ import about from '../Image/question.png'
 import axios from 'axios';
 import CurrentUser from '../CurrentUser';
 import { hostPort } from '../hostPort';
+import Player from '../IPlayer';
 
 function Home({ errorHandler }: { errorHandler: (error: any) => void }) {
 
   async function createPlayer() {
     try {
-      await axios.post(`http://${hostPort}:8080/player`, {
+      await axios.post<Player>(`http://${hostPort}:8080/player`, {
         id: CurrentUser.getId(),
         name: CurrentUser.getName()
 

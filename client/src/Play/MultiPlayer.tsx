@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import CurrentUser from "../CurrentUser";
 import { hostPort } from "../hostPort";
 import Course from "../ICourse";
+import Player from "../IPlayer";
 import { socket } from "../socket";
 import Gameover from "./Gameover";
 import PlayScreen from "./PlayScreen";
@@ -20,22 +21,8 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
     const [playState, setPlayState] = useState<PlayScreens>(PlayScreens.PLAYING);
     const { state } = useLocation();
 
-    /*
-    async function startNextRound(){
-        try{
-            const response = await axios.post('http://localhost:8080/game/update', {
-                    gameId: gameId,
-                });
-            updateDisplayedCourses(response)
-        }catch (error: any) {
-            errorHandler(error)
-        }
-
-    }*/
-
     async function updateDisplayedCourses(response: { data: [Course, Course]; }){
         const newCourse: [Course, Course] = response.data;
-        // TODO Check that courses is a list of Courses
         console.log("Updating displayed Courses")
         console.log(newCourse)
         setCourseList(newCourse);
@@ -43,9 +30,8 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
 
     async function setGameOver(){
         try{
-            //TODO: fix error handling and post/put beroende på om personen redan finns
             console.log(CurrentUser.getId())
-            const response = await axios.post(`http://${hostPort}:8080/leaderboard`, {
+            const response = await axios.post<Player[]>(`http://${hostPort}:8080/leaderboard`, {
                  id: CurrentUser.getId()
                 })
             console.log("Player added to leaderboard")
@@ -73,7 +59,6 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
         setPlayState(PlayScreens.CORRECTANSWER);
     }
 
-    //We need to check if we are on the "CorrectAnswerScreen" otherwise if the timer is 0 
     async function displayWrongAnswer(){
         if(playState !== PlayScreens.CORRECTANSWER){
             setPlayState(PlayScreens.WRONGANSWER);
@@ -82,12 +67,10 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
     
     useEffect(() => {
         fetchCurrentQuestions(state)
-    }, [])
 
-    useEffect(() => {
-        socket.on('new_round_started', (gameId) => {
-            console.log("Updating displayed Questions, id: " + gameId)
-            fetchCurrentQuestions(gameId)
+        socket.on('new_round_started', () => {
+            console.log("Updating displayed Questions, id: " + state)
+            fetchCurrentQuestions(state)
             console.log(courseList)
           });
 
@@ -95,7 +78,7 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
               setGameOver()
               console.log("Calling MPGameOver")
           })
-    }, [socket])
+    }, [])
 
     switch (playState) {
         case PlayScreens.PLAYING:

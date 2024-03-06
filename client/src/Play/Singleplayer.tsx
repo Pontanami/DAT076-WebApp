@@ -24,7 +24,7 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
 
     async function startNextRound(){
         try{
-            const response = await axios.post(`http://${hostPort}:8080/game/update`, {
+            const response = await axios.post<[Course, Course]>(`http://${hostPort}:8080/game/update`, {
                     gameId: gameId,
                 });
             updateDisplayedCourses(response)

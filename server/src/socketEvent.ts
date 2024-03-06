@@ -28,7 +28,7 @@ export function socketListener(){
     
         socket.on("new_round", (gameId) =>{
             console.log(`Notify fetchRound for: ${gameId}`)
-            socket.to(gameId).emit("new_round_started", gameId);
+            socket.to(gameId).emit("new_round_started");
         })
     
         socket.on("end_game", (gameId) =>{

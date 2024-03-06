@@ -21,7 +21,7 @@ function Join({errorHandler} : {errorHandler: (error : any) => void}) {
     // Clear the input field
 
     try {
-      const join = await axios.post(`http://${hostPort}:8080/multiPlayer/addPlayer`, {
+      const join = await axios.post<boolean>(`http://${hostPort}:8080/multiPlayer/addPlayer`, {
         gameId: intId,
         playerId: CurrentUser.getId()
       })

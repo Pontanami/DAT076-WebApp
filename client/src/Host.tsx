@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import './host.css';
 import './Leaderboard/leaderboard.css';
 import { Link } from 'react-router-dom';
@@ -6,9 +6,10 @@ import back from './Image/back.svg';
 import CurrentUser from './CurrentUser';
 import axios from 'axios';
 import { socket } from './socket';
-import IPlayer from './IPlayer';
+import Player from './IPlayer';
 import { hostPort } from './hostPort';
 import DisplayLeaderboard from './Leaderboard/DisplayLeaderboard';
+import Course from './ICourse';
 
 enum MPGameState {
   WAITINGROOM,
@@ -16,12 +17,12 @@ enum MPGameState {
   GAMEOVER
 }
 
-function Host({errorHandler} : {errorHandler: (error : any) => void}) {
-  const [players, setPlayers] = useState<IPlayer[]>([])
+function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
+  const [players, setPlayers] = useState<Player[]>([])
   const [gameState, setGameState] = useState<MPGameState>(MPGameState.WAITINGROOM)
   const [gameId, setGameId] = useState<number>()
 
-  async function createGame() : Promise<number | undefined> {
+  async function createGame(): Promise<number | undefined> {
     try {
       const response = await axios.post<number>(`http://${hostPort}:8080/multiPlayer`, {
         hostId: CurrentUser.getId()
@@ -41,26 +42,30 @@ function Host({errorHandler} : {errorHandler: (error : any) => void}) {
   }
 
   useEffect(() => {
-    const id : Promise<number | undefined> = createGame();
-    if (id === undefined) return;
+    const id: Promise<number | undefined> = createGame();
+
+    if (id === undefined)
+      return;
+
     socket.on('user_joined', () => {
       fetchPlayers(id)
       console.log("User has been added")
     });
+
     socket.on('correct_answer', (userId) => {
       console.log(`Correct answer for: ${userId}`)
       fetchPlayers(id)
     });
   }, []);
 
-  async function fetchPlayers(idp : Promise<number | undefined>) {
+  async function fetchPlayers(idp: Promise<number | undefined>) {
     try {
       const id = await idp;
       console.log("id:" + id);
       console.log("gameId: " + gameId);
-      const response = await axios.get(`http://${hostPort}:8080/multiPlayer/${id}`)
+      const response = await axios.get<Player[]>(`http://${hostPort}:8080/multiPlayer/${id}`)
       console.log(CurrentUser.getName())
-      const players: IPlayer[] = response.data;
+      const players: Player[] = response.data;
       setPlayers(players)
     } catch (error: any) {
       errorHandler(error)
@@ -80,7 +85,7 @@ function Host({errorHandler} : {errorHandler: (error : any) => void}) {
 
   async function nextRound() {
     try {
-      const response = await axios.post(`http://${hostPort}:8080/game/update`, {
+      const response = await axios.post<[Course, Course]>(`http://${hostPort}:8080/game/update`, {
         gameId: gameId,
       });
       console.log("Host has started the next round")
@@ -118,16 +123,16 @@ function Host({errorHandler} : {errorHandler: (error : any) => void}) {
 
   function HostPlayScreen() {
     return <div className="Host">
-      
+
       <div className="Leaderboard">
-      <button className="homeButton" onClick={() => nextRound()}>Next Round</button>
-      <button className="homeButton" onClick={() => endGame()}>End Game</button>
-          <section className="text-center">
-            <DisplayLeaderboard
-              playerList={players}
-            />
-          </section>
-        </div>
+        <button className="homeButton" onClick={() => nextRound()}>Next Round</button>
+        <button className="homeButton" onClick={() => endGame()}>End Game</button>
+        <section className="text-center">
+          <DisplayLeaderboard
+            playerList={players}
+          />
+        </section>
+      </div>
     </div>;
   }
 
@@ -140,7 +145,7 @@ function Host({errorHandler} : {errorHandler: (error : any) => void}) {
         <button className="homeButton" onClick={e => startGame()}>StartGame</button>
       </section>
       <div className='joined-container'>
-        {players.map((player: IPlayer) => <p className="player">{player.name}</p>
+        {players.map((player: Player) => <p className="player">{player.name}</p>
         )}
       </div>
     </div>;
