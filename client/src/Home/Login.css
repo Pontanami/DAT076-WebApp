@@ -35,7 +35,8 @@
     width: 70%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 1rem;
+    position: absolute;
+    transform: translate(15%, 300%);
 }
 
 .login-popup button {
@@ -81,7 +82,7 @@
     font-size: large;
     font-weight: 500;
     text-align: center;
-    margin-top: 8rem;
+    margin-top: 10rem;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -93,6 +94,12 @@
         width: 50%;
         display: flex;
         flex-direction: column;
+        position: absolute;
+        transform: translate(40%, 120%);
+    }
+
+    .errorMsg {
+        margin-top: 6rem;
     }
 
   }
