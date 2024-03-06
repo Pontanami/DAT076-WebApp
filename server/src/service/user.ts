@@ -54,9 +54,7 @@ export class userService implements IUserService {
   async login(uname: string, password: string): Promise<[number, string]> {
     const um: Model<user> = await userModel;
     const user = await um.findOne({ username: uname });
-    if (!user) throw new Error("User doesn't exist");
-    else if (user.password !== password)
-      throw new Error("Username or Password doesn't match");
+    if (!user || user.password !== password) throw new Error("Username or password is incorrect");
 
     return [user.id, user.username];
   }
