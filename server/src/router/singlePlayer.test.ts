@@ -1,15 +1,36 @@
-import exp from "constants";
 import * as SuperTest from "supertest";
-import { Game } from "../model/game";
 import { PlayerService } from "../service/player";
-import { singlePlayerService } from "../service/singlePlayer";
 import { app } from "../start";
 
-
+jest.mock("../db/conn")
 const request = SuperTest.default(app);
 
 
-test("Check post session test", async () => {
+test("If a singlePlayerGame is created, it should return an id and a 201 response", async () => {
 
-  //TODO
+const response = await request.post("/user/signup").send({
+    username: "testUser",
+    password : "abc123"
+});
+
+expect(response.status).toBe(200)
+expect(response.body).toContain("testUser");
+
+const userId = response.body[0]
+const userName = response.body[1]
+
+const response1 = await request.post("/player").send({
+  id: userId,
+  name : userName
+});
+
+expect(response.status).toBe(200)
+expect(response.body).toContain("testUser");
+
+const response2 = await request.post("/singlePlayer/").send({
+    playerId: userId
+});
+
+expect(response2.status).toBe(201);
+expect(response2.body).not.toBeUndefined();
 });

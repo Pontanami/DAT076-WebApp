@@ -9,6 +9,7 @@ import CurrentUser from '../CurrentUser';
 import Gameover from './Gameover';
 import PlayScreen from './PlayScreen';
 import { hostPort } from '../hostPort';
+import Player from '../IPlayer';
 
 enum PlayScreens {
     PLAYING,
@@ -46,7 +47,7 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
         try{
             //TODO: fix error handling and post/put beroende på om personen redan finns
             console.log(CurrentUser.getId())
-            const response = await axios.post(`http://${hostPort}:8080/leaderboard`, {
+            const response = await axios.post<Player[]>(`http://${hostPort}:8080/leaderboard`, {
                  id: CurrentUser.getId()
                 })
             console.log("Player added to leaderboard")
