@@ -51,7 +51,7 @@ function Login() {
     }
 
     async function onError(error:any){
-        setErrorMsg(error.data)
+        setErrorMsg(error.response.data);
         setLoginScreen(DisplayScreen.NOTABLETOLOGIN)
     }
 
@@ -84,7 +84,7 @@ function Login() {
     function LoginFields() {
         return <div className='inputs'>
             <input id="nameBox" type="text" placeholder='Enter name' />
-            <input id="passwordBox" type="text" placeholder='Enter password' />
+            <input id="passwordBox" type="password" placeholder='Enter password' />
             <button onClick={
                 async () => {
                     AccountAction(async (name: string, password: string) => await loginUser(name, password));
