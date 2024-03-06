@@ -1,5 +1,7 @@
 import { Course } from "../model/course";
+import { IGameService } from "./IGameService";
 import { CourseService } from "./course";
+import { GameService } from "./game";
 import { PlayerService } from "./player";
 import { singlePlayerService } from "./singlePlayer";
 
@@ -17,7 +19,7 @@ test("If we start a new round, the questions should be shifted one step", async 
 
     let SpGameId = await SinglePlayerService.createSinglePlayerGame(player.id)
 
-    let gameService = await SinglePlayerService.getGameService()
+    let gameService:IGameService = GameService.getInstance();
     let questions = await gameService.getGameQuestions(SpGameId)
 
     let currentquestions : [Course, Course] = await gameService.getCurrentQuestions(SpGameId)

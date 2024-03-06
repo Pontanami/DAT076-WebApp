@@ -6,13 +6,13 @@ const mpService = new multiPlayerService();
 export const mpRouter = express.Router();
 
 mpRouter.post("/", async (
-    req: Request<{}, {}, {hostId : number}>,
-    res: Response<number |string>
+    req: Request<{}, {}, { hostId: number }>,
+    res: Response<number | string>
 ) => {
     try {
         const hostId = req.body.hostId;
-        if(typeof(hostId) !== "number"){
-            res.status(400).send(`Bad POST call to ${req.originalUrl} --- id type doesn't match, Name has type ${typeof(name)}`);
+        if (typeof (hostId) !== "number") {
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- id type doesn't match, Name has type ${typeof (name)}`);
             return;
         }
         const mpGame = await mpService.createMultiPlayerGame(hostId);
@@ -24,17 +24,17 @@ mpRouter.post("/", async (
 });
 
 mpRouter.post("/addPlayer", async (
-    req: Request<{}, {}, {gameId : number, playerId : number}>,
-    res: Response<boolean|string>
+    req: Request<{}, {}, { gameId: number, playerId: number }>,
+    res: Response<boolean | string>
 ) => {
     try {
         const gameId = req.body.gameId;
         const playerId = req.body.playerId;
-        if(typeof(gameId) !== "number"){
-            res.status(400).send(`Bad POST call to ${req.originalUrl} --- id type doesn't match, Name has type ${typeof(gameId)}`);
+        if (typeof (gameId) !== "number") {
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- id type doesn't match, Name has type ${typeof (gameId)}`);
             return;
-        }else if(typeof(playerId) !== "number"){
-            res.status(400).send(`Bad POST call to ${req.originalUrl} --- id type doesn't match, Name has type ${typeof(playerId)}`);
+        } else if (typeof (playerId) !== "number") {
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- id type doesn't match, Name has type ${typeof (playerId)}`);
             return;
         }
 
@@ -47,12 +47,12 @@ mpRouter.post("/addPlayer", async (
 });
 
 //TODO: Kolla på hur man gör ett sånt här interface
-interface FetchMpGamePlayers extends Request{
-    params : {id : string}
+interface FetchMpGamePlayers extends Request {
+    params: { id: string }
 }
 
 mpRouter.get("/:id", async (
-    req: Request<{id:string}, {}, {}>,
+    req: Request<{ id: string }, {}, {}>,
     res: Response<Player[] | string>
 ) => {
     try {
@@ -68,7 +68,7 @@ mpRouter.get("/:id", async (
         let players = await mpService.getPlayers(gameId)
         players.sort((a, b) => b.score - a.score);
         res.status(200).send(players);
-    
+
     } catch (e: any) {
         console.log(e)
         res.status(500).send(e.message);

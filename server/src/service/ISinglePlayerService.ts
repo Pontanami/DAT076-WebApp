@@ -18,4 +18,6 @@ export interface ISinglePlayerService {
     * @returns {Promise<PlayerService>} - Returns the player service.
     */
     getSinglePlayerGame(id: number): Promise<singlePlayer>
+
+ 
 }

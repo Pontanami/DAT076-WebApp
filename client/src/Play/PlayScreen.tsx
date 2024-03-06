@@ -11,7 +11,7 @@ function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongG
     : { courseList: [Course, Course], handleCorrectGuess: () => void, errorHandler: (error: any) => void, handleWrongGuess: () => void }) {
     
     const [score, setScore] = useState<number>(0);
-    const [timer, setTimer] = useState<number>(10);
+    const [timer, setTimer] = useState<number>(15);
     const [isPlaying, setIsPlaying] = useState<boolean>(true)
 
     async function incrementScore() {
@@ -49,7 +49,7 @@ function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongG
     }, [timer]);
 
     useEffect(() => {
-        setTimer(10)
+        setTimer(15)
     }, [courseList])
 
     useEffect(() =>{

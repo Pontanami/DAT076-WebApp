@@ -1,8 +1,8 @@
 import * as SuperTest from "supertest";
 import { Player } from "../model/player";
 import { PlayerService } from "../service/player";
-import {MongoMemoryServer} from "mongodb-memory-server";
 import { app } from "../start";
+
 const request = SuperTest.default(app);
 jest.mock("../db/conn.ts");
 

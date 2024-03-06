@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { Player } from "../model/player";
 import { Game } from "../model/game";
 import { GameService } from "../service/game";
 import { Course } from "../model/course";
@@ -21,33 +20,33 @@ gameRouter.post("/", async (
     }
 });
 
-interface UpdateGameRequest extends Request{
-    body : {gameId : number}
+interface UpdateGameRequest extends Request {
+    body: { gameId: number }
 }
 
-gameRouter.post("/update", async(
+gameRouter.post("/update", async (
     req: UpdateGameRequest,
     res: Response<[Course, Course] | string>
-    ) => {
-        try {
-            const gameId = req.body.gameId;
-            if (typeof(gameId) !== "number") {
-                res.status(400).send(`Bad PUT call to ${req.originalUrl} --- gameId has type ${typeof(gameId)}`);
-                return;
-            }
-            let questions = await gameService.startNextRound(gameId)
-            res.status(200).send([questions[0], questions[1]]);
-        
-        } catch (e: any) {
-            console.log(e)
-            res.status(500).send(e.message);
+) => {
+    try {
+        const gameId = req.body.gameId;
+        if (typeof (gameId) !== "number") {
+            res.status(400).send(`Bad PUT call to ${req.originalUrl} --- gameId has type ${typeof (gameId)}`);
+            return;
         }
-    });
+        let questions = await gameService.startNextRound(gameId)
+        res.status(200).send([questions[0], questions[1]]);
 
-    interface FetchQuestionsRequest extends Request{
-        params : {id : string}
+    } catch (e: any) {
+        console.log(e)
+        res.status(500).send(e.message);
     }
-    
+});
+
+interface FetchQuestionsRequest extends Request {
+    params: { id: string }
+}
+
 gameRouter.get("/:id", async (
     req: FetchQuestionsRequest,
     res: Response<[Course, Course] | string>
@@ -66,7 +65,7 @@ gameRouter.get("/:id", async (
 
         let questions = await gameService.getCurrentQuestions(gameId)
         res.status(200).send(questions);
-    
+
     } catch (e: any) {
         console.log(e)
         res.status(500).send(e.message);
