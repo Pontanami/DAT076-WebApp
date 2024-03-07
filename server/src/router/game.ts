@@ -35,7 +35,7 @@ gameRouter.post("/update", async (
             return;
         }
         let questions = await gameService.startNextRound(gameId)
-        res.status(200).send([questions[0], questions[1]]);
+        res.status(201).send([questions[0], questions[1]]);
 
     } catch (e: any) {
         console.log(e)

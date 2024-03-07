@@ -27,7 +27,6 @@ playerRouter.get("/:id", async (
             res.status(200).send(player);
         }
     } catch (e: any) {
-        console.log(e.message)
         res.status(500).send(e.message);
     }
 });
