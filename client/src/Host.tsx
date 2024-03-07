@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import './host.css';
-import './Leaderboard/leaderboard.css';
 import { Link } from 'react-router-dom';
 import back from './Image/back.svg';
 import CurrentUser from './CurrentUser';
@@ -115,18 +114,19 @@ function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
 
 
   function HostGameOverScreen() {
-    return <div className="Host">
-      <p>The game has ended!</p>
-      <Link to="/home"><button className="homeButton" type="button">Home</button></Link>
+    return <div className="end-game">
+      <h2>The game has ended!</h2>
+      <Link to="/home" style={{textDecoration: 'none'}}><button className="homeButton" type="button">Home</button></Link>
     </div>;
   }
 
   function HostPlayScreen() {
-    return <div className="Host">
-
-      <div className="Leaderboard">
-        <button className="homeButton" onClick={() => nextRound()}>Next Round</button>
+    return <div className="HostPlayScreen">
+       <section className='buttons'>
         <button className="homeButton" onClick={() => endGame()}>End Game</button>
+        <button className="homeButton" onClick={() => nextRound()}>Next Round</button>
+       </section>
+      <div className="Leaderboard">
         <section className="text-center">
           <DisplayLeaderboard
             playerList={players}
