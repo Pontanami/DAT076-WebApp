@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import logo from '../Image/logo.png';
 import trophy from '../Image/trophy.jpg';
 import './Home.css';
 import { Link } from "react-router-dom";
-import Login from './Login';
 import about from '../Image/question.png'
 import axios from 'axios';
 import CurrentUser from '../CurrentUser';
@@ -44,9 +43,9 @@ function Home({ errorHandler }: { errorHandler: (error: any) => void }) {
 
       </nav>
       <div className="container">
-        <Link to="/host"><button className="homeButton" type="button">Host game</button></Link>
-        <Link to="/join"><button className="homeButton" type="button" onClick={async () => createPlayer()}>Join game</button></Link>
-        <Link to="/singleplayer"><button className="homeButton" type="button" onClick={async () => createPlayer()}>Single player</button></Link>
+        <Link to="/host" style={{textDecoration: 'none'}}><button className="homeButton" type="button">Host game</button></Link>
+        <Link to="/join" style={{textDecoration: 'none'}}><button className="homeButton" type="button" onClick={async () => createPlayer()}>Join game</button></Link>
+        <Link to="/singleplayer" style={{textDecoration: 'none'}}><button className="homeButton" type="button" onClick={async () => createPlayer()}>Single player</button></Link>
       </div>
     </div>
   );

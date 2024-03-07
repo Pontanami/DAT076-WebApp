@@ -48,15 +48,6 @@
     height: 50%;
    }
 }
-button:hover{
-    text-decoration: underline;
-    font-size: large;
-    color: brown;
-}
-
-button:active{
-    color: green;
-}
 
 
 .pPlay{

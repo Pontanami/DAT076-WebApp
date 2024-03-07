@@ -60,7 +60,7 @@ function Join({errorHandler} : {errorHandler: (error : any) => void}) {
             onChange={(e) => setPin(e.target.value)}
             style={{ fontSize: '20px' }}
           />
-          <Link to="/joinscreen"><button type="submit" onClick={handleSubmit}>Join</button></Link>
+          <Link to="/joinscreen" style={{textDecoration: 'none'}}><button type="submit" onClick={handleSubmit}>Join</button></Link>
         </form>
       </section>
     </div>
