@@ -38,7 +38,6 @@ function Home({ errorHandler }: { errorHandler: (error: any) => void }) {
 
         <div className="nav-links">
           <Link to="/Leaderboard"><img src={trophy} alt='' style={{ width: "3rem" }} /></Link>
-          <button className="question"><img src={about} alt='' style={{ width: "3rem" }} /></button>
         </div>
 
       </nav>
