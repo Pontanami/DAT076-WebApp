@@ -36,10 +36,21 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
         return dynamicFile;
     }
 
+    function getDifferentBg(): number[]{
+        const bg1 = getRandomBg();
+        const bg2 = getRandomBg();
+
+        if (bg1 == bg2){
+            getDifferentBg();
+        }
+        return [bg1, bg2];
+    }
+
     async function updateDisplayedCourses(response: { data: [Course, Course]; }){
         const newCourse: [Course, Course] = response.data;
-        newCourse[0].bgnumber = getRandomBg();
-        newCourse[1].bgnumber = getRandomBg();
+        const bgnumbers: number[] = getDifferentBg();
+        newCourse[0].bgnumber = bgnumbers[0];
+        newCourse[1].bgnumber = bgnumbers[1];
         console.log("Updating displayed Courses")
         console.log(newCourse)
         setCourseList(newCourse);

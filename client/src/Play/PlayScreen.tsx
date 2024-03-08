@@ -88,7 +88,7 @@ function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongG
                 <h2>{timer}</h2>
             </div>
             <div>
-                <h2 className='score-counter'>
+                <h2 className='score-counter' style={{color: 'white'}}>
                     Score: {score}
                 </h2>
             </div>

@@ -18,13 +18,16 @@ let handleWrongGuess: boolean;
 beforeEach(() => {
     course = {
         code: "ABC123",
-        name: "Play1",
-        failrate: 40
-    }
-    course2 = {
+        name: "Test Course",
+        program: "Test Program",
+        failrate: 40,
+        bgnumber: 1    }
+     course2 = {
         code: "DEF456",
         name: "Test Course2",
-        failrate: 60
+        program: "Test Program2",
+        failrate: 60,
+        bgnumber: 2
     }
     courseTuple = [course, course2]
     handleCorrectGuess = false;
