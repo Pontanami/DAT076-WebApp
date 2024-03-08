@@ -17,11 +17,13 @@ export class CourseService {
     }
 
     /** @inheritdoc */
-    async createCourse(code: string, name: string, failrate: number): Promise<Course> {
+    async createCourse(code: string, name: string, program:string, failrate: number): Promise<Course> {
         const newCourse: Course = {
             code: code,
             name: name,
+            program: program,
             failrate: failrate,
+            bgnumber: 1
         };
         this.courses.push(newCourse);
         return { ...newCourse };

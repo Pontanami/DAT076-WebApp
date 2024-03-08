@@ -3,7 +3,6 @@ import Course from '../ICourse';
 import React, { useEffect, useState } from 'react';
 import CurrentUser from '../CurrentUser';
 import { hostPort } from '../hostPort';
-import img from '../Image/coursesbg/bg1.jpg';
 
 
 
@@ -33,18 +32,13 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
         </div>
     )
 
-    function getRandomBg() {
-        const rndInt = Math.floor(Math.random() * 6) + 1;
-        const dynamicFile = require('../Image/coursesbg/bg' + rndInt + '.jpg');
-        return dynamicFile;
-    }
+    
 
     function CreateButton({course, courseFailrate, showResult} : {course : Course, courseFailrate : number | string, showResult : () => void}) {
-        const courseBg = getRandomBg();
 
         return (
             <button className="col-md-6 noPadding fitContent buttonPlay" style={{ 
-                background: `linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(${courseBg})`,  
+                background: `linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(${course.bgnumber})`,  
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat', }} onClick={
@@ -53,10 +47,11 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
                 }}>
                 <div className="col-8 mx-auto">
                     <p className="course-code pPlay">
-                        <strong style={{color: 'white'}}>{course.code}</strong>
+                        <strong style={{color: 'white'}}>{course.name}</strong>
                     </p>
-                    <p className='pPlay' style={{color: 'white'}}>{course.name}</p>
-                    <p className='pPlay' style={{color: 'white'}}>{courseFailrate}</p>
+                    <p className='pPlay' style={{color: 'white', fontSize: '20px'}}>{course.program}</p>
+                    <p className='pPlay' style={{color: 'white', fontSize: '20px'}}>{course.code}</p>
+                    <p className='pPlay' style={{color: 'white', fontSize: '40px', fontWeight: 'bold'}}>{courseFailrate}%</p>
                 </div>
             </button>
         )

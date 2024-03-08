@@ -22,6 +22,7 @@ export function fetchCourses(){
                 
                 let code = course.courseCode
                 let name = course.courseName
+                let program = course.programLong
                 let prate : number = course.passRate * 100;
                 let failrate : number = 100 - prate;
                 
@@ -30,7 +31,7 @@ export function fetchCourses(){
                 let people = course.total
 
                 if(people >= 100){
-                    await courseService.createCourse(code, name, failrateRounded)
+                    await courseService.createCourse(code, name, program, failrateRounded)
                 }
             });
         }

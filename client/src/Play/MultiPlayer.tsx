@@ -17,12 +17,29 @@ enum PlayScreens {
 }
 
 function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
-    const [courseList, setCourseList] = useState<[Course, Course]>([{ code: "Abc", name: "placeholder", failrate: 1 }, { code: "Abc", name: "placeholder", failrate: 2 }]);
+    const [courseList, setCourseList] = useState<[Course, Course]>([{ code: "Abc", name: "placeholder", program:"placeholder", failrate: 1, bgnumber: 1}, { code: "Abc", name: "placeholder", program:"placeholder", failrate: 2, bgnumber: 2}]);
     const [playState, setPlayState] = useState<PlayScreens>(PlayScreens.PLAYING);
     const { state } = useLocation();
 
+    useEffect(() => {
+        const images = ['path_to_your_image1.jpg', 'path_to_your_image2.jpg', 'path_to_your_image3.jpg'];
+        const randomIndex = Math.floor(Math.random() * images.length);
+        const randomImageSrc = images[randomIndex];
+    
+        const img = new Image();
+        img.src = randomImageSrc;
+      }, []);
+
+    function getRandomBg() {
+        const rndInt = Math.floor(Math.random() * 6) + 1;
+        const dynamicFile = require('../Image/coursesbg/bg' + rndInt + '.jpg');
+        return dynamicFile;
+    }
+
     async function updateDisplayedCourses(response: { data: [Course, Course]; }){
         const newCourse: [Course, Course] = response.data;
+        newCourse[0].bgnumber = getRandomBg();
+        newCourse[1].bgnumber = getRandomBg();
         console.log("Updating displayed Courses")
         console.log(newCourse)
         setCourseList(newCourse);

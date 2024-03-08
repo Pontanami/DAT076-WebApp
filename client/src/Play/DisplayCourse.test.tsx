@@ -20,11 +20,15 @@ beforeAll(() => {
     course = {
         code: "ABC123",
         name: "Test Course",
-        failrate: 40    }
+        program: "Test Program",
+        failrate: 40,
+        bgnumber: 1    }
      course2 = {
         code: "DEF456",
         name: "Test Course2",
-        failrate: 60
+        program: "Test Program2",
+        failrate: 60,
+        bgnumber: 2
     }
     courseTuple = [course, course2]
     errorCalled = false;
