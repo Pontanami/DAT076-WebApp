@@ -45,7 +45,7 @@ export class LeaderboardService implements ILeaderboardService{
      * @param player - The player to add to the leaderboard.
      * @returns {Promise<Player>} - Returns the player that was added to the leaderboard.
      */
-    private async addPlayerToLeaderboard(player: Player) {
+    private async addPlayerToLeaderboard(player: Player): Promise<Player> {
         const pm = await playerModel;
         return await pm.create(player);
     }

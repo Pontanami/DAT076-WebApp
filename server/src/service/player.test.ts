@@ -35,3 +35,13 @@ test("If a player's score is reset the score should be 0 when you get the player
     let recievedPlayer = await playerService.getPlayer(createdPlayer.id);
     expect(recievedPlayer.score).toBe(0);
 })
+
+test(" If a player is not in the list of players the player, an error should be thrown", async () => {
+    const playerService = PlayerService.getInstance();
+    try{
+        let recievedPlayer = await playerService.getPlayer(999999999);
+        expect(recievedPlayer).toThrow("Player not found!");
+    }catch(e){
+        
+    }
+})

@@ -33,3 +33,12 @@ test("If we start a new round, the questions should be shifted one step", async 
     expect(currentquestions).toEqual([questions[3], questions[4]])
 
 });
+
+test("createGame should succesfully create a game", async () => {
+    let gameService:IGameService = GameService.getInstance();
+    let game = await gameService.createGame();
+    expect(game).toBeDefined();
+    expect(typeof game.id).toBe("number");
+    expect(typeof game.questions).toBe("object");
+    expect(game.questions).toBeInstanceOf(Array<Course>);
+});
