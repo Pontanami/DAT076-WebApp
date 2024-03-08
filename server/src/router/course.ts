@@ -7,13 +7,14 @@ const playerService = PlayerService.getInstance();
 const courseService = new CourseService();
 export const courseRouter = express.Router();
 
+/*
 courseRouter.get("/", async (
     req: Request<{}, {}, {}>,
     res: Response<Array<Course> | String>
 ) => {
     try {
-        const tasks = await courseService.getListOfCourses();
-        res.status(200).send(tasks);
+        const courses = await courseService.getListOfCourses();
+        res.status(200).send(courses);
     } catch (e: any) {
         res.status(500).send(e.message);
     }
@@ -37,7 +38,7 @@ courseRouter.post("/", async (
     } catch (e: any) {
         res.status(500).send(e.message);
     }
-});
+});*/
 
 courseRouter.post("/answer", async (
     req: Request<{}, {}, { codeClicked: string, otherCode: string, playerId: number }>,

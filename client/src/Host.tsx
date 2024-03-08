@@ -21,13 +21,12 @@ function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
   const [gameState, setGameState] = useState<MPGameState>(MPGameState.WAITINGROOM)
   const [gameId, setGameId] = useState<number>()
 
-  async function createGame(): Promise<number | undefined> {
+   async function createGame(): Promise<number | undefined> {
     try {
       const response = await axios.post<number>(`http://${hostPort}:8080/multiPlayer`, {
         hostId: CurrentUser.getId()
       })
       console.log("room created")
-
       setGameId(response.data)
       const id = response.data
       console.log("gameID: " + id);

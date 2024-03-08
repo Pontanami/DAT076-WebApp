@@ -6,7 +6,7 @@ import { Course } from "../model/course";
 const gameService = GameService.getInstance();
 export const gameRouter = express.Router();
 
-
+/*
 gameRouter.post("/", async (
     req: Request<{}, {}, {}>,
     res: Response<Game | string>
@@ -18,7 +18,7 @@ gameRouter.post("/", async (
         console.log(e.message);
         res.status(500).send(e.message);
     }
-});
+});*/
 
 interface UpdateGameRequest extends Request {
     body: { gameId: number }
