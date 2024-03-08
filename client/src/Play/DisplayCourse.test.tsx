@@ -1,9 +1,7 @@
-import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import DisplayCourses from './DisplatCourse';
 import Course from '../ICourse';
 import axios, { AxiosStatic } from 'axios';
-import { wait } from '@testing-library/user-event/dist/utils';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;
@@ -16,7 +14,7 @@ let gameOverCalled: boolean;
 let nextRoundCalled: boolean;
 let stopTimerCalled: boolean;
 
-beforeAll(() => {
+beforeEach(() => {
     course = {
         code: "ABC123",
         name: "Test Course",
@@ -71,6 +69,8 @@ test('An error reponse when posting to /course/answer should call errorHandler',
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalled();
         expect(errorCalled).toBe(true);
+        expect(nextRoundCalled).toBe(false);
+        expect(gameOverCalled).toBe(false);
     });
 });
 
@@ -85,7 +85,9 @@ test('A correct response when posting to /course/answer should call nextRound', 
     button[1].click();
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalled();
-        console.log(nextRoundCalled + " nextRoundCall");
+        expect(errorCalled).toBe(false);
+        expect(nextRoundCalled).toBe(true);
+        expect(gameOverCalled).toBe(false);
     });
 });
 
@@ -100,6 +102,7 @@ test('A incorrect response when posting to /course/answer should call gameOver',
     button[0].click();
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalled();
+        expect(errorCalled).toBe(false);
         expect(gameOverCalled).toBe(true);
     });
 });
@@ -115,6 +118,7 @@ test('Posting to /course/answer should call stopTimer', () => {
     button[1].click();
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalled();
+        expect(errorCalled).toBe(false);
         expect(stopTimerCalled).toBe(true);
     });
 });
