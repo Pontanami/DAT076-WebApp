@@ -7,7 +7,7 @@ import { hostPort } from './hostPort';
 import 'core-js';
 
 jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<any>;
+const mockedAxios = axios as jest.Mocked<AxiosStatic>;
 
 
 test("Creating a game should render a gamePin", async () => {
@@ -41,5 +41,4 @@ test("Creating a game should render a gamePin", async () => {
     
     const gamePin = screen.getByText(/123/);
     expect(gamePin).toBeInTheDocument();
-    
 })
