@@ -18,8 +18,12 @@ userRouter.post("/", async(req : RegisterRequest, res) =>{
     }
 })
 
+interface SignUpRequest extends Request {
+    body: { username: string, password: string }
+}
+
 userRouter.post("/signup", async(
-    req: Request<{}, {}, {username: string, password: string}>,
+    req: SignUpRequest,
     res: Response<[number,string] | string>
     ) => {
         try {
@@ -31,7 +35,7 @@ userRouter.post("/signup", async(
             }
 
             let user = await UserService.createUser(username, password); 
-            res.status(200).send(user);
+            res.status(201).send(user);
         
         } catch (e: any) {
             console.log(e)
@@ -40,9 +44,12 @@ userRouter.post("/signup", async(
     });
 
 
-//TODO: Ändra till en POST för den ändrar servern
+interface LoginRequest extends Request {
+    body: {username : string, password : string}
+}
+
 userRouter.post("/login", async (
-    req: Request<{}, {}, {username : string, password : string}>,
+    req: LoginRequest,
     res: Response<[number,string] | string>
 ) => {
     try {
@@ -53,11 +60,6 @@ userRouter.post("/login", async (
             res.status(400).send(`Bad Get call to ${req.originalUrl} --- missing id param`);
             return;
         }
-        /*
-        if (uname === null || password === null) {
-            res.status(400).send(`Bad Get call to ${req.originalUrl} --- missing id param`);
-            return;
-        }*/
 
         const user = await UserService.login(uname, password);
         if(!user)

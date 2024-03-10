@@ -1,12 +1,17 @@
 import express, { Request, Response } from "express";
 import { Player } from "../model/player";
+import { IMultiplayerService } from "../service/IMultiplayerService";
 import { multiPlayerService } from "../service/multiPlayer";
 
-const mpService = new multiPlayerService();
+const mpService : IMultiplayerService = new multiPlayerService();
 export const mpRouter = express.Router();
 
+interface CreateGameRequest extends Request{
+    body : { hostId: number  }
+}
+
 mpRouter.post("/", async (
-    req: Request<{}, {}, { hostId: number }>,
+    req: CreateGameRequest,
     res: Response<number | string>
 ) => {
     try {
@@ -23,8 +28,12 @@ mpRouter.post("/", async (
     }
 });
 
+interface AddPlayerRequest extends Request{
+    body : { gameId: number, playerId: number  }
+}
+
 mpRouter.post("/addPlayer", async (
-    req: Request<{}, {}, { gameId: number, playerId: number }>,
+    req: AddPlayerRequest,
     res: Response<boolean | string>
 ) => {
     try {
@@ -47,12 +56,12 @@ mpRouter.post("/addPlayer", async (
 });
 
 //TODO: Kolla på hur man gör ett sånt här interface
-interface FetchMpGamePlayers extends Request {
+interface FetchMpGamePlayersRequest extends Request {
     params: { id: string }
 }
 
 mpRouter.get("/:id", async (
-    req: Request<{ id: string }, {}, {}>,
+    req: FetchMpGamePlayersRequest,
     res: Response<Player[] | string>
 ) => {
     try {

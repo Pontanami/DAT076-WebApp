@@ -16,12 +16,13 @@ enum PlayScreens {
     GAMEOVER
 }
 
-let gameId = 0;
+//TODO: Denna måste flyttas 
 
 function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
 
     const [courseList, setCourseList] = useState<[Course, Course]>([{ code: "Abc", name: "placeholder", program:"placeholder", failrate: 1, bgnumber: 1}, { code: "Abc", name: "placeholder", program:"placeholder", failrate: 2, bgnumber: 2}]);
     const [playState, setPlayState] = useState<PlayScreens>(PlayScreens.PLAYING);
+    const [gameId, setGameId] = useState<number>()
 
     async function startNextRound(){
         try{
@@ -84,11 +85,10 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
             const response1 = await axios.post<number>(`http://${hostPort}:8080/singleplayer`, {
                 playerId: CurrentUser.getId()
             });
+            setGameId(response1.data)
+            console.log(response1.data)
 
-            gameId = response1.data
-            console.log(gameId)
-
-            const response = await axios.get<[Course, Course]>(`http://${hostPort}:8080/game/` + gameId)
+            const response = await axios.get<[Course, Course]>(`http://${hostPort}:8080/game/` + response1.data)
             updateDisplayedCourses(response)
 
         } catch (error: any) {

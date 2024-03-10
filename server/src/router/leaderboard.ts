@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
 import { LeaderboardService } from "../service/leaderboard";
 import { Player } from "../model/player";
+import { ILeaderboardService } from "../service/ILeaderboardService";
 
-const leaderboardService = new LeaderboardService();
+const leaderboardService : ILeaderboardService= new LeaderboardService();
 
 export const leaderboardRouter = express.Router();
 
@@ -19,8 +20,12 @@ leaderboardRouter.get("/players", async (
     }
 });
 
+interface ChangeLeaderboardRequest extends Request{
+    body : {id: number }
+}
+
 leaderboardRouter.post("/", async (
-    req: Request<{}, {}, { id: number }>,
+    req: ChangeLeaderboardRequest,
     res: Response<Player[] | string>
 ) => {
     try {

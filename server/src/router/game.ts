@@ -2,23 +2,10 @@ import express, { Request, Response } from "express";
 import { Game } from "../model/game";
 import { GameService } from "../service/game";
 import { Course } from "../model/course";
+import { IGameService } from "../service/IGameService";
 
-const gameService = GameService.getInstance();
+const gameService : IGameService = GameService.getInstance();
 export const gameRouter = express.Router();
-
-/*
-gameRouter.post("/", async (
-    req: Request<{}, {}, {}>,
-    res: Response<Game | string>
-) => {
-    try {
-        const game = await gameService.createGame();
-        res.status(201).send(game);
-    } catch (e: any) {
-        console.log(e.message);
-        res.status(500).send(e.message);
-    }
-});*/
 
 interface UpdateGameRequest extends Request {
     body: { gameId: number }

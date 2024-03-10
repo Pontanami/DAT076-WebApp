@@ -9,8 +9,8 @@ import { mpRouter } from "./router/multiplayer";
 import { Server } from 'socket.io';
 import { gameRouter } from "./router/game";
 import http from 'http';
-import { fetchCourses } from "./fetchCourses";
-import {socketListener } from "./socketEvent";
+import { CourseFetcher} from "./fetchCourses";
+import {SocketListener} from "./socketEvent";
 
 export const app = express();
 app.use(express.json());
@@ -32,5 +32,8 @@ export const io = new Server(server, {
     }
 });
 
-socketListener();
-fetchCourses();
+const courseFetcher = new CourseFetcher(100)
+const ioListener = new SocketListener()
+
+ioListener.setListeners()
+courseFetcher.fetchCourses()

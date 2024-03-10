@@ -10,7 +10,7 @@ export interface ICourseService {
     * @param failrate - The failrate of the new course.
     * @returns 
     */
-    createCourse(code: string, name: string, failrate: number): Promise<Course>;
+    createCourse(code: string, name: string, program:string,failrate: number): Promise<Course>;
 
     /**
      * Asynchronously gets the course with the provided code.

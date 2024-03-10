@@ -14,7 +14,7 @@ test("If a multiPlayerGame is created, it should return an id and a 201 response
     password : "abc123"
     });
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(201)
     expect(response.body).toContain("testUser");
 
     const userId = response.body[0]
@@ -95,7 +95,7 @@ test("If a multiplayerGame is fetched, it should return the players in the game 
     password : "abc123"
     });
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(201)
     expect(response.body).toContain("testUser3");
 
     const userId = response.body[0]

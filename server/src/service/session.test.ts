@@ -20,14 +20,15 @@ test("If a session is created it should be in the list of sessions", async () =>
     expect(recivedSession).toEqual(createdSession);
 });
 
+//TODO: What is this test
 test("Game Test", async () =>{
     const sPService = new singlePlayerService();
     const courseService = CourseService.getInstance();
     const playerService = PlayerService.getInstance();
     const player = await playerService.createPlayer(10,"singlePlaye");
-    let course1 = await courseService.createCourse("MVE600", "TestA", 50);
-    let course2 = await courseService.createCourse("MVE601", "TestB", 95);
-    let course3 = await courseService.createCourse("MVE602", "TestC", 5);
+    let course1 = await courseService.createCourse("MVE600", "sjö","TestA", 50);
+    let course2 = await courseService.createCourse("MVE601", "sjö","TestB", 95);
+    let course3 = await courseService.createCourse("MVE602", "sjö","TestC", 5);
     const game = await sPService.createSinglePlayerGame(player.id);
     if(!game){
         return;

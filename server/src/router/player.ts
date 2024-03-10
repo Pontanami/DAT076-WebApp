@@ -1,12 +1,17 @@
 import express, { Request, Response } from "express";
 import { Player } from "../model/player";
+import { IPLayerService } from "../service/IPlayerService";
 import { PlayerService } from "../service/player";
 
-const playerService = PlayerService.getInstance();
+const playerService : IPLayerService = PlayerService.getInstance();
 export const playerRouter = express.Router();
 
+interface FetchPlayerRequest extends Request {
+    params: { id: string }
+}
+
 playerRouter.get("/:id", async (
-    req: Request<{ id: string }, {}, {}>,
+    req: FetchPlayerRequest,
     res: Response<Player | string>
 ) => {
     try {
@@ -31,8 +36,12 @@ playerRouter.get("/:id", async (
     }
 });
 
+interface CreatePlayerRequest extends Request{
+    body : { id: string, name: string }
+}
+
 playerRouter.post("/", async (
-    req: Request<{}, {}, { id: string, name: string }>,
+    req: CreatePlayerRequest,
     res: Response<Player | string>
 ) => {
     try {

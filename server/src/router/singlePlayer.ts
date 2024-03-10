@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
+import { ISinglePlayerService } from "../service/ISinglePlayerService";
 import { singlePlayerService } from "../service/singlePlayer";
 
-const SinglePlayerService = new singlePlayerService()
+const SinglePlayerService : ISinglePlayerService= new singlePlayerService()
 export const singlePlayerRouter = express.Router();
 
 interface CreateSPGameRequest extends Request {

@@ -13,7 +13,7 @@ const response = await request.post("/user/signup").send({
     password : "abc123"
 });
 
-expect(response.status).toBe(200)
+expect(response.status).toBe(201)
 expect(response.body).toContain("testUser");
 
 const userId = response.body[0]

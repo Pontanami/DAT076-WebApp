@@ -10,7 +10,7 @@ test("If createing a user is successful, it should return a userId, username, an
         username: "testUser",
         password : "abc123"
     });
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
     expect(response.body).toContain("testUser");
 });
 

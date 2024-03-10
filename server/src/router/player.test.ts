@@ -13,7 +13,7 @@ test("If a player is created, it should return an player and a 201 response", as
     password : "abc123"
     });
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(201)
     expect(response.body).toContain("testUser");
 
     const userId = response.body[0]
@@ -41,7 +41,7 @@ test("If we get a player by id, it should return the player and a 200 response",
         password : "abc123"
     });
     
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(201)
     expect(response.body).toContain("testUser2");
 
     const userId = response.body[0]

@@ -10,7 +10,7 @@ function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
 
     const [playerList, setPlayerList] = useState<Player[]>([]);
 
-    async function updatePlayers() {
+    async function fetchLeaderboardPlayers() {
         try {
             const response = await axios.get<Player[]>(`http://${hostPort}:8080/leaderboard/players`);
             const newPlayer: Player[] = response.data;
@@ -26,7 +26,7 @@ function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
     }
 
     useEffect(() => {
-        updatePlayers();
+        fetchLeaderboardPlayers();
     }, []);
 
     return (

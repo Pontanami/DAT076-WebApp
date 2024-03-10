@@ -12,10 +12,10 @@ test("If we start a new round, the questions should be shifted one step", async 
 
     let player = await playerService.createPlayer(1,"Jon")
 
-    let course1: Course = await courseService.createCourse("ABC123", "test1", 50);
-    let course2: Course = await courseService.createCourse("ABC124", "test2", 50);
-    let course3: Course = await courseService.createCourse("ABC125", "test3", 50);
-    let course4: Course = await courseService.createCourse("ABC126", "test4", 50);
+    let course1: Course = await courseService.createCourse("ABC123", "Sjö","test1", 50);
+    let course2: Course = await courseService.createCourse("ABC124", "Sjö","test2", 50);
+    let course3: Course = await courseService.createCourse("ABC125", "Sjö","test3", 50);
+    let course4: Course = await courseService.createCourse("ABC126", "Sjö","test4", 50);
 
     let SpGameId = await SinglePlayerService.createSinglePlayerGame(player.id)
 
