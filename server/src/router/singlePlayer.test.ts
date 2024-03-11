@@ -5,7 +5,6 @@ import { app } from "../start";
 jest.mock("../db/conn")
 const request = SuperTest.default(app);
 
-
 test("If a singlePlayerGame is created, it should return an id and a 201 response", async () => {
 
 const response = await request.post("/user/signup").send({
@@ -24,8 +23,8 @@ const response1 = await request.post("/player").send({
   name : userName
 });
 
-expect(response.status).toBe(200)
-expect(response.body).toContain("testUser");
+expect(response1.status).toBe(201)
+expect(response1.body.name).toEqual("testUser");
 
 const response2 = await request.post("/singlePlayer/").send({
     playerId: userId

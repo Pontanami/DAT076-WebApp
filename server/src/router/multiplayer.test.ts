@@ -51,7 +51,7 @@ test("If a player is added to a multiPlayerGame, it should return True and a 201
     password : "abc123"
     });
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(201)
     expect(response.body).toContain("testUser2");
 
     const userId = response.body[0]

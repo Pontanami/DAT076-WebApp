@@ -5,11 +5,15 @@ import { app } from "../start";
 
 jest.mock("../db/conn")
 
+
+    
+
 test("If a player is created, it should return an player and a 201 response", async () => {
+
     const request = SuperTest.default(app);
 
     const response = await request.post("/user/signup").send({
-    username: "testUser",
+    username: `testUser`,
     password : "abc123"
     });
 
@@ -18,7 +22,7 @@ test("If a player is created, it should return an player and a 201 response", as
 
     const userId = response.body[0]
     const userName = response.body[1]
-
+    
     const response1 = await request.post("/player").send({
     id: userId,
     name : userName
@@ -36,13 +40,14 @@ test("If a player is created, it should return an player and a 201 response", as
 
 test("If we get a player by id, it should return the player and a 200 response", async () => {
     const request = SuperTest.default(app);
+
     const response = await request.post("/user/signup").send({
-        username: "testUser2",
-        password : "abc123"
+    username: `testUser1`,
+    password : "abc123"
     });
-    
+
     expect(response.status).toBe(201)
-    expect(response.body).toContain("testUser2");
+    expect(response.body).toContain("testUser1");
 
     const userId = response.body[0]
     const userName = response.body[1]
