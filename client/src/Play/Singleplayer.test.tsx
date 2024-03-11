@@ -8,11 +8,12 @@ import Singleplayer from './Singleplayer';
 import { MemoryRouter } from 'react-router-dom';
 import { hostPort } from '../hostPort';
 import CurrentUser from '../CurrentUser';
+import { url } from 'inspector';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;
 
-test("Createing a singlePlayerGame should give two starting courses", async () => {
+test("Creating a singlePlayerGame should give two starting courses", async () => {
 
     let mockedCurrentUser = {
         id: 1,
@@ -72,6 +73,7 @@ test("Createing a singlePlayerGame should give two starting courses", async () =
     expect(mockedAxios.get).toHaveBeenCalledWith(
         `http://${hostPort}:8080/game/123`,
     );
+    
 
     const displayCourse = screen.getAllByText(/Abc/);
     expect(displayCourse[0]).toBeInTheDocument();
