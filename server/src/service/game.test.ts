@@ -42,3 +42,17 @@ test("createGame should succesfully create a game", async () => {
     expect(typeof game.questions).toBe("object");
     expect(game.questions).toBeInstanceOf(Array<Course>);
 });
+
+test("getGame should return the game with the given id", async () => {
+    let gameService:IGameService = GameService.getInstance();
+    let game = await gameService.createGame();
+    let game2 = await gameService.getGame(game.id);
+    expect(game).toEqual(game2);
+});
+
+test("getGameQuestions should return the questions of the game with the given id", async () => {
+    let gameService:IGameService = GameService.getInstance();
+    let game = await gameService.createGame();
+    let questions = await gameService.getGameQuestions(game.id);
+    expect(questions).toEqual(game.questions);
+});
