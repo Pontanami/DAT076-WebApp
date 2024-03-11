@@ -7,7 +7,10 @@ import Course from "../ICourse";
 import Player from "../IPlayer";
 import { socket } from "../socket";
 import Gameover from "./Gameover";
+import './multiplayer.css';
 import PlayScreen from "./PlayScreen";
+import check from "../Image/check.png";
+import x from "../Image/x.png";
 
 enum PlayScreens {
     PLAYING,
@@ -31,17 +34,17 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
       }, []);
 
     function getRandomBg() {
-        const rndInt = Math.floor(Math.random() * 6) + 1;
+        const rndInt = Math.floor(Math.random() * 5) + 1;
         const dynamicFile = require('../Image/coursesbg/bg' + rndInt + '.jpg');
         return dynamicFile;
     }
 
     function getDifferentBg(): number[]{
-        const bg1 = getRandomBg();
-        const bg2 = getRandomBg();
+        let bg1 = getRandomBg();
+        let bg2 = getRandomBg();
 
-        if (bg1 == bg2){
-            getDifferentBg();
+        while (bg1 === bg2){
+            bg2 = getRandomBg();
         }
         return [bg1, bg2];
     }
@@ -118,19 +121,22 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
             />
 
         case PlayScreens.CORRECTANSWER:
+            //Could not get the css to apply on the enum in multiplayer.css, so wrote it here
             return (
                 <div className="correct">
-                    <p>Answer is correct</p>
+                    <img src={check}/>
+                    <h2>Correct</h2>
                     <p>Waiting for host to start the next round</p>
                 </div>
             )
 
             case PlayScreens.WRONGANSWER:
                 return (
-                    <div className="inCorrect">
-                        <p>Answer is incorrect</p>
-                        <p>Waiting for host to start the next round</p>
-                    </div>
+                    <div className="incorrect">
+                    <img src={x}/>
+                    <h2>Incorrect</h2>
+                    <p>Waiting for host to start the next round</p>
+                </div>
                 )
 
         case PlayScreens.GAMEOVER:
