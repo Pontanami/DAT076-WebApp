@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import Course from '../ICourse';
 import CurrentUser from '../CurrentUser';
-
 import Gameover from './Gameover';
 import PlayScreen from './PlayScreen';
 import { hostPort } from '../hostPort';

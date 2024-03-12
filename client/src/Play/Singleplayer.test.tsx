@@ -1,14 +1,9 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import axios, { AxiosStatic } from 'axios';
-import PlayScreen from './PlayScreen';
-import postAnswer from './DisplatCourse';
-import Course from '../ICourse';
-import exp from 'constants';
 import Singleplayer from './Singleplayer';
 import { MemoryRouter } from 'react-router-dom';
 import { hostPort } from '../hostPort';
 import CurrentUser from '../CurrentUser';
-import { url } from 'inspector';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;

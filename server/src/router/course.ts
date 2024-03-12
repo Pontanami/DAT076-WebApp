@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { Course } from "../model/course";
 import { CourseService } from "../service/course";
 import { ICourseService } from "../service/ICourseService";
 import { PlayerService } from "../service/player";

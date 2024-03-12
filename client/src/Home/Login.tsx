@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Login.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios, { AxiosResponse } from 'axios';
 import CurrentUser from '../CurrentUser';
 import { hostPort } from '../hostPort';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 enum DisplayScreen {
     NOTABLETOLOGIN,

@@ -1,5 +1,4 @@
 import * as SuperTest from "supertest";
-import { PlayerService } from "../service/player";
 import { app } from "../start";
 
 jest.mock("../db/conn")

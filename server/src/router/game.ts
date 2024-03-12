@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { Game } from "../model/game";
 import { GameService } from "../service/game";
 import { Course } from "../model/course";
 import { IGameService } from "../service/IGameService";

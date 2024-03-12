@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import logo from '../Image/logo.png';
 import trophy from '../Image/trophy.jpg';
 import './Home.css';
 import { Link } from "react-router-dom";
-import about from '../Image/question.png'
 import axios from 'axios';
 import CurrentUser from '../CurrentUser';
 import { hostPort } from '../hostPort';

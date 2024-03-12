@@ -1,7 +1,6 @@
 import { fireEvent, render, screen,waitFor } from "@testing-library/react";
 import axios, { AxiosStatic } from "axios";
-import { act, mockComponent } from "react-dom/test-utils"
-import CurrentUser from "./CurrentUser";
+import { act } from "react-dom/test-utils"
 import { hostPort } from "./hostPort";
 import Join from "./Join";
 import { MemoryRouter } from 'react-router-dom';

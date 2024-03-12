@@ -1,10 +1,7 @@
 import * as SuperTest from "supertest";
 import { Course } from "../model/course";
-import { Game } from "../model/game";
-import { Player } from "../model/player";
 import { CourseService } from "../service/course";
 import { GameService } from "../service/game";
-import { PlayerService } from "../service/player";
 import { app } from "../start";
 
 const request = SuperTest.default(app);
