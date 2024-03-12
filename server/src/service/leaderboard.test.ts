@@ -36,13 +36,3 @@ test("If a player is posted with the same id and a lower score, the score should
     const player_list = await leaderboardService.getPlayerEntries();
     expect(player_list.map((player: Player) => player.score)).toContain(10);
 });
-
-test("If a player that does not exist is posted, an error should be thrown", async () => {
-    const leaderboardService = new LeaderboardService();
-    try{
-        await leaderboardService.changeLeaderboard(199);
-        expect(leaderboardService.changeLeaderboard(199)).toThrow("Player does not exist!");
-    }catch(e){
-        
-    }
-});

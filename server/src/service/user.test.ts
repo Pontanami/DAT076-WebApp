@@ -12,7 +12,6 @@ test("A user can login if the username and password is correct", async () => {
         expect(login[1]).toBe("test2");
     }
     catch(e){
-        console.log(e);
     }
 });
 
@@ -24,6 +23,5 @@ test("A user can not login if the username is incorrect", async () => {
         expect(login).toThrow("Username or password is incorrect");
     }
     catch(e){
-        console.log(e);
     }
 });

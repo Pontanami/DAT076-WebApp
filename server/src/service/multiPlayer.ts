@@ -36,9 +36,7 @@ export class multiPlayerService implements IMultiplayerService {
 
         let player = await this.playerService.getPlayer(playerId)
         let game = this.mpGames.find(mpGame => mpGame.game.id === gameId);
-        if (!player) {
-            throw new Error("Player Not found!");
-        } else if (!game) {
+        if (!game) {
             throw new Error("Game not found!");
         }
         game.players.push(player);
