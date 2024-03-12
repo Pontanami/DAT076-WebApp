@@ -1,4 +1,6 @@
 import { render, screen } from '@testing-library/react';
+import 'core-js'
+
 
 import Gameover from './Gameover';
 import { MemoryRouter } from 'react-router-dom';

@@ -4,6 +4,7 @@ import { act } from "react-dom/test-utils"
 import { hostPort } from "./hostPort";
 import Join from "./Join";
 import { MemoryRouter } from 'react-router-dom';
+import 'core-js'
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;

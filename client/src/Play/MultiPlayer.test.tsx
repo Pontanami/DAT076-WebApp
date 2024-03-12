@@ -3,6 +3,7 @@ import MultiPlayer from "./MultiPlayer";
 import { act, render, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { hostPort } from "../hostPort";
+import 'core-js'
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;

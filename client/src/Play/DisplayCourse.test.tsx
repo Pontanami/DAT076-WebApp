@@ -3,6 +3,7 @@ import DisplayCourses from './DisplatCourse';
 import Course from '../ICourse';
 import axios, { AxiosStatic } from 'axios';
 import { MemoryRouter } from 'react-router-dom';
+import 'core-js'
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;

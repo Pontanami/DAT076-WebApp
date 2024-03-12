@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import CurrentUser from './CurrentUser';
 import Host from './Host';
 import { hostPort } from './hostPort';
-import 'core-js';
+import 'core-js'
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;
