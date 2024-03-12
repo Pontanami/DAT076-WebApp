@@ -81,3 +81,8 @@ test("If a user tries to get a game with negative index, a 400 response should b
     const response = await request.get(`/game/-1`).send()
     expect(response.status).toBe(400);
 })
+
+test("Trying to get a game that doesn't exist should send back a 500 response", async () => {
+    const response = await request.get(`/game/1234`).send()
+    expect(response.status).toBe(500);
+})

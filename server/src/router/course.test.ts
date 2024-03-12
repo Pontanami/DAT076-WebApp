@@ -51,3 +51,12 @@ test("A post to /answer with a non-string codeClicked should return 400", async 
     });
     expect(response.status).toBe(400);
 });
+
+test("Trying to check if answer is correct with courses that doesn't exist should return a 500 response",async () => {
+    const response = await request.post("/course/answer").send({
+        codeClicked: "abc321",
+        otherCode: "cba123",
+        playerId: 1
+    });
+    expect(response.status).toBe(500);
+})

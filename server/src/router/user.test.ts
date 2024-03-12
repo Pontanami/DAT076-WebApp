@@ -45,3 +45,11 @@ test("If a user tries to create an account with an already existing username a 4
     });
     expect(response.status).toBe(409);
 })
+
+test("Trying to log in with wrong password or username should send a 500 response",async () => {
+    const response = await request.post("/user/login").send({
+        username:"hellow",
+        password:"hi"
+    });
+    expect(response.status).toBe(500);
+})

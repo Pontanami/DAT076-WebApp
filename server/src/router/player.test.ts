@@ -70,3 +70,8 @@ test("If the playerId is negative when we want to get a player, a 400 statuscode
     const response1 = await request.get(`/player/-1`).send()
     expect(response1.status).toBe(400)
 })
+
+test("trying to get a player that doesn't exist should result in a 500 response", async () =>{
+    const response1 = await request.get(`/player/1234`).send()
+    expect(response1.status).toBe(500)
+})

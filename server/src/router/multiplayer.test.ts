@@ -121,3 +121,12 @@ test("If we try to add a player of the wrong type a 400 response should be sent"
     const response1 = await request.get(`/multiPlayer/-1`).send()
     expect(response1.status).toBe(400)
 })
+
+test("Trying to join a game that doesn't exist should send back a 500 response",async () => {
+    const response1 = await request.post("/multiPlayer/addPlayer").send({
+        gameId: 4,
+        playerId: 3
+    })
+
+    expect(response1.status).toBe(500)
+})
