@@ -16,9 +16,6 @@ export class LeaderboardService implements ILeaderboardService{
     async changeLeaderboard(id: number) : Promise<Player[]>{
 
         let player = await this.playerService.getPlayer(id);
-
-        if(!player)
-            throw new Error("Player does not exist!");
             
         let playerExist = await this.isPlayerInLeaderboard(id);
 
@@ -54,10 +51,9 @@ export class LeaderboardService implements ILeaderboardService{
         let player: Player|null = await pm.findOne({id: id});
 
         if(!player)
-            throw new Error("Player is not yet on the leaderboard");
+            throw new Error("Player does not exist in the database");
             
         if (score > player.score){
-            console.log("Updating player: " + JSON.stringify(player));
             await pm.updateOne({
                 id: id
             }, {

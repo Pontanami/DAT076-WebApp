@@ -31,3 +31,19 @@ test("Getting players from a multiplayer game should return a list of players", 
     let players = await mp.getPlayers(game.game.id);
     expect(players.length).toBe(2);
 });
+
+test("joining a non-existing multiplayer game should throw an error", async () => {
+    try{
+        const request = await mp.joinMultiPlayerGame(999,1);
+        expect(request).toThrow("Game not found!");
+    }catch(e){
+    }
+});
+
+test("getting players from a non-existing multiplayer game should throw an error", async () => {
+    try{
+        const request = await mp.getPlayers(999);
+        expect(request).toThrow("Game not found!");
+    }catch(e){
+    }
+});
