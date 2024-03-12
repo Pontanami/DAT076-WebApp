@@ -26,11 +26,8 @@ function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
       const response = await axios.post<number>(`http://${hostPort}:8080/multiPlayer`, {
         hostId: CurrentUser.getId()
       })
-      console.log("room created")
       setGameId(response.data)
       const id = response.data
-      console.log("gameID: " + id);
-      console.log("Wrong game ID: " + gameId);
       socket.emit("join_room", id);
       return id;
     } catch (error: any) {
@@ -47,11 +44,9 @@ function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
 
     socket.on('user_joined', () => {
       fetchPlayers(id)
-      console.log("User has been added")
     });
 
     socket.on('correct_answer', (userId) => {
-      console.log(`Correct answer for: ${userId}`)
       fetchPlayers(id)
     });
   }, []);
@@ -59,10 +54,7 @@ function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
   async function fetchPlayers(idp: Promise<number | undefined>) {
     try {
       const id = await idp;
-      console.log("id:" + id);
-      console.log("gameId: " + gameId);
       const response = await axios.get<Player[]>(`http://${hostPort}:8080/multiPlayer/${id}`)
-      console.log(CurrentUser.getName())
       const players: Player[] = response.data;
       setPlayers(players)
     } catch (error: any) {
@@ -71,7 +63,6 @@ function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
   }
 
   async function startGame() {
-    console.log("Host emitting startgame: " + gameId)
     setGameState(MPGameState.PLAYING)
     socket.emit("start_game", gameId)
   }
@@ -86,7 +77,6 @@ function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
       const response = await axios.post<[Course, Course]>(`http://${hostPort}:8080/game/update`, {
         gameId: gameId,
       });
-      console.log("Host has started the next round")
       socket.emit("new_round", gameId)
     } catch (error: any) {
       errorHandler(error)

@@ -1,6 +1,6 @@
 import axios, { AxiosStatic } from "axios";
 import MultiPlayer from "./MultiPlayer";
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, render, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { hostPort } from "../hostPort";
 
@@ -25,10 +25,12 @@ let course2 = {
 
 async function renderMultiPlayer() {
     await act(async () => {
-        <MemoryRouter>
-        render(<MultiPlayer errorHandler={() => { }} />)
+       
+        render(
+            <MemoryRouter>
+        <MultiPlayer errorHandler={() => { }} />
         </MemoryRouter>
-    })
+    )})
 }
 
 test("Rendering Multiplayer should call fetchCurrentQuestions", async () => {

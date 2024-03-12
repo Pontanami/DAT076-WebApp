@@ -1,9 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import axios, { AxiosStatic } from 'axios';
 import PlayScreen from './PlayScreen';
-import postAnswer from './DisplatCourse';
 import Course from '../ICourse';
-import exp from 'constants';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;

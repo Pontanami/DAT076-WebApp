@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import './join.css';
-import { Link } from 'react-router-dom';
+import './join.css'
 
 
 function JoinScreen(){

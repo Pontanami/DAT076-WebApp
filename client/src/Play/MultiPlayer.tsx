@@ -50,11 +50,15 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
     }
 
     async function updateDisplayedCourses(response: { data: [Course, Course]; }){
+        try{
         const newCourse: [Course, Course] = response.data;
         const bgnumbers: number[] = getDifferentBg();
         newCourse[0].bgnumber = bgnumbers[0];
         newCourse[1].bgnumber = bgnumbers[1];
         setCourseList(newCourse);
+        }catch(error: any){
+            errorHandler(error)
+        }
     }
 
     async function setGameOver(){
