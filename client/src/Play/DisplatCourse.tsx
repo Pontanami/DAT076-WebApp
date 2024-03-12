@@ -70,7 +70,6 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
                     else {
                         handleGameOver();
                     }
-                    console.log("Answer posted " + answer.data)
                 } catch (e: any) {
                     errorHandler(e)
                 }
@@ -78,7 +77,6 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
 
         async function checkAnswer() {
             let otherCourse = courses[0].code === course.code ? courses[1].code : courses[0].code;
-            console.log("Other course: " + otherCourse);
             const answer = await axios.post<boolean>(`http://${hostPort}:8080/course/answer`, {
                 codeClicked: course.code,
                 otherCode: otherCourse, 

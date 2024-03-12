@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './singleplayer.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
-import DisplayCourses from './DisplatCourse';
 import Course from '../ICourse';
 import CurrentUser from '../CurrentUser';
 
@@ -59,21 +58,15 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
         const bgnumbers: number[] = getDifferentBg();
         newCourse[0].bgnumber = bgnumbers[0];
         newCourse[1].bgnumber = bgnumbers[1];
-        console.log("Updating displayed Courses")
-        console.log(newCourse)
         setCourseList(newCourse);
     }
 
     async function setGameOver(){
         try{
-            //TODO: fix error handling and post/put beroende på om personen redan finns
-            console.log(CurrentUser.getId())
             const response = await axios.post<Player[]>(`http://${hostPort}:8080/leaderboard`, {
                  id: CurrentUser.getId()
                 })
-            console.log("Player added to leaderboard")
             setPlayState(PlayScreens.GAMEOVER);
-            console.log("Wrong answer")
             }
             catch(error: any){
                 errorHandler(error)
@@ -86,7 +79,6 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
                 playerId: CurrentUser.getId()
             });
             setGameId(response1.data)
-            console.log(response1.data)
 
             const response = await axios.get<[Course, Course]>(`http://${hostPort}:8080/game/` + response1.data)
             updateDisplayedCourses(response)
@@ -97,7 +89,6 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
     }
 
     useEffect(() => {
-        console.log("Setting up game")
         initGame();
     }, []);
 

@@ -18,7 +18,6 @@ function Home({ errorHandler }: { errorHandler: (error: any) => void }) {
         name: CurrentUser.getName()
 
       });
-      console.log("Player created:" + CurrentUser.getId())
     } catch (error: any) {
       errorHandler(error)
     }

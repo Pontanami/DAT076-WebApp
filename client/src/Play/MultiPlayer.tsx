@@ -54,18 +54,14 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
         const bgnumbers: number[] = getDifferentBg();
         newCourse[0].bgnumber = bgnumbers[0];
         newCourse[1].bgnumber = bgnumbers[1];
-        console.log("Updating displayed Courses")
-        console.log(newCourse)
         setCourseList(newCourse);
     }
 
     async function setGameOver(){
         try{
-            console.log(CurrentUser.getId())
             const response = await axios.post<Player[]>(`http://${hostPort}:8080/leaderboard`, {
                  id: CurrentUser.getId()
                 })
-            console.log("Player added to leaderboard")
             setPlayState(PlayScreens.GAMEOVER);
             }
             catch(error: any){
@@ -76,7 +72,6 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
     async function fetchCurrentQuestions(gameId : number) {
         try {
             setPlayState(PlayScreens.PLAYING)
-            console.log("Client gameID is: " + gameId)
             const response = await axios.get<[Course, Course]>(`http://${hostPort}:8080/game/` + gameId)
             updateDisplayedCourses(response)
 
@@ -100,14 +95,11 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
         fetchCurrentQuestions(state)
 
         socket.on('new_round_started', () => {
-            console.log("Updating displayed Questions, id: " + state)
             fetchCurrentQuestions(state)
-            console.log(courseList)
           });
 
           socket.on('game_over', () =>{
               setGameOver()
-              console.log("Calling MPGameOver")
           })
     }, [])
 

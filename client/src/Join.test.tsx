@@ -1,4 +1,4 @@
-import { render, screen,waitFor } from "@testing-library/react";
+import { fireEvent, render, screen,waitFor } from "@testing-library/react";
 import axios, { AxiosStatic } from "axios";
 import { act, mockComponent } from "react-dom/test-utils"
 import CurrentUser from "./CurrentUser";
@@ -25,10 +25,9 @@ test("If join-button is clicked a request should be sent to the backend, telling
         </MemoryRouter> 
         )
     })
-    act(() => {
-        const button = screen.getByRole('button');
-        button.click();
-    })
+   
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalledWith(
             `http://${hostPort}:8080/multiPlayer/addPlayer`,
@@ -59,10 +58,10 @@ test('An error reponse when posting to multiPlayer/addPlayer should call errorHa
         )
     })
 
-    act(() => {
-        const button = screen.getByRole('button');
-        button.click();
-    })
+  
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
+  
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalledWith(
             `http://${hostPort}:8080/multiPlayer/addPlayer`,

@@ -1,14 +1,15 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import DisplayCourses from './DisplatCourse';
 import Course from '../ICourse';
 import axios, { AxiosStatic } from 'axios';
+import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;
 
-let course : Course;
+let course: Course;
 let course2: Course;
-let courseTuple : [Course, Course];
+let courseTuple: [Course, Course];
 let errorCalled: boolean;
 let gameOverCalled: boolean;
 let nextRoundCalled: boolean;
@@ -20,8 +21,9 @@ beforeEach(() => {
         name: "Test Course",
         program: "Test Program",
         failrate: 40,
-        bgnumber: 1    }
-     course2 = {
+        bgnumber: 1
+    }
+    course2 = {
         code: "DEF456",
         name: "Test Course2",
         program: "Test Program2",
@@ -35,37 +37,42 @@ beforeEach(() => {
     stopTimerCalled = false;
 });
 
-const renderDisplayCourses = (): void => {
-    render(<DisplayCourses courses={courseTuple} 
-        nextRound={function (): void {
-        nextRoundCalled = true;
-    } } errorHandler={function (error: any): void {
-        errorCalled = true;
-    } } handleGameOver={function (): void {
-        gameOverCalled = true;
-    } } stopTimer={function (): void {
-        stopTimerCalled = true;
-    } } />);
-};
+async function renderDisplayCourses() {
+    await act(async () => {
+        render(<MemoryRouter>
+            <DisplayCourses courses={courseTuple}
+                nextRound={function (): void {
+                    nextRoundCalled = true;
+                }} errorHandler={function (error: any): void {
+                    errorCalled = true;
+                }} handleGameOver={function (): void {
+                    gameOverCalled = true;
+                }} stopTimer={function (): void {
+                    stopTimerCalled = true;
+                }} />
+        </MemoryRouter>
+        )
+    })
+}
 
-test('render DisplayCourses shows the two courses', () => {
-    renderDisplayCourses();
+test('render DisplayCourses shows the two courses', async () => {
+    await renderDisplayCourses();
     const course2Name = screen.getByText(/Test Course2/i);
     const course1Code = screen.getByText(/ABC123/i);
     expect(course2Name).toBeInTheDocument();
     expect(course1Code).toBeInTheDocument();
     expect(errorCalled).toBe(false);
-    });
+});
 
-test('An error reponse when posting to /course/answer should call errorHandler', () => {
+test('An error reponse when posting to /course/answer should call errorHandler', async () => {
     mockedAxios.post.mockResolvedValue({
         status: 500,
         data: "Internal Server Error"
     });
-    renderDisplayCourses();
+    await renderDisplayCourses();
 
     const button = screen.getAllByRole('button');
-    button[1].click();
+    fireEvent.click(button[0]);
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalled();
         expect(errorCalled).toBe(true);
@@ -74,15 +81,15 @@ test('An error reponse when posting to /course/answer should call errorHandler',
     });
 });
 
-test('A correct response when posting to /course/answer should call nextRound', () => {
+test('A correct response when posting to /course/answer should call nextRound', async () => {
     mockedAxios.post.mockResolvedValue({
         status: 200,
         data: true
     });
-    renderDisplayCourses();
+    await renderDisplayCourses();
 
     const button = screen.getAllByRole('button');
-    button[1].click();
+    fireEvent.click(button[1]);
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalled();
         expect(errorCalled).toBe(false);
@@ -91,15 +98,15 @@ test('A correct response when posting to /course/answer should call nextRound', 
     });
 });
 
-test('A incorrect response when posting to /course/answer should call gameOver', () => {
+test('A incorrect response when posting to /course/answer should call gameOver', async () => {
     mockedAxios.post.mockResolvedValue({
         status: 200,
         data: false
     });
-    renderDisplayCourses();
+    await renderDisplayCourses();
 
     const button = screen.getAllByRole('button');
-    button[0].click();
+    fireEvent.click(button[1]);
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalled();
         expect(errorCalled).toBe(false);
@@ -107,15 +114,15 @@ test('A incorrect response when posting to /course/answer should call gameOver',
     });
 });
 
-test('Posting to /course/answer should call stopTimer', () => {
+test('Posting to /course/answer should call stopTimer', async () => {
     mockedAxios.post.mockResolvedValue({
         status: 200,
         data: true
     });
-    renderDisplayCourses();
+    await renderDisplayCourses();
 
     const button = screen.getAllByRole('button');
-    button[1].click();
+    fireEvent.click(button[1]);
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalled();
         expect(errorCalled).toBe(false);

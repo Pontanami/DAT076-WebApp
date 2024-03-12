@@ -15,13 +15,11 @@ function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongG
     const [isPlaying, setIsPlaying] = useState<boolean>(true)
 
     async function incrementScore() {
-        console.log("Incrementing score")
         setScore((score + 1));
     }
 
     async function getScore(){
         try {
-            console.log("fetching player" + CurrentUser.getId())
             const response = await axios.get<Player>(`http://${hostPort}:8080/player/` + CurrentUser.getId())
             setScore(response.data.score);
         }catch(error : any){

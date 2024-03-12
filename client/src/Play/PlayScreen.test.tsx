@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import axios, { AxiosStatic } from 'axios';
 import PlayScreen from './PlayScreen';
 import postAnswer from './DisplatCourse';
@@ -82,7 +82,7 @@ test('A correct guess should call handleCorrectGuess', () => {
     });
     renderPlayScreen();
     const button = screen.getAllByRole('button');
-    button[1].click();
+    fireEvent.click(button[1]);
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalled();
         expect(errorCalled).toBe(false);
@@ -98,7 +98,7 @@ test('A wrong guess should call handleWrongGuess', () => {
     });
     renderPlayScreen();
     const button = screen.getAllByRole('button');
-    button[0].click();
+    fireEvent.click(button[0]);
     waitFor(() => {
         expect(mockedAxios.post).toHaveBeenCalled();
         expect(errorCalled).toBe(false);
