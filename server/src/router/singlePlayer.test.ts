@@ -37,7 +37,7 @@ test("If a singlePlayerGame is created, it should return an id and a 201 respons
 
 test("If a userId is not a number the router should respond with a 400 response", async () => {
   const response3 = await request.post("/singlePlayer/").send({
-    playerId: "kehrkjsh"
+    playerId: "wrongId"
   });
   expect(response3.status).toBe(400);
 })

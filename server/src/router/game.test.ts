@@ -78,8 +78,6 @@ test("If a user sends a non-integer as a parameter to update game, a 400 respons
 })
 
 test("If a user tries to get a game with negative index, a 400 response should be sent back", async() =>{
-    const response4 = await request.post('/game/update').send({
-        gameId: "hello"
-    })
-    expect(response4.status).toBe(400);
+    const response = await request.get(`/player/-1`).send()
+    expect(response.status).toBe(400);
 })
