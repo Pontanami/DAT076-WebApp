@@ -1,41 +1,48 @@
 import { Course } from "../model/course";
+import { ICourseService } from "./ICourseService";
 import { IGameService } from "./IGameService";
 import { CourseService } from "./course";
 import { GameService } from "./game";
 import { PlayerService } from "./player";
+import { IPLayerService } from "./IPlayerService";
 import { singlePlayerService } from "./singlePlayer";
 
+let courseService: ICourseService;
+let gameService: IGameService;
+let playerService: IPLayerService;
+let course1, course2, course3, course4: Course;
+
+beforeAll(async () => {
+    courseService = CourseService.getInstance();
+    gameService = GameService.getInstance();
+    playerService = PlayerService.getInstance();
+    course1 = await courseService.createCourse("ABC123", "Sjö","test1", 60);
+    course2 = await courseService.createCourse("ABC124", "Sjö","test2", 70);
+    course3 = await courseService.createCourse("ABC125", "Sjö","test3", 30);
+    course4 = await courseService.createCourse("ABC126", "Sjö","test4", 20);
+});
+
 test("If we start a new round, the questions should be shifted one step", async () => {
-    let courseService = new CourseService();
-    let SinglePlayerService = new singlePlayerService()
-    let playerService =  PlayerService.getInstance();
 
-    let player = await playerService.createPlayer(1,"Jon")
+    let game = await gameService.createGame()
+    let questions = await gameService.getGameQuestions(game.id)
 
-    let course1: Course = await courseService.createCourse("ABC123", "Sjö","test1", 50);
-    let course2: Course = await courseService.createCourse("ABC124", "Sjö","test2", 50);
-    let course3: Course = await courseService.createCourse("ABC125", "Sjö","test3", 50);
-    let course4: Course = await courseService.createCourse("ABC126", "Sjö","test4", 50);
-
-    let SpGameId = await SinglePlayerService.createSinglePlayerGame(player.id)
-
-    let gameService:IGameService = GameService.getInstance();
-    let questions = await gameService.getGameQuestions(SpGameId)
-
-    let currentquestions : [Course, Course] = await gameService.getCurrentQuestions(SpGameId)
+    let currentquestions : [Course, Course] = await gameService.getCurrentQuestions(game.id)
 
     expect(currentquestions).toEqual([questions[0], questions[1]])
-    gameService.startNextRound(SpGameId)
+    gameService.startNextRound(game.id)
+    currentquestions  = await gameService.getCurrentQuestions(game.id)
     expect(currentquestions).toEqual([questions[1], questions[2]])
-    gameService.startNextRound(SpGameId)
+    gameService.startNextRound(game.id)
+    currentquestions  = await gameService.getCurrentQuestions(game.id)
     expect(currentquestions).toEqual([questions[2], questions[3]])
-    gameService.startNextRound(SpGameId)
+    gameService.startNextRound(game.id)
+    currentquestions  = await gameService.getCurrentQuestions(game.id)
     expect(currentquestions).toEqual([questions[3], questions[4]])
 
 });
 
 test("createGame should succesfully create a game", async () => {
-    let gameService:IGameService = GameService.getInstance();
     let game = await gameService.createGame();
     expect(game).toBeDefined();
     expect(typeof game.id).toBe("number");
@@ -44,15 +51,18 @@ test("createGame should succesfully create a game", async () => {
 });
 
 test("getGame should return the game with the given id", async () => {
-    let gameService:IGameService = GameService.getInstance();
     let game = await gameService.createGame();
     let game2 = await gameService.getGame(game.id);
     expect(game).toEqual(game2);
 });
 
 test("getGameQuestions should return the questions of the game with the given id", async () => {
-    let gameService:IGameService = GameService.getInstance();
     let game = await gameService.createGame();
     let questions = await gameService.getGameQuestions(game.id);
     expect(questions).toEqual(game.questions);
+});
+
+test("getGame should throw an error if the game with the given id does not exist", async () => {
+    let id = 1;
+    await expect(gameService.getGame(id)).rejects.toThrow("No game matches the id");
 });

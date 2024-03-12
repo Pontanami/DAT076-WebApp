@@ -12,13 +12,6 @@ export class LeaderboardService implements ILeaderboardService{
         const pm = await playerModel;
         return await pm.find()
     }
-
-    /** @inheritdoc */
-    async getNumberOfEntries() : Promise<number>{
-        const pm = await playerModel;
-        return pm.countDocuments();
-    }
-
     /** @inheritdoc */
     async changeLeaderboard(id: number) : Promise<Player[]>{
 

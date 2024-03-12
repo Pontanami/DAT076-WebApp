@@ -48,9 +48,7 @@ export class CourseService {
         let courseClicked = await this.getCourse(courseClickedId);
         let course2 = await this.getCourse(course2Id);
 
-        if (!courseClicked || !course2)
-            throw new Error("One of the courses don't exist.");
-        else if (courseClicked.failrate >= course2.failrate) {
+        if (courseClicked.failrate >= course2.failrate) {
             return true;
         }
         return false;

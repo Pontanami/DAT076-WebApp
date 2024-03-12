@@ -10,13 +10,6 @@ export interface ILeaderboardService {
     getPlayerEntries(): Promise<Player[]>;
 
     /**
-    * Asynchronously gets the number of entries in the leaderboard in the database.
-    * 
-    * @returns {Promise<number>} - Returns the number of entries in the leaderboard.
-    */
-    getNumberOfEntries(): Promise<number>;
-
-    /**
      * Requests a change to the leaderboard for the given player. The player is added if they are not already on the leaderboard, 
      * or their score is updated if they are already on the leaderboard and the new score is higher. (Bad name?)
      * @param id - The id of the player to change the leaderboard for.

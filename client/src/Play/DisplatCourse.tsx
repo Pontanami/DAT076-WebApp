@@ -4,8 +4,6 @@ import React, { useEffect, useState } from 'react';
 import CurrentUser from '../CurrentUser';
 import { hostPort } from '../hostPort';
 
-
-
 function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stopTimer }
     : { courses: [Course, Course], nextRound: () => void, errorHandler: (error: any) => void, handleGameOver: () => void, stopTimer: () =>void }) {
 

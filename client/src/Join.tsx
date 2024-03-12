@@ -9,16 +9,11 @@ import { useNavigate } from "react-router-dom";
 import { hostPort } from './hostPort'
 
 function Join({errorHandler} : {errorHandler: (error : any) => void}) {
-  // State variable to store the entered PIN
   const [pin, setPin] = useState('');
   const navigate = useNavigate();
 
   async function handleSubmit() {
-    // Save the PIN in a variable (for demonstration purposes)
     const intId = parseInt(pin, 10);
-    console.log('Submitted PIN:', intId);
-    //;
-    // Clear the input field
 
     try {
       const join = await axios.post<boolean>(`http://${hostPort}:8080/multiPlayer/addPlayer`, {
@@ -31,19 +26,11 @@ function Join({errorHandler} : {errorHandler: (error : any) => void}) {
     }
     socket.emit("join_room", intId);
     socket.emit("alert_joined", intId);
-    console.log(CurrentUser.getName())
-
     setPin('');
-
-    //Emit event telling that the user has been added
-
-
-    //Emit user has been added
   }
 
   useEffect(() => {
     socket.on("starting", (game) => {
-      console.log("Time to staaaaaart!!!")
       navigate("/multiplayer", { state: game });
     })
   }, [socket])

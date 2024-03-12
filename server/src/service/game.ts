@@ -55,9 +55,6 @@ export class GameService implements IGameService {
     /** @inheritdoc */
     async getCurrentQuestions(gameId: number): Promise<[Course, Course]> {
         let questions = await this.getGameQuestions(gameId)
-        if (!questions)
-            throw new Error("No questions exist in the game with the provided id");
-
         return [questions[0], questions[1]]
     }
 
