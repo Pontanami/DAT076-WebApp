@@ -5,9 +5,12 @@ import { app } from "../start";
 
 jest.mock("../db/conn")
 
+let request : any
+let userId : number
+let validatePlayer : Player
 
-test("If a multiPlayerGame is created, it should return an id and a 201 response", async () => {
-    const request = SuperTest.default(app);
+beforeAll(async()=> {
+    request = SuperTest.default(app);
 
     const response = await request.post("/user/signup").send({
     username: "testUser",
@@ -17,7 +20,7 @@ test("If a multiPlayerGame is created, it should return an id and a 201 response
     expect(response.status).toBe(201)
     expect(response.body).toContain("testUser");
 
-    const userId = response.body[0]
+    userId = response.body[0]
     const userName = response.body[1]
 
     const response1 = await request.post("/player").send({
@@ -25,7 +28,7 @@ test("If a multiPlayerGame is created, it should return an id and a 201 response
     name : userName
     });
 
-    let validatePlayer : Player = {
+    validatePlayer = {
     id: userId,
     name : userName, 
     score : 0
@@ -33,7 +36,10 @@ test("If a multiPlayerGame is created, it should return an id and a 201 response
 
     expect(response1.status).toBe(201)
     expect(response1.body).toEqual(validatePlayer);
+})
 
+
+test("If a multiPlayerGame is created, it should return an id and a 201 response", async () => {
     const response2 = await request.post("/multiPlayer").send({
         hostId: userId,
         });
@@ -44,33 +50,6 @@ test("If a multiPlayerGame is created, it should return an id and a 201 response
 
 //TODO
 test("If a player is added to a multiPlayerGame, it should return True and a 201 response", async () => {
-    const request = SuperTest.default(app);
-
-    const response = await request.post("/user/signup").send({
-    username: "testUser2",
-    password : "abc123"
-    });
-
-    expect(response.status).toBe(201)
-    expect(response.body).toContain("testUser2");
-
-    const userId = response.body[0]
-    const userName = response.body[1]
-
-    const response1 = await request.post("/player").send({
-    id: userId,
-    name : userName
-    });
-
-    let validatePlayer : Player = {
-    id: userId,
-    name : userName, 
-    score : 0
-    }
-
-    expect(response1.status).toBe(201)
-    expect(response1.body).toEqual(validatePlayer);
-
     const response2 = await request.post("/multiPlayer").send({
         hostId: userId,
         });
@@ -88,33 +67,6 @@ test("If a player is added to a multiPlayerGame, it should return True and a 201
 });
 
 test("If a multiplayerGame is fetched, it should return the players in the game and a 201 response", async () => {
-    const request = SuperTest.default(app);
-
-    const response = await request.post("/user/signup").send({
-    username: "testUser3",
-    password : "abc123"
-    });
-
-    expect(response.status).toBe(201)
-    expect(response.body).toContain("testUser3");
-
-    const userId = response.body[0]
-    const userName = response.body[1]
-
-    const response1 = await request.post("/player").send({
-    id: userId,
-    name : userName
-    });
-
-    let validatePlayer : Player = {
-    id: userId,
-    name : userName, 
-    score : 0
-    }
-
-    expect(response1.status).toBe(201)
-    expect(response1.body).toEqual(validatePlayer);
-
     const response2 = await request.post("/multiPlayer").send({
         hostId: userId,
         });

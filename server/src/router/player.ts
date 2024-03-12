@@ -10,6 +10,7 @@ interface FetchPlayerRequest extends Request {
     params: { id: string }
 }
 
+//TODO: Kolla på error 404 här, det känns som den aldrig kommer köras typ
 playerRouter.get("/:id", async (
     req: FetchPlayerRequest,
     res: Response<Player | string>
@@ -26,11 +27,7 @@ playerRouter.get("/:id", async (
         }
 
         const player = await playerService.getPlayer(index);
-        if (!player)
-            res.status(404).send(`Player with id ${index} not found`);
-        else {
-            res.status(200).send(player);
-        }
+        res.status(200).send(player);
     } catch (e: any) {
         res.status(500).send(e.message);
     }
