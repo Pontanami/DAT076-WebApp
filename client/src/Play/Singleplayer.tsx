@@ -15,12 +15,20 @@ enum PlayScreens {
     GAMEOVER
 }
 
+/**
+ * Component responsible for handling how the game works in singleplayer-mode
+ * @param errorHandler - function that takes an error and displays it correctly 
+ * @returns 
+ */
 function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
 
     const [courseList, setCourseList] = useState<[Course, Course]>([{ code: "Abc", name: "placeholder", program:"placeholder", failrate: 1, bgnumber: 1}, { code: "Abc", name: "placeholder", program:"placeholder", failrate: 2, bgnumber: 2}]);
     const [playState, setPlayState] = useState<PlayScreens>(PlayScreens.PLAYING);
     const [gameId, setGameId] = useState<number>()
 
+    /**
+     * Starts the next round by updating the questions to be displayed
+     */
     async function startNextRound(){
         try{
             const response = await axios.post<[Course, Course]>(`http://${hostPort}:8080/game/update`, {
@@ -33,7 +41,10 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
 
     }
 
-
+    /**
+     * Updates the visual elements of the courses we want to display by giving them a background
+     * @param response the courses we want to display
+     */
     async function updateDisplayedCourses(response: { data: [Course, Course]; }){
         const newCourse: [Course, Course] = response.data;
         const bgnumbers: number[] = getDifferentBg();
@@ -54,6 +65,9 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
             }
     }
 
+    /**
+     * Initializes the game by creating a singleplayergame with questions
+     */
     async function initGame() {
         try {
             const response1 = await axios.post<number>(`http://${hostPort}:8080/singleplayer`, {

@@ -8,10 +8,18 @@ import CurrentUser from './CurrentUser';
 import { useNavigate } from "react-router-dom";
 import { hostPort } from './hostPort'
 
+/**
+ * Component displaying and handling functionality related to joining a multiplayer game
+ * @param errorHandler - function that takes an error and displays it correctly 
+ * @returns a displayable page for joining a multiplayer game
+ */
 function Join({errorHandler} : {errorHandler: (error : any) => void}) {
   const [pin, setPin] = useState('');
   const navigate = useNavigate();
 
+  /**
+   * Function for adding a player to a multiplayer game
+   */
   async function handleSubmit() {
     const intId = parseInt(pin, 10);
 

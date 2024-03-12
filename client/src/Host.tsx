@@ -10,17 +10,27 @@ import { hostPort } from './hostPort';
 import DisplayLeaderboard from './Leaderboard/DisplayLeaderboard';
 import Course from './ICourse';
 
+
 enum MPGameState {
   WAITINGROOM,
   PLAYING,
   GAMEOVER
 }
 
+/**
+ * Component handling the host-specific functionality
+ * @param errorHandler - function that takes an error and displays it correctly 
+ * @returns 
+ */
 function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
   const [players, setPlayers] = useState<Player[]>([])
   const [gameState, setGameState] = useState<MPGameState>(MPGameState.WAITINGROOM)
   const [gameId, setGameId] = useState<number>()
 
+    /**
+     * Function for creating a multiplayer game
+     * @returns a promise of an id for the game we created
+     */
    async function createGame(): Promise<number | undefined> {
     try {
       const response = await axios.post<number>(`http://${hostPort}:8080/multiPlayer`, {
@@ -51,6 +61,10 @@ function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
     });
   }, []);
 
+  /**
+   * Function for fetching the players of a given game
+   * @param idp - priomise of the id of our game
+   */
   async function fetchPlayers(idp: Promise<number | undefined>) {
     try {
       const id = await idp;
@@ -72,6 +86,9 @@ function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
     socket.emit("end_game", gameId)
   }
 
+  /**
+   * Function for updating the displayed questions for the users playing the multiplayer game
+   */
   async function nextRound() {
     try {
       const response = await axios.post<[Course, Course]>(`http://${hostPort}:8080/game/update`, {

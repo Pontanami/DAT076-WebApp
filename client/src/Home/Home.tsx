@@ -8,8 +8,16 @@ import CurrentUser from '../CurrentUser';
 import { hostPort } from '../hostPort';
 import Player from '../IPlayer';
 
+/**
+ * Component for displaying and handling the home screen
+ * @param errorHandler - function that takes an error and displays it correctly
+ * @returns a displayable home screen
+ */
 function Home({ errorHandler }: { errorHandler: (error: any) => void }) {
 
+  /**
+   * Creates a player whenever we want to join a game or play singleplayer
+   */
   async function createPlayer() {
     try {
       await axios.post<Player>(`http://${hostPort}:8080/player`, {

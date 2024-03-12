@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import "./errorScreen.css"
 
+/** 
+ * Component displaying the common errorScreen
+ * @@param error - a string containing the error message
+ * @@param setNoErrorScreen - function that is called when a user wants to return from the error screen
+*/   
 function CreateErrorScreen({ error, setNoErrorScreen }: { error: string, setNoErrorScreen: () => void }) {
     const filePath = require('../Image/gifs/angry-panda.gif');
     return (

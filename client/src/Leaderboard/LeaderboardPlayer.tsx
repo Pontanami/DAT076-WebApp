@@ -1,6 +1,12 @@
 import Player from "../IPlayer";
 import './leaderboard.css';
 
+/**
+ * Component for creating a player-entry on the leaderboard
+ * @param player - the player we want to display
+ * @param index - the index (rank) in the leaderboard 
+ * @returns a displayable player
+ */
 function LeaderboardPlayer({ player, index } : {player : Player, index : number}){
 
     

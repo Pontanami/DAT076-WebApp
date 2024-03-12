@@ -41,11 +41,11 @@ async function renderDisplayCourses() {
     await act(async () => {
         render(<MemoryRouter>
             <DisplayCourses courses={courseTuple}
-                nextRound={function (): void {
+                handleCorrectGuess={function (): void {
                     nextRoundCalled = true;
                 }} errorHandler={function (error: any): void {
                     errorCalled = true;
-                }} handleGameOver={function (): void {
+                }} handleIncorrectGuess={function (): void {
                     gameOverCalled = true;
                 }} stopTimer={function (): void {
                     stopTimerCalled = true;

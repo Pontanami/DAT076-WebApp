@@ -20,11 +20,20 @@ enum PlayScreens {
     GAMEOVER
 }
 
+/**
+ * Component for handling how the game works when we are in multiplayer-mode
+ * @param errorHandler - function that takes an error and displays it correctly
+ * @returns different playscreens depending on which state we are in currently
+ */
 function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
     const [courseList, setCourseList] = useState<[Course, Course]>([{ code: "Abc", name: "placeholder", program:"placeholder", failrate: 1, bgnumber: 1}, { code: "Abc", name: "placeholder", program:"placeholder", failrate: 2, bgnumber: 2}]);
     const [playState, setPlayState] = useState<PlayScreens>(PlayScreens.PLAYING);
     const { state } = useLocation();
 
+    /**
+     * Function that updates the courses we want to display with their correct background
+     * @param response a tuple of the courses we want to display
+     */
     async function updateDisplayedCourses(response: { data: [Course, Course]; }){
         try{
         const newCourse: [Course, Course] = response.data;
@@ -37,6 +46,9 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
         }
     }
 
+    /**
+     * Posts a players result to the leaderboard and changes to gameover 
+     */
     async function setGameOver(){
         try{
             const response = await axios.post<Player[]>(`http://${hostPort}:8080/leaderboard`, {
@@ -49,6 +61,10 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
             }
     }
 
+    /**
+     * Function that fetches the current questions
+     * @param gameId - the id of the game we want to fetch courses from
+     */
     async function fetchCurrentQuestions(gameId : number) {
         try {
             setPlayState(PlayScreens.PLAYING)
@@ -60,11 +76,17 @@ function MultiPlayer({errorHandler} : {errorHandler: (error : any) => void}){
         }
     }
 
+    /**
+     * Function responsible for displaying a correct guess
+     */
     async function displayCorrectAnswer(){
         socket.emit('correct_answer',{ id: CurrentUser.getId(), gameId: state});
         setPlayState(PlayScreens.CORRECTANSWER);
     }
 
+    /**
+     * Function responsible for displaying an incorrect guess
+     */
     async function displayWrongAnswer(){
         if(playState !== PlayScreens.CORRECTANSWER){
             setPlayState(PlayScreens.WRONGANSWER);

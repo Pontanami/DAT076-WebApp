@@ -6,7 +6,14 @@ import CurrentUser from '../CurrentUser';
 import { hostPort } from '../hostPort';
 import Player from '../IPlayer';
 
-
+/**
+ * Component responsible for handling core game logic. Calls subcomponents to create the playScreen
+ * @param courseList - a list of the courses we want to display
+ * @param handleCorrectGuess - function used to tell the parent to handle a correct guess accordingly
+ * @param errorHandler - function that takes an error and displays it correctly
+ * @param handleWrongGuess - function used to tell the parent to handle an incorrect guess
+ * @returns a displayable playscreen
+ */
 function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongGuess }
     : { courseList: [Course, Course], handleCorrectGuess: () => void, errorHandler: (error: any) => void, handleWrongGuess: () => void }) {
     
@@ -14,10 +21,14 @@ function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongG
     const [timer, setTimer] = useState<number>(15);
     const [isPlaying, setIsPlaying] = useState<boolean>(true)
 
+    
     async function incrementScore() {
         setScore((score + 1));
     }
 
+    /**
+     * Function that fetches a users correct score
+     */
     async function getScore(){
         try {
             const response = await axios.get<Player>(`http://${hostPort}:8080/player/` + CurrentUser.getId())
@@ -27,6 +38,9 @@ function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongG
         }
     }
 
+    /**
+     * useEffect for reducing the timer by 1 each second 
+     */
     useEffect(() => {
         const timerId = setInterval(() => {
             if (isPlaying) {
@@ -56,7 +70,7 @@ function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongG
         setTimer(0);
         handleWrongGuess();
     }
-
+    
     async function startNextRound() {
         await incrementScore();
         setTimeout(async function () {
@@ -75,9 +89,9 @@ function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongG
             <div className="container-fluid h-100">
                 <DisplayCourses
                     courses={courseList}
-                    nextRound={async () => await startNextRound()}
+                    handleCorrectGuess={async () => await startNextRound()}
                     errorHandler={errorHandler}
-                    handleGameOver={async () => await handleGameOver()}
+                    handleIncorrectGuess={async () => await handleGameOver()}
                     stopTimer={async () => await stopTimer()} />
             </div>
             <div className="align-center">

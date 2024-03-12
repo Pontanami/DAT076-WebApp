@@ -6,6 +6,11 @@ import { hostPort } from '../hostPort';
 import DisplayLeaderboard from './DisplayLeaderboard';
 import Player from '../IPlayer';
 
+/**
+ * Component for creating the leaderboard by by fetching the leaderboard players and calling DisplayLeaderboard
+ * @param errorHandler - function that takes an error and displays it correctly
+ * @returns a displayable Leaderboard
+ */
 function Leaderboard({ errorHandler }: { errorHandler: (error: any) => void }) {
 
     const [playerList, setPlayerList] = useState<Player[]>([]);

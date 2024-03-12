@@ -4,8 +4,17 @@ import React, { useEffect, useState } from 'react';
 import CurrentUser from '../CurrentUser';
 import { hostPort } from '../hostPort';
 
-function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stopTimer }
-    : { courses: [Course, Course], nextRound: () => void, errorHandler: (error: any) => void, handleGameOver: () => void, stopTimer: () =>void }) {
+/**
+ * Component for creating the courses displayed on the screen and handling the users guess
+ * @param courses - tuple of the courses we want to display
+ * @param handleCorrectGuess - function called to notify parent of starting a new round when user have guessed correctly
+ * @param errorHandler - function that takes an error and displays it correctly
+ * @param handleIncorrectGuess - function telling the parent to handle a incorrect guess
+ * @param stopTimer - function telling the parent to stop the timer
+ * @returns two displayable courses
+ */
+function DisplayCourses({ courses, handleCorrectGuess, errorHandler, handleIncorrectGuess, stopTimer }
+    : { courses: [Course, Course], handleCorrectGuess: () => void, errorHandler: (error: any) => void, handleIncorrectGuess: () => void, stopTimer: () =>void }) {
 
     const [course2Failrate, setcourse2Failrate] = useState<number | string>("?")
 
@@ -31,7 +40,13 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
     )
 
     
-
+    /**
+     * Component responsible for displaying one course
+     * @param course - the course we want to display
+     * @param courseFailrate - the failrate of the course we want to display
+     * @param showresult - function telling the parent that we want to display the failrate for the course with a hidden failrate
+     * @returns a displayable course
+     */
     function CreateButton({course, courseFailrate, showResult} : {course : Course, courseFailrate : number | string, showResult : () => void}) {
 
         return (
@@ -55,7 +70,10 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
         )
 
 
-
+        /**
+         * Handles what to do when a course has been clicked
+         * @param e the event we fired
+         */
         async function postAnswer(e: React.FormEvent<HTMLButtonElement>) {
             e.preventDefault();
             stopTimer();
@@ -63,16 +81,20 @@ function DisplayCourses({ courses, nextRound, errorHandler, handleGameOver, stop
                 try {
                     const answer = await checkAnswer();
                     if (answer.data === true) {
-                        nextRound();
+                        handleCorrectGuess();
                     }
                     else {
-                        handleGameOver();
+                        handleIncorrectGuess();
                     }
                 } catch (e: any) {
                     errorHandler(e)
                 }
         }
 
+        /**
+         * Function for checking if the clicked course is the correct one.
+         * @returns a bool, representing if our choice was correct or not
+         */
         async function checkAnswer() {
             let otherCourse = courses[0].code === course.code ? courses[1].code : courses[0].code;
             const answer = await axios.post<boolean>(`http://${hostPort}:8080/course/answer`, {

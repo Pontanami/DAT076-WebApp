@@ -1,3 +1,7 @@
+/**
+ * Function used for representing the current user
+ */
+
 var CurrentUser = (function () {
     var userName = "";
     var userId: number;

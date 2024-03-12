@@ -1,6 +1,11 @@
 import Player from "../IPlayer"
 import LeaderboardPlayer from "./LeaderboardPlayer"
 
+/**
+ * Component for displaying the leaderboard
+ * @param playerList - List of players that should be displayed in the leaderboard
+ * @returns 
+ */
 function DisplayLeaderboard({ playerList }: { playerList: Player[] }) {
     return (
         <div id="leaderboard">

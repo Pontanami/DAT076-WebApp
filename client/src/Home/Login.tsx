@@ -11,6 +11,10 @@ enum DisplayScreen {
     LOGIN
 }
 
+/**
+ * Component for displaying and handling the login/signup page
+ * @returns a displayable login page
+ */
 function Login() {
     const [loginScreen, setLoginScreen] = useState<DisplayScreen>(DisplayScreen.LOGIN)
     const [errorMsg, setErrorMsg] = useState<string>("")
@@ -20,6 +24,11 @@ function Login() {
         setLoginScreen(DisplayScreen.LOGIN)
     }, [])
 
+    /**
+     * Function for creating a new user
+     * @param name - username of the player we want to create
+     * @param password - password of the user we want to create
+     */
     async function createUser(name: string, password: string) {
         try {
             const response = await axios.post<[number, string]>(`http://${hostPort}:8080/user/signup`, {
@@ -31,6 +40,12 @@ function Login() {
             onError(error)
         }
     }
+
+    /**
+     * Function for logging in a user
+     * @param name - username we want to login with
+     * @param password - password of the user
+     */
 
     async function loginUser(name: string, password: string) {
         try {
@@ -44,22 +59,20 @@ function Login() {
         }
     }
 
+    /**
+     * Changes the active user and redirects the user to the home-page
+     * @param response - The axios response contaning a userId and a username
+     */
     async function onSuccessLogin(response: AxiosResponse<[number, string]>) {
-        console.log("Success");
-        setCurrentUser(response);
+        let playerId = response.data[0];
+        let playerName = response.data[1];
+        CurrentUser.setActiveUser(playerId, playerName);
         navigate("/home");
     }
 
     async function onError(error:any){
         setErrorMsg(error.response.data);
         setLoginScreen(DisplayScreen.NOTABLETOLOGIN)
-    }
-
-    function setCurrentUser(response: AxiosResponse<[number, string], any>) {
-        let playerId = response.data[0];
-        let playerName = response.data[1];
-        CurrentUser.setActiveUser(playerId, playerName);
-        console.log(`Active user's name is ${CurrentUser.getName()}`)
     }
 
     switch (loginScreen) {
@@ -96,6 +109,10 @@ function Login() {
         </div>;
     }
 
+    /**
+     * Function passing user's input to either login or create account
+     * @param action - the action we want to do, login or createUser
+     */
     function AccountAction(action: (name: string, password: string) => void) {
         const userName = (document.getElementById('nameBox') as HTMLInputElement).value;
         const userPassWord = (document.getElementById('passwordBox') as HTMLInputElement).value;
