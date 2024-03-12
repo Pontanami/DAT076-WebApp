@@ -20,7 +20,7 @@ enum MPGameState {
 /**
  * Component handling the host-specific functionality
  * @param errorHandler - function that takes an error and displays it correctly 
- * @returns 
+ * @returns a displayable host screen
  */
 function Host({ errorHandler }: { errorHandler: (error: any) => void }) {
   const [players, setPlayers] = useState<Player[]>([])
