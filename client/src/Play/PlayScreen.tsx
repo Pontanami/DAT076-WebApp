@@ -27,8 +27,6 @@ function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongG
         }
     }
 
-    //TODO: Kanske borde kolla på hur vi stoppar timer
-
     useEffect(() => {
         const timerId = setInterval(() => {
             if (isPlaying) {
@@ -73,7 +71,7 @@ function PlayScreen({ courseList, handleCorrectGuess, errorHandler, handleWrongG
 
     return (
         <div>
-            {/*TODO: Kolla på alla imports till DisplayCourse*/}
+            {}
             <div className="container-fluid h-100">
                 <DisplayCourses
                     courses={courseList}

@@ -8,13 +8,12 @@ import Gameover from './Gameover';
 import PlayScreen from './PlayScreen';
 import { hostPort } from '../hostPort';
 import Player from '../IPlayer';
+import { getDifferentBg } from './ImageBackground';
 
 enum PlayScreens {
     PLAYING,
     GAMEOVER
 }
-
-//TODO: Denna måste flyttas 
 
 function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
 
@@ -34,23 +33,6 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
 
     }
 
-    
-
-    function getRandomBg() {
-        const rndInt = Math.floor(Math.random() * 5) + 1;
-        const dynamicFile = require('../Image/coursesbg/bg' + rndInt + '.jpg');
-        return dynamicFile;
-    }
-
-    function getDifferentBg(): number[]{
-        let bg1 = getRandomBg();
-        let bg2 = getRandomBg();
-
-        while (bg1 === bg2){
-            bg2 = getRandomBg();
-        }
-        return [bg1, bg2];
-    }
 
     async function updateDisplayedCourses(response: { data: [Course, Course]; }){
         const newCourse: [Course, Course] = response.data;
