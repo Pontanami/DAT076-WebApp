@@ -31,7 +31,6 @@ userRouter.post("/signup", async(
             res.status(201).send(user);
         
         } catch (e: any) {
-            console.log(e)
             res.status(500).send(e.message);
         }
     });

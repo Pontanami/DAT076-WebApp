@@ -86,3 +86,38 @@ test("If a multiplayerGame is fetched, it should return the players in the game 
     expect(response4.status).toBe(200)
     expect(response4.body).toContainEqual(validatePlayer)
 });
+
+test("If the host is of the wrong type when creating a game a 400 response should be sent", async () => {
+    const response = await request.post("/multiPlayer").send({
+        hostId: "hello",
+    });
+    expect(response.status).toBe(400)
+})
+
+test("If the host is of the wrong type when creating a game a 400 response should be sent", async () => {
+    const response = await request.post("/multiPlayer").send({
+        hostId: userId,
+        });
+    
+    expect(response.status).toBe(201);
+    expect(response.body).not.toBeUndefined();
+
+    const response1 = await request.post("/multiPlayer/addPlayer").send({
+        gameId: response.body,
+        playerId: "hello"
+    })
+
+    expect(response1.status).toBe(400)
+})
+
+test("If we try to add a player of the wrong type a 400 response should be sent", async () => {
+    const response = await request.post("/multiPlayer").send({
+        hostId: userId,
+        });
+    
+    expect(response.status).toBe(201);
+    expect(response.body).not.toBeUndefined();
+
+    const response1 = await request.get(`/multiPlayer/-1`).send()
+    expect(response1.status).toBe(400)
+})

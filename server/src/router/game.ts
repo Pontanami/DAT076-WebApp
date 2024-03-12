@@ -24,7 +24,6 @@ gameRouter.post("/update", async (
         res.status(201).send([questions[0], questions[1]]);
 
     } catch (e: any) {
-        console.log(e)
         res.status(500).send(e.message);
     }
 });
@@ -53,7 +52,6 @@ gameRouter.get("/:id", async (
         res.status(200).send(questions);
 
     } catch (e: any) {
-        console.log(e)
         res.status(500).send(e.message);
     }
 });

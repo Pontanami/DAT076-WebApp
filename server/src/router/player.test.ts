@@ -58,11 +58,15 @@ test("If we get a player by id, it should return the player and a 200 response",
 })
 
 test("If the types parameters when creating a player is wrong the router should send a 400 response ", async () => {
-    const request = SuperTest.default(app);
     const response1 = await request.post("/player").send({
         id: "jkhekasjhf",
         name : 3
         });
 
+    expect(response1.status).toBe(400)
+})
+
+test("If the playerId is negative when we want to get a player, a 400 statuscode should be sent", async () => {
+    const response1 = await request.get(`/player/-1`).send()
     expect(response1.status).toBe(400)
 })

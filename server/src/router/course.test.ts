@@ -17,7 +17,7 @@ test("Check answer test", async () => {
         username: "UserTest1234",
         password : "abc123"
     });
-    
+
     expect(response.status).toBe(201)
     expect(response.body).toContain("UserTest1234");
     
@@ -30,7 +30,6 @@ test("Check answer test", async () => {
     });
     
     
-    console.log(response1.body.name)
     expect(response1.status).toBe(201)
     expect(response1.body.name).toEqual("UserTest1234");
 
@@ -43,11 +42,6 @@ test("Check answer test", async () => {
     expect(response2.status).toBe(200)
     expect(response2.body).toBeTruthy()
 });
-/*
-test("A Get to /course should return 200", async () => {
-    const response = await request.get("/course");
-    expect(response.status).toBe(200);
-});*/
 
 test("A post to /answer with a non-string codeClicked should return 400", async () => {
     const response = await request.post("/course/answer").send({

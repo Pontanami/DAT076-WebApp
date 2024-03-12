@@ -17,14 +17,13 @@ mpRouter.post("/", async (
     try {
         const hostId = req.body.hostId;
         if (typeof (hostId) !== "number") {
-            res.status(400).send(`Bad POST call to ${req.originalUrl} --- id type doesn't match, Name has type ${typeof (name)}`);
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- id type doesn't match, Name has type ${typeof (hostId)}`);
             return;
         }
         const mpGame = await mpService.createMultiPlayerGame(hostId);
         res.status(201).json(mpGame.game.id);
     } catch (e: any) {
         res.status(500).send(e.message);
-        console.log(e.message);
     }
 });
 
@@ -39,19 +38,15 @@ mpRouter.post("/addPlayer", async (
     try {
         const gameId = req.body.gameId;
         const playerId = req.body.playerId;
-        if (typeof (gameId) !== "number") {
-            res.status(400).send(`Bad POST call to ${req.originalUrl} --- id type doesn't match, Name has type ${typeof (gameId)}`);
+        if (typeof (gameId) !== "number" || typeof (playerId) !== "number") {
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- type doesn't match, gameId has type ${typeof (gameId)} and playerId has type ${typeof (playerId)}`);
             return;
-        } else if (typeof (playerId) !== "number") {
-            res.status(400).send(`Bad POST call to ${req.originalUrl} --- id type doesn't match, Name has type ${typeof (playerId)}`);
-            return;
-        }
+        } 
 
         const mpGame = await mpService.joinMultiPlayerGame(gameId, playerId);
         res.status(201).send(mpGame);
     } catch (e: any) {
         res.status(500).send(e.message);
-        console.log(e.message);
     }
 });
 
@@ -79,7 +74,6 @@ mpRouter.get("/:id", async (
         res.status(200).send(players);
 
     } catch (e: any) {
-        console.log(e)
         res.status(500).send(e.message);
     }
 });

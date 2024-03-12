@@ -22,7 +22,6 @@ singlePlayerRouter.post("/", async (
         const newGameID: number = await SinglePlayerService.createSinglePlayerGame(playerId);
         res.status(201).json(newGameID)
     } catch (e: any) {
-        console.log(e)
         res.status(500).send(e.message);
     }
 });
