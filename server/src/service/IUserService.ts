@@ -1,6 +1,6 @@
 export interface IUserService {
 
-    /**
+   /**
    * Asynchronously creates a new user with the provided username and password.
    * 
    * @param {string} username - The username of the new user.
@@ -10,7 +10,7 @@ export interface IUserService {
    */
     createUser(username: string, password: string): Promise<[number, string]>
 
-/**
+   /**
    * Asynchronously logs in a user with the provided username and password.
    * 
    * @param {string} uname - The username of the user.
@@ -19,5 +19,13 @@ export interface IUserService {
    * @throws {Error} - Throws an error if the user doesn't exist or if the username or password doesn't match.
     */
     login(username: string, password: string): Promise<[number, string]>
+
+   /**
+   * Asynchronously checks if a username is already taken.
+   * 
+   * @param {string} uname - The username to check.
+   * @returns {Promise<boolean>} - Returns true if the username is taken, otherwise false.
+   */
+    isUsernameTaken(uname: string): Promise<boolean>
 
 }

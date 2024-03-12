@@ -9,10 +9,6 @@ export class userService implements IUserService {
   async createUser(username: string, password: string): Promise<[number, string]> {
     const um: Model<user> = await userModel;
 
-    let UsernameTaken = await this.isUsernameTaken(username);
-
-    if (UsernameTaken) throw new Error("Username is already taken");
-
     let createdUser = await um.create({
       id: new Date().valueOf(),
 
@@ -24,13 +20,8 @@ export class userService implements IUserService {
     return [createdUser.id, createdUser.username];
   }
 
-  /**
-  * Asynchronously checks if a username is already taken.
-  * 
-  * @param {string} uname - The username to check.
-  * @returns {Promise<boolean>} - Returns true if the username is taken, otherwise false.
-   */
-  private async isUsernameTaken(uname: string): Promise<boolean> {
+  /** @inheritdoc */
+  async isUsernameTaken(uname: string): Promise<boolean> {
     const um: Model<user> = await userModel;
     const result = await um.find({ username: uname });
     return result.length === 1;

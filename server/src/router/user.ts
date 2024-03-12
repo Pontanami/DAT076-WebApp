@@ -5,19 +5,6 @@ import { IUserService } from "../service/IUserService";
 const UserService : IUserService= new userService()
 export const userRouter = express.Router();
 
-interface RegisterRequest extends Request{
-    body : {username : string, password : string}
-}
-
-userRouter.post("/", async(req : RegisterRequest, res) =>{
-    try{
-        //TODO: Logik för router user....
-        //409 om man inte kunde logga in...
-    }catch(e : any){
-        res.status(500).send(e.message)
-    }
-})
-
 interface SignUpRequest extends Request {
     body: { username: string, password: string }
 }
@@ -31,6 +18,12 @@ userRouter.post("/signup", async(
             const password = req.body.password;
             if (typeof(username) !== "string" || typeof(password) !== "string") {
                 res.status(400).send(`Bad PUT call to ${req.originalUrl} --- playerName has type ${typeof(username)} and playerPassword has type ${typeof(password)}`);
+                return;
+            }
+
+            let isUsernameTaken = await UserService.isUsernameTaken(username)
+            if(isUsernameTaken){
+                res.status(409).send(`Username is taken`);
                 return;
             }
 
@@ -53,11 +46,11 @@ userRouter.post("/login", async (
     res: Response<[number,string] | string>
 ) => {
     try {
-        const uname = req.body.username.toString();
-        const password = req.body.password.toString();
+        const uname = req.body.username;
+        const password = req.body.password;
 
         if(!uname || !password){
-            res.status(400).send(`Bad Get call to ${req.originalUrl} --- missing id param`);
+            res.status(400).send(`Bad Get call to ${req.originalUrl} --- missing username or password param`);
             return;
         }
 
@@ -68,7 +61,6 @@ userRouter.post("/login", async (
             res.status(200).json(user)
         }
     } catch (e: any) {
-        //console.log("Det är knas")
         res.status(500).send(e.message);
     }
 });
