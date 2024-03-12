@@ -2,89 +2,108 @@ import React, { useEffect, useState } from 'react';
 import './Login.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios, { AxiosResponse } from 'axios';
-import Player from '../IPlayer';
 import CurrentUser from '../CurrentUser';
+import { hostPort } from '../hostPort';
+import { Link, useNavigate } from 'react-router-dom';
 
-
-enum DisplayLogin {
-    BUTTON,
-    LOGINSCREEN
+enum DisplayScreen {
+    NOTABLETOLOGIN,
+    LOGIN
 }
 
-function Login({errorHandler} : {errorHandler: (error : any) => void}) {
-    const [displayScreen, setDisplayScreen] = useState<DisplayLogin>(DisplayLogin.BUTTON)
+function Login() {
+    const [loginScreen, setLoginScreen] = useState<DisplayScreen>(DisplayScreen.LOGIN)
+    const [errorMsg, setErrorMsg] = useState<string>("")
+    const navigate = useNavigate();
 
     useEffect(() => {
-        setDisplayScreen(DisplayLogin.BUTTON)
-    }, []);
+        setLoginScreen(DisplayScreen.LOGIN)
+    }, [])
 
-    async function createPlayer(name: string, password : string) {
-        try{
-            const response = await axios.post<Player>('http://localhost:8080/player', {
-                name : name
+    async function createUser(name: string, password: string) {
+        try {
+            const response = await axios.post<[number, string]>(`http://${hostPort}:8080/user/signup`, {
+                username: name,
+                password: password
             });
-            console.log("Success Create")
-            setCurrentPlayer(response);
-        }catch(error : any){
-            errorHandler(error)
+            onSuccessLogin(response);
+        } catch (error: any) {
+            onError(error)
         }
     }
 
-    async function loginPlayer(name: string, password : string){
-        try{
-            const response = await axios.get<Player>("http://localhost:8080/player/name/" + name)
-            console.log("Success Login")
-            setCurrentPlayer(response);
-        }catch(error : any){
-            errorHandler(error)
+    async function loginUser(name: string, password: string) {
+        try {
+            const response = await axios.post<[number, string]>(`http://${hostPort}:8080/user/login/`, {
+                username: name,
+                password: password
+            })
+            onSuccessLogin(response);
+        } catch (error: any) {
+            onError(error)
         }
     }
 
-    function setCurrentPlayer(response: AxiosResponse<Player, any>) {
-        let playerId = response.data.id;
-        let playerName = response.data.name;
-        CurrentUser.setActivePlayer(playerId, playerName);
+    async function onSuccessLogin(response: AxiosResponse<[number, string]>) {
+        console.log("Success");
+        setCurrentUser(response);
+        navigate("/home");
+    }
+
+    async function onError(error:any){
+        setErrorMsg(error.response.data);
+        setLoginScreen(DisplayScreen.NOTABLETOLOGIN)
+    }
+
+    function setCurrentUser(response: AxiosResponse<[number, string], any>) {
+        let playerId = response.data[0];
+        let playerName = response.data[1];
+        CurrentUser.setActiveUser(playerId, playerName);
         console.log(`Active user's name is ${CurrentUser.getName()}`)
     }
 
-    
-    const profile = require("../Image/profile.png");
-    switch (displayScreen) {
-        case DisplayLogin.BUTTON:
-            return (
-                <button className='login' onClick={async () =>
-                    setDisplayScreen(DisplayLogin.LOGINSCREEN)
-                }><img src={profile} alt='' style={{width: "3rem"}}/></button>
-            )
-        case DisplayLogin.LOGINSCREEN:
+    switch (loginScreen) {
+        case DisplayScreen.LOGIN:
             return (
                 <div className="login-popup">
-                    <button className="close" onClick={async () =>
-                        setDisplayScreen(DisplayLogin.BUTTON)
-                    }>Close</button>
                     <h2>Login</h2>
-                    <div className='inputs'>
-                        <input id="nameBox" type="text" placeholder='Enter name' />
-                        <input id="passwordBox" type="text" placeholder='Enter password' />
-                        <button onClick={
-                            async () => {
-                                AccountAction(async (name : string, password : string) => await loginPlayer(name, password));
-                            }}>Login</button>
-                        <button onClick={
-                            async () => {
-                                AccountAction(async (name : string, password : string) => await createPlayer(name, password));
-                            }}>CreatePlayer</button>
-                    </div>
+                    <LoginFields />
+                </div>
+            )
+
+        case DisplayScreen.NOTABLETOLOGIN:
+            return (
+                <div className="login-popup">
+                    <h2>Login</h2>
+                    <p className='errorMsg'>{errorMsg}</p>
+                    <LoginFields />
                 </div>
             )
     }
 
-    function AccountAction(action: (name : string, password : string) => void) {
+    function LoginFields() {
+        return <div className='inputs'>
+            <input id="nameBox" type="text" placeholder='Enter name' />
+            <input id="passwordBox" type="password" placeholder='Enter password' />
+            <button onClick={
+                async () => {
+                    AccountAction(async (name: string, password: string) => await loginUser(name, password));
+                }}>Login</button>
+            <button onClick={
+                async () => {
+                    AccountAction(async (name: string, password: string) => await createUser(name, password));
+                }}>CreatePlayer</button>
+        </div>;
+    }
+
+    function AccountAction(action: (name: string, password: string) => void) {
         const userName = (document.getElementById('nameBox') as HTMLInputElement).value;
         const userPassWord = (document.getElementById('passwordBox') as HTMLInputElement).value;
         action(userName, userPassWord);
     }
 }
+
+
 
 export default Login;
 

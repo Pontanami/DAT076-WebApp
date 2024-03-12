@@ -8,41 +8,67 @@ import CurrentUser from '../CurrentUser';
 
 import Gameover from './Gameover';
 import PlayScreen from './PlayScreen';
+import { hostPort } from '../hostPort';
+import Player from '../IPlayer';
 
 enum PlayScreens {
     PLAYING,
     GAMEOVER
 }
 
-//Ta bort sen
-let gameId = 0;
-//let playerId = 1;
+//TODO: Denna måste flyttas 
 
-function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}) {
+function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}){
 
-    const [courseList, setCourseList] = useState<[Course, Course]>([{ code: "Abc", name: "placeholder", failrate: 1 }, { code: "Abc", name: "placeholder", failrate: 2 }]);
+    const [courseList, setCourseList] = useState<[Course, Course]>([{ code: "Abc", name: "placeholder", program:"placeholder", failrate: 1, bgnumber: 1}, { code: "Abc", name: "placeholder", program:"placeholder", failrate: 2, bgnumber: 2}]);
     const [playState, setPlayState] = useState<PlayScreens>(PlayScreens.PLAYING);
+    const [gameId, setGameId] = useState<number>()
+
+    async function startNextRound(){
+        try{
+            const response = await axios.post<[Course, Course]>(`http://${hostPort}:8080/game/update`, {
+                    gameId: gameId,
+                });
+            updateDisplayedCourses(response)
+        }catch (error: any) {
+            errorHandler(error)
+        }
+
+    }
 
     
 
-    async function newRound() {
-        try {
-            const response = await axios.get<[Course, Course]>("http://localhost:8080/singlePlayer/" + gameId)
-            const newCourse: [Course, Course] = response.data;
-            // TODO Check that courses is a list of Courses
-            console.log("next round started")
-            console.log(newCourse)
-            setCourseList(newCourse);
-        } catch (error: any) {
-            errorHandler(error)
+    function getRandomBg() {
+        const rndInt = Math.floor(Math.random() * 5) + 1;
+        const dynamicFile = require('../Image/coursesbg/bg' + rndInt + '.jpg');
+        return dynamicFile;
+    }
+
+    function getDifferentBg(): number[]{
+        let bg1 = getRandomBg();
+        let bg2 = getRandomBg();
+
+        while (bg1 === bg2){
+            bg2 = getRandomBg();
         }
+        return [bg1, bg2];
+    }
+
+    async function updateDisplayedCourses(response: { data: [Course, Course]; }){
+        const newCourse: [Course, Course] = response.data;
+        const bgnumbers: number[] = getDifferentBg();
+        newCourse[0].bgnumber = bgnumbers[0];
+        newCourse[1].bgnumber = bgnumbers[1];
+        console.log("Updating displayed Courses")
+        console.log(newCourse)
+        setCourseList(newCourse);
     }
 
     async function setGameOver(){
         try{
             //TODO: fix error handling and post/put beroende på om personen redan finns
             console.log(CurrentUser.getId())
-            const response = await axios.post('http://localhost:8080/leaderboard', {
+            const response = await axios.post<Player[]>(`http://${hostPort}:8080/leaderboard`, {
                  id: CurrentUser.getId()
                 })
             console.log("Player added to leaderboard")
@@ -56,14 +82,14 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}) {
 
     async function initGame() {
         try {
-            const response1 = await axios.post<number>('http://localhost:8080/singleplayer', {
+            const response1 = await axios.post<number>(`http://${hostPort}:8080/singleplayer`, {
                 playerId: CurrentUser.getId()
             });
+            setGameId(response1.data)
+            console.log(response1.data)
 
-            gameId = response1.data
-            console.log(gameId)
-
-            newRound();
+            const response = await axios.get<[Course, Course]>(`http://${hostPort}:8080/game/` + response1.data)
+            updateDisplayedCourses(response)
 
         } catch (error: any) {
             errorHandler(error)
@@ -79,10 +105,9 @@ function Singleplayer({errorHandler} : {errorHandler: (error : any) => void}) {
         case PlayScreens.PLAYING:
             return <PlayScreen
                 courseList={courseList}
-                gameId = {gameId}
-                nextRound = {async () => await newRound()}
+                handleCorrectGuess = {async () => await startNextRound()}
                 errorHandler = {(error : any) => errorHandler(error)}
-                setGameOver = {async () => await setGameOver()}
+                handleWrongGuess = {async () => await setGameOver()}
             />
 
         case PlayScreens.GAMEOVER:

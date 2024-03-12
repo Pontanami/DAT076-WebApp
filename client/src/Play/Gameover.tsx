@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 function Gameover() {
-    const dynamicFile = getRandomGif();
     
     function getRandomGif() {
         const rndInt = Math.floor(Math.random() * 6) + 1;
@@ -12,10 +11,10 @@ function Gameover() {
     return (
         <div className='endScreen'>
             <h2>Game Over</h2>
-            <img className='gif' src={dynamicFile} />
+            <img className='gif' src={getRandomGif()} />
             <div className='endButtons'>
-                <Link to="/"><button className="homeButton" type="button">Home</button></Link>
-                <Link to="/leaderboard"><button className="homeButton" type="button">Leaderboard</button></Link>
+                <Link to="/home" style={{textDecoration: 'none'}}><button className="homeButton" type="button">Home</button></Link>
+                <Link to="/leaderboard" style={{textDecoration: 'none'}}><button className="homeButton" type="button">Leaderboard</button></Link>
             </div>
         </div>
     )

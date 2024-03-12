@@ -1,48 +1,56 @@
-import {Course} from "../model/course";
+import { Course } from "../model/course";
 
-export class CourseService{
+export class CourseService {
     courses: Course[] = [];
 
-    private static instance : CourseService;
+    private static instance: CourseService;
 
-    public static getInstance() : CourseService{
+    /**
+     * Method for getting the course service singleton
+     * @returns {CourseService} - Returns the course service singleton
+     */
+    public static getInstance(): CourseService {
         if (!CourseService.instance) {
             CourseService.instance = new CourseService();
         }
         return CourseService.instance;
     }
 
-    async createCourse(code: string, name: string, failrate: number): Promise<Course>{
-        const newCourse : Course = {
-            code: code, 
+    /** @inheritdoc */
+    async createCourse(code: string, name: string, program:string, failrate: number): Promise<Course> {
+        const newCourse: Course = {
+            code: code,
             name: name,
-            failrate : failrate
-        }
-        this.courses.push(newCourse)
-        return { ... newCourse};
+            program: program,
+            failrate: failrate,
+            bgnumber: 1
+        };
+        this.courses.push(newCourse);
+        return { ...newCourse };
     }
 
-    async getCourse(code: string): Promise<Course|undefined>{
-        const course = this.courses.find(course => course.code === code);
-        if(!course){
-            return undefined;
+    /** @inheritdoc */
+    async getCourse(code: string): Promise<Course> {
+        const course = this.courses.find((course) => course.code === code);
+        if (!course) {
+            throw new Error("Course doesn't exist.");
         }
-        return { ... course};
+        return { ...course };
     }
 
+    /** @inheritdoc */
     async getListOfCourses(): Promise<Course[]> {
         return JSON.parse(JSON.stringify(this.courses));
     }
 
-    async checkAnswer(courseClickedId: string, course2Id: string): Promise<boolean | undefined>{
-
+    /** @inheritdoc */
+    async checkAnswer(courseClickedId: string, course2Id: string): Promise<boolean> {
         let courseClicked = await this.getCourse(courseClickedId);
         let course2 = await this.getCourse(course2Id);
 
-        if(!courseClicked || !course2)
-            return undefined
-
-        else if(courseClicked.failrate >= course2.failrate){
+        if (!courseClicked || !course2)
+            throw new Error("One of the courses don't exist.");
+        else if (courseClicked.failrate >= course2.failrate) {
             return true;
         }
         return false;

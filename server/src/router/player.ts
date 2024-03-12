@@ -1,12 +1,17 @@
 import express, { Request, Response } from "express";
 import { Player } from "../model/player";
+import { IPLayerService } from "../service/IPlayerService";
 import { PlayerService } from "../service/player";
 
-const playerService = PlayerService.getInstance();
+const playerService : IPLayerService = PlayerService.getInstance();
 export const playerRouter = express.Router();
 
+interface FetchPlayerRequest extends Request {
+    params: { id: string }
+}
+
 playerRouter.get("/:id", async (
-    req: Request<{id : string}, {}, {}>,
+    req: FetchPlayerRequest,
     res: Response<Player | string>
 ) => {
     try {
@@ -21,53 +26,34 @@ playerRouter.get("/:id", async (
         }
 
         const player = await playerService.getPlayer(index);
-        if(!player)
+        if (!player)
             res.status(404).send(`Player with id ${index} not found`);
-        else{
-        res.status(200).send(player);
+        else {
+            res.status(200).send(player);
         }
     } catch (e: any) {
-        //console.log("Det är knas")
         res.status(500).send(e.message);
     }
 });
+
+interface CreatePlayerRequest extends Request{
+    body : { id: string, name: string }
+}
 
 playerRouter.post("/", async (
-    req: Request<{}, {}, {name : string}>,
+    req: CreatePlayerRequest,
     res: Response<Player | string>
 ) => {
     try {
-        const name = req.body.name;
-        if(typeof(name) !== "string"){
-            res.status(400).send(`Bad POST call to ${req.originalUrl} --- Name type doesn't match, Name has type ${typeof(name)}`);
+        const id = req.body.id;
+        const name = req.body.name
+        if (typeof (id) !== "number" || typeof (name) !== "string") {
+            res.status(400).send(`Bad POST call to ${req.originalUrl} --- Name or Id type doesn't match, Name has type ${typeof (name)} and Id has type ${typeof (id)}`);
             return;
         }
-        const player = await playerService.createPlayer(name);
+        const player = await playerService.createPlayer(id, name);
         res.status(201).send(player);
     } catch (e: any) {
-        res.status(500).send(e.message);
-    }
-});
-
-playerRouter.get("/name/:name", async (
-    req: Request<{name : string}, {}, {}>,
-    res: Response<Player | string>
-) => {
-    try {
-        let name = req.params.name;
-        if (name == null) {
-            res.status(400).send(`Bad PUT call to ${req.originalUrl} --- missing id param`);
-            return;
-        }
-
-        const player = await playerService.getPlayerByName(name);
-        if(!player)
-            res.status(404).send(`Player with name ${name} not found`);
-        else{
-        res.status(200).send(player);
-        }
-    } catch (e: any) {
-        //console.log("Det är knas")
         res.status(500).send(e.message);
     }
 });

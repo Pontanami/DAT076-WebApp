@@ -4,9 +4,12 @@ import Leaderboard from "./Leaderboard/Leaderboard";
 import Host from "./Host";
 import Join from "./Join";
 import Singleplayer from "./Play/Singleplayer";
-import React, { useEffect, useState } from 'react';
+import JoinScreen from './JoinScreen';
+import { useState } from 'react';
 import CreateErrorScreen from './Error/ErrorScreen';
 import getErrorMessage from './Error/ErrorHandling';
+import MultiPlayer from './Play/MultiPlayer';
+import Login from './Home/Login';
 
 enum Screens{
   NOERROR,
@@ -22,11 +25,14 @@ function App() {
       return (
         <div className="App">
             <Routes>
-                <Route path="/" element={<Home errorHandler={async (error : string) => await setErrorScreen(error)} />} />
+                <Route path="/" element={<Login />} />
+                <Route path="/home" element={<Home errorHandler={async (error : string) => await setErrorScreen(error)} />} />
                 <Route path="/leaderboard" element={<Leaderboard errorHandler={async (error : string) => await setErrorScreen(error)}/>} />
-                <Route path="/host" element={<Host />} />
-                <Route path="/join" element={<Join />} />
+                <Route path="/host" element={<Host errorHandler={async (error : any) => await setErrorScreen(error)} />} />
+                <Route path="/join" element={<Join errorHandler={async (error : any) => await setErrorScreen(error)} />} />
                 <Route path="/singleplayer" element={<Singleplayer errorHandler={async (error : any) => await setErrorScreen(error)}/>} />
+                <Route path="/joinscreen" element={<JoinScreen />} />
+                <Route path="/multiplayer" element={<MultiPlayer errorHandler={async (error : any) => await setErrorScreen(error)} />} />
             </Routes>
         </div>
       );

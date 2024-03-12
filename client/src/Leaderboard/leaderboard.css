@@ -5,35 +5,32 @@
   display: flex;
   flex-direction: column;
 }
-body {
-    background: url("../Image/Main_bg.jpg") center center fixed;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-  
-  .colTitle {
-    font-size: 18pt;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    vertical-align: middle;
-  }
-  
-  .nav-item :hover{
-      text-decoration: underline;
-  }
-  
-  .Leaderboard {
-    padding: 3rem;
-  }
 
-  #leaderboard{
-    width: 50vw;
-    height: 70vh; 
-    border-radius: 25px;
-    border-color: black;
-    border-width: 3px;
-    border-style: solid;
-    background: linear-gradient(to bottom, white, #1a1a21);
-    overflow-y: auto;
+  
+.colTitle {
+  font-size: 18pt;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  vertical-align: middle;
+}
+
+.nav-item :hover{
+    text-decoration: underline;
+}
+
+.Leaderboard {
+  padding: 3rem;
+}
+
+#leaderboard{
+  width: 50vw;
+  height: 70vh; 
+  border-radius: 25px;
+  border-color: black;
+  border-width: 3px;
+  border-style: solid;
+  background: linear-gradient(to bottom, white, #1a1a21);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .text-center {

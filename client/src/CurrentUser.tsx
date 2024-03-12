@@ -3,20 +3,20 @@ var CurrentUser = (function () {
     var userId: number;
 
     var getName = function () {
-        return userName;    // Or pull this from cookie/localStorage
+        return userName
     };
 
     var getId = function () {
-        return userId;
+        return userId
     }
 
-    var setActivePlayer = function (id: number, name: string) {
+    var setActiveUser = function (id: number, name: string) {
         userId = id
         userName = name;
     }
 
     return {
-        setActivePlayer: setActivePlayer,
+        setActiveUser: setActiveUser,
         getName: getName,
         getId: getId,
     }

@@ -1,0 +1,90 @@
+.Host {
+    padding: 3rem;
+}
+
+.host-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem;
+}
+
+.host-container h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    padding: 0.5rem;
+    border: 2px solid black;
+    border-radius: 12px;
+    margin-left: 0;
+}
+
+.joined-container{
+    width: 70vw;
+    height: 40vh;
+    border: 2px solid black;
+    padding: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    border-radius: 10px;
+    background-color: rgba(20, 20, 20, 0.65);
+    color: white;
+}
+
+.button-container{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.player{
+    margin: 1rem;
+    font-weight: 500;
+    height: 20px;
+}
+
+.end-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10rem;
+}
+
+.end-game h2 {
+    font-size: 300%;
+    font-weight: 600;
+}
+
+.end-game button {
+    width: 150px;
+    height: 60px;
+    font-size: larger;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 50vw;
+    margin: auto;
+    padding-top: 4rem;
+}
+
+
+#leaderboard{
+    width: 50vw;
+    height: 70vh; 
+    border-radius: 25px;
+    border-color: black;
+    border-width: 3px;
+    border-style: solid;
+    background: linear-gradient(to bottom, white, #1a1a21);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

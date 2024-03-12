@@ -1,20 +1,27 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import axios, { AxiosStatic } from 'axios';
-import LeaderboardPlayer from './LeaderboardPlayer';
-import IPlayer from '../IPlayer';
+import { MemoryRouter } from 'react-router-dom';
+import { hostPort } from '../hostPort';
+import Leaderboard from './Leaderboard';
+import 'core-js';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<AxiosStatic>;
 
-test('renders learn react link', () => {
+let errorCalled = false
 
-    let p1 : IPlayer ={
-        id : 1,
-        name : "test",
-        score : 0
-    }
+test('render shoud get the players', async () => {
+    await act(async () => {
+        render(<MemoryRouter>
+                    <Leaderboard
+                    errorHandler={() => {
+                        errorCalled = true
+                    }}
+                />
+            </MemoryRouter>
+        )
+    })
 
-  render(<LeaderboardPlayer player={p1} index={1}></LeaderboardPlayer>);
-  const player = screen.getByText(/test/);
-  expect(player).toBeInTheDocument();
-});
+    expect(mockedAxios.get).toHaveBeenCalledWith(`http://${hostPort}:8080/leaderboard/players`);
+
+})

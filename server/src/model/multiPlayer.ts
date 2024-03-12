@@ -2,7 +2,7 @@ import { Game } from "./game";
 import { Player } from "./player";
 
 export interface multiPlayer{
-    host : Player,
+    host : number,
     players : Player[],
-    game : Game
+    game : Game,
 }

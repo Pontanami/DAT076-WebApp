@@ -1,38 +1,56 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './join.css';
 import { Link } from 'react-router-dom';
 import back from './Image/back.svg';
 import axios from 'axios';
+import { socket } from './socket';
+import CurrentUser from './CurrentUser';
+import { useNavigate } from "react-router-dom";
+import { hostPort } from './hostPort'
 
-function Join() {
+function Join({errorHandler} : {errorHandler: (error : any) => void}) {
   // State variable to store the entered PIN
   const [pin, setPin] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  async function handleSubmit() {
     // Save the PIN in a variable (for demonstration purposes)
-    const enteredPin = pin;
-    console.log('Submitted PIN:', enteredPin);
+    const intId = parseInt(pin, 10);
+    console.log('Submitted PIN:', intId);
     //;
     // Clear the input field
+
+    try {
+      const join = await axios.post<boolean>(`http://${hostPort}:8080/multiPlayer/addPlayer`, {
+        gameId: intId,
+        playerId: CurrentUser.getId()
+      })
+
+    } catch (error: any) {
+      errorHandler(error)
+    }
+    socket.emit("join_room", intId);
+    socket.emit("alert_joined", intId);
+    console.log(CurrentUser.getName())
+
     setPin('');
+
+    //Emit event telling that the user has been added
+
+
+    //Emit user has been added
   }
 
-  // Function to handle PIN submission
-  {/*async function handleSubmit() {
-    
-    
-    // TODO send PIN to server instead
-    const response = await axios.post('http://localhost:8000/', {gamepin : pin})
-    .then(function(response: any){
-    console.log(response);
+  useEffect(() => {
+    socket.on("starting", (game) => {
+      console.log("Time to staaaaaart!!!")
+      navigate("/multiplayer", { state: game });
     })
-
-    setPin('');
-  }; */}
+  }, [socket])
 
   return (
     <div className="Join">
-      <Link to="/"><img alt=''src={back} style={{width: "3rem"}}/></Link>
+      <Link to="/home"><img alt='' src={back} style={{ width: "3rem" }} /></Link>
       <section className='contents'>
         <h2>Enter game PIN:</h2>
         <form onSubmit={handleSubmit}>
@@ -40,9 +58,9 @@ function Join() {
             type="text"
             value={pin}
             onChange={(e) => setPin(e.target.value)}
-            style={{ fontSize: '20px'}}
+            style={{ fontSize: '20px' }}
           />
-          <button type="submit" onClick={handleSubmit}>Submit</button>
+          <Link to="/joinscreen" style={{textDecoration: 'none'}}><button type="submit" onClick={handleSubmit}>Join</button></Link>
         </form>
       </section>
     </div>
